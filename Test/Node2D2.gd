@@ -8,12 +8,16 @@ extends "res://Test/Node2D.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var a = [1, 4]
+	a.erase(1)
+	print(a)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	yield(get_tree().create_timer(2), "timeout")
+	print("eeeee")
 
 func work():
 	print("2")

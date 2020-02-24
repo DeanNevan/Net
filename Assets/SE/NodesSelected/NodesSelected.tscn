@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Art/selected.png" type="Texture" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "nodes_selected"
+length = 6.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("NodesSelected/Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 90.0, 180.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("NodesSelected/Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[node name="NodesSelected" type="AnimationPlayer"]
+autoplay = "nodes_selected"
+anims/nodes_selected = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+z_index = 2
+texture = ExtResource( 1 )

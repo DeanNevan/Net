@@ -1,11 +1,15 @@
 extends "res://Scripts/BasicNode.gd"
 
-var super_entropy_value := 0
+signal destroyed
+
+var max_sev := 10
+var super_entropy_value := 1
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	type = Global.NODE_TYPE.ENT_NODE
+	add_to_group("EntropyNodes")
 	pass # Replace with function body.
 
 
@@ -14,6 +18,13 @@ func _ready():
 #	pass
 
 func work():
+	#update_neighbor_nodes()
+	yield(get_tree(), "idle_frame")
+	$Light2D.enabled = true
+	for i in keys.keys():
+		i.get_node("Light2D").enabled = true
+	if EGY > 0:
+		super_entropy_value += 1
 	if ENT > 0:
 		super_entropy_value += 1
 	if randf() <= 0.5:
@@ -47,9 +58,11 @@ func work():
 	
 	if ORD > 1:
 		super_entropy_value -= ORD - 1
-	
-	super_entropy_value = clamp(super_entropy_value, 0, 10)
+	if super_entropy_value <= 0:
+		destroyed(abs(super_entropy_value))
+	super_entropy_value = clamp(super_entropy_value, 0, max_sev)
 	emit_signal("send_value", send_value_list)
+	emit_signal("done")
 	pass
 
 func get_send_value_list():
@@ -97,3 +110,16 @@ func get_send_value_list():
 								  )
 	return send_value_list
 	pass
+
+func _on_Keys_work():
+	$Light2D.enabled = false
+	for i in keys.keys():
+		i.get_node("Light2D").enabled = false
+
+func get_damage(value):
+	pass
+
+func destroyed(accepted_ORD):
+	emit_signal("destroyed", self, accepted_ORD)
+	remove_from_group("EntropyNodes")
+	remove_from_group("Nodes")

@@ -1,18 +1,289 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://StartMenu/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://StartMenu/RandomStartButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://StartMenu/GenerateKeysDensity.gd" type="Script" id=3]
+[ext_resource path="res://StartMenu/GenerateRandomDegree.gd" type="Script" id=4]
+[ext_resource path="res://StartMenu/GenerateNodesCount.gd" type="Script" id=5]
+[ext_resource path="res://StartMenu/GenerateEntryDegree.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Art/qidongjiemian/kuang.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Art/qidongjiemian/nei.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=9]
+[ext_resource path="res://Keys/NormalKey.tscn" type="PackedScene" id=10]
+[ext_resource path="res://StartMenu/StartArrow.gd" type="Script" id=11]
+[ext_resource path="res://Assets/Art/qidongjiemian/start_fill.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Art/qidongjiemian/start.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Art/circle_light.png" type="Texture" id=14]
+[ext_resource path="res://Assets/SE/AnimationLight/AnimationLight.tres" type="Texture" id=15]
+[ext_resource path="res://Keys/NormalKey.gd" type="Script" id=16]
+[ext_resource path="res://Assets/Art/white_key.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=18]
+[ext_resource path="res://StartMenu/BigLight.gd" type="Script" id=19]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Light.otf" type="DynamicFontData" id=20]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 20 )
+
+[sub_resource type="DynamicFont" id=2]
+resource_local_to_scene = true
+size = 60
+use_filter = true
+font_data = ExtResource( 9 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 191.466, 57.5443 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+font_data = ExtResource( 9 )
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LoadData" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="LoadData"]
+visible = false
+anchor_left = 0.001
+anchor_top = 0.58
+anchor_right = 1.0
+anchor_bottom = 0.914
+margin_left = 0.0799999
+margin_top = 245.6
+margin_right = 2.0
+margin_bottom = -0.120056
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="LoadData"]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -71.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateNodesCount" type="TextureProgress" parent="."]
+margin_left = 70.0
+margin_top = 20.0
+margin_right = 470.0
+margin_bottom = 420.0
+value = 40.0
+rounded = true
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 8 )
+fill_mode = 3
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GenerateNodesCount"]
+margin_left = 45.4598
+margin_top = 71.892
+margin_right = 357.46
+margin_bottom = 321.892
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.376471, 0.376471, 0.376471, 1 )
+text = "节点数量"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateRandomDegree" type="TextureProgress" parent="."]
+margin_left = 792.0
+margin_top = 20.0
+margin_right = 1192.0
+margin_bottom = 420.0
+value = 40.0
+rounded = true
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 8 )
+fill_mode = 3
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GenerateRandomDegree"]
+margin_left = 45.4598
+margin_top = 71.892
+margin_right = 357.46
+margin_bottom = 321.892
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.376471, 0.376471, 0.376471, 1 )
+text = "节点数量"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateKeysDensity" type="TextureProgress" parent="."]
+margin_left = 1160.0
+margin_top = 640.0
+margin_right = 1560.0
+margin_bottom = 1040.0
+value = 40.0
+rounded = true
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 8 )
+fill_mode = 3
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GenerateKeysDensity"]
+margin_left = 45.4598
+margin_top = 71.892
+margin_right = 357.46
+margin_bottom = 321.892
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.376471, 0.376471, 0.376471, 1 )
+text = "节点数量"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateEntryDegree" type="TextureProgress" parent="."]
+margin_left = 440.0
+margin_top = 640.0
+margin_right = 840.0
+margin_bottom = 1040.0
+value = 40.0
+rounded = true
+texture_under = ExtResource( 7 )
+texture_over = ExtResource( 8 )
+texture_progress = ExtResource( 8 )
+fill_mode = 3
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GenerateEntryDegree"]
+margin_left = 45.4598
+margin_top = 71.892
+margin_right = 357.46
+margin_bottom = 321.892
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.376471, 0.376471, 0.376471, 1 )
+text = "节点数量"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RandomStartButton" parent="." instance=ExtResource( 2 )]
-margin_left = 1693.75
-margin_top = 756.651
-margin_right = 1842.75
-margin_bottom = 905.651
+margin_left = 727.496
+margin_top = 444.906
+margin_right = 876.496
+margin_bottom = 593.906
+
+[node name="NormalKey1" parent="." instance=ExtResource( 10 )]
+position = Vector2( 632, 220 )
+
+[node name="NormalKeyEnd" type="Area2D" parent="."]
+position = Vector2( 2920, 840 )
+scale = Vector2( 8, 1 )
+script = ExtResource( 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NormalKeyEnd"]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="NormalKeyEnd"]
+self_modulate = Color( 1, 1, 1, 0.517647 )
+texture = ExtResource( 17 )
+
+[node name="Light2D" type="Light2D" parent="NormalKeyEnd"]
+rotation = 1.5708
+texture = ExtResource( 18 )
+energy = 0.4
+
+[node name="NormalKey2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1176, 528 )
+rotation = 1.0472
+
+[node name="NormalKey3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 456, 528 )
+rotation = 1.0472
+
+[node name="NormalKey4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1000, 840 )
+
+[node name="StartArrow" type="TextureProgress" parent="."]
+margin_left = 1602.85
+margin_top = 597.089
+margin_right = 1852.85
+margin_bottom = 747.089
+texture_under = ExtResource( 13 )
+texture_progress = ExtResource( 12 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="StartArrow"]
+margin_left = 55.0001
+margin_top = 53.0
+margin_right = 145.0
+margin_bottom = 99.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.266667, 0.266667, 0.266667, 1 )
+text = "开始"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Light2D" type="Light2D" parent="StartArrow"]
+position = Vector2( 111.543, 73.8599 )
+scale = Vector2( 1, 0.5 )
+texture = ExtResource( 14 )
+energy = 0.99
+
+[node name="Camera2D" type="Camera2D" parent="."]
+smoothing_enabled = true
+smoothing_speed = 10.0
+
+[node name="BigLight" type="Sprite" parent="."]
+position = Vector2( 6091.08, 848.402 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 15 )
+script = ExtResource( 19 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D" type="Light2D" parent="BigLight"]
+position = Vector2( 732.237, 16.5363 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 14 )
+energy = 3.0
+[connection signal="mouse_entered" from="StartArrow" to="StartArrow" method="_on_StartArrow_mouse_entered"]
+[connection signal="mouse_exited" from="StartArrow" to="StartArrow" method="_on_StartArrow_mouse_exited"]

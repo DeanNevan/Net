@@ -52,9 +52,6 @@ func _on_BasicButton_button_up():
 
 
 func _on_BasicButton_pressed():
-	Tween3.interpolate_property(self, "modulate", modulate, Color(1, 1, 1, 0), 0.6, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween3.interpolate_property(self, "modulate", modulate, Color(1, 1, 1, 1), 0.6, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween3.start()
-	yield(get_tree().create_timer(0.7), "timeout")
-	print("start game")
-	get_tree().change_scene_to(Main)
 	pass # Replace with function body.
