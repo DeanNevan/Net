@@ -5,6 +5,7 @@
 [ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=3]
 
 [node name="SE_Values_1" type="Node2D"]
+modulate = Color( 0.12549, 0.12549, 0.12549, 1 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -13,4 +14,6 @@ texture = ExtResource( 2 )
 [node name="Light2D" type="Light2D" parent="."]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
-energy = 3.0
+color = Color( 0.152344, 0.151154, 0.151154, 1 )
+energy = 1.2
+mode = 1

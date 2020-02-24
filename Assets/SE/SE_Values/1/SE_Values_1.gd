@@ -21,7 +21,7 @@ func _process(delta):
 	if is_queued_for_deletion():
 		return
 	if !is_ending:
-		position += Global.SE_Values_BASIC_SPEED * direction_vector
+		position += Global.SE_Values_BASIC_SPEED * direction_vector * Global.time_speed
 	if (end_position - position).length() <= 20:
 		end()
 	if (end_position - position).length() <= length / 2:

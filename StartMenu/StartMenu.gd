@@ -45,7 +45,7 @@ func generate_SE_values(target):
 	var new_SE_Values = Global.SE_EGY.instance()
 	new_SE_Values.direction = -1
 	new_SE_Values.direction_vector = Vector2(1, 0)
-	new_SE_Values.type = Global.VALUE_TYPE.EGY
+	new_SE_Values.type = Global.VALUE_TYPE.BLANK
 	target.add_child(new_SE_Values)
 	new_SE_Values.start()
 

@@ -32,8 +32,11 @@ var ORD := 0
 
 var MainScene
 var SelectedAnimation
+onready var Tween1 = Tween.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_child(Tween1)
+	
 	SelectedAnimation = load("res://Assets/SE/NodesSelected/NodesSelected.tscn").instance()
 	set_position_with_location(location)
 	
@@ -46,7 +49,8 @@ func _ready():
 	SelectedAnimation.stop()
 	SelectedAnimation.get_node("Sprite").visible = false
 	if MainScene != null:
-		MainScene.connect("Nodes_work", self, "work")
+		#MainScene.connect("Nodes_work", self, "work")
+		MainScene.connect("Keys_work", self, "_on_Keys_work")
 	connect("area_entered", self, "_on_area_entered")
 	connect("area_exited", self, "_on_area_exited")
 	connect("done", self, "_on_done")
@@ -59,7 +63,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
+	if $Light2D.energy == 0:
+		$Light2D.enabled = false
 	if on_mouse and Input.is_action_just_pressed("left_mouse_button"):
 		is_selected = true
 		emit_signal("selected")
@@ -79,6 +84,7 @@ func _process(delta):
 		emit_signal("cancel_select")
 	if is_selected:
 		SelectedAnimation.get_node("Sprite").visible = true
+		SelectedAnimation.playback_speed = Global.time_speed
 	else:
 		SelectedAnimation.get_node("Sprite").visible = false
 
@@ -89,14 +95,11 @@ func _on_Keys_work():
 	pass
 
 func _on_done():
-	EGY = 0
-	ENT = 0
-	ORD = 0
-	accepted_value = []
-	send_value_list = []
 	pass
 
 func _on_keys_send_value(list : Array):
+	if list.size() == 0 or list == null:
+		return
 	var _arr = []
 	for i in list:
 		if i[1] == self:
@@ -117,6 +120,8 @@ func show_SelectedAnimation():
 	print("该节点是", self)
 	print("neighbor_nodes", neighbor_nodes)
 	print("keys", keys)
+	print("type", type)
+	print("亮暗",$Light2D.enabled)
 	print("___")
 	#update_neighbor_nodes()
 	SelectedAnimation.play("nodes_selected")
@@ -157,9 +162,13 @@ func update_neighbor_nodes():
 		_arr.erase(self)
 		#print("除去自己，连接的节点是", _arr)
 		if _arr.size() > 0:
-			neighbor_nodes[_arr[0]] = i
+			if is_instance_valid(_arr[0]):
+				neighbor_nodes[_arr[0]] = i
 	#print("我的邻节点是", neighbor_nodes)
 	#print("_____")
+	
+	#for i in neighbor_nodes:
+		#i.update_neighbor_nodes()
 	emit_signal("update_ok")
 
 func _on_area_entered(area):
@@ -178,9 +187,10 @@ func _on_area_entered(area):
 			reverse_keys[3] = area
 
 func _on_area_exited(area):
-	if area.has_method("update_nodes"):
-		reverse_keys.erase(keys[area])
-		keys.erase(area)
+	#if area.has_method("update_nodes"):
+		#reverse_keys.erase(keys[area])
+		#keys.erase(area)
+	pass
 
 func set_position_with_location(location):
 	global_position = location * (Global.NODE_RADIUS * 2 + Global.KEY_LENGTH)
@@ -190,3 +200,22 @@ func _on_mouse_entered():
 
 func _on_mouse_exited():
 	on_mouse = false
+
+func turn_on_lights(spread = false):
+	#yield(get_tree(), "idle_frame")
+	$Light2D.enabled = true
+	#Tween1.stop_all()
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.2, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	if spread:
+		for i in keys.keys():
+			i.turn_on_lights()
+
+func turn_off_lights(spread = false):
+	#$Light2D.enabled = false
+	#Tween1.stop_all()
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 0, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	#if spread:
+		#for i in keys.keys():
+			#i.turn_off_lights()

@@ -5,6 +5,10 @@ signal _all_done
 signal Nodes_work
 signal Keys_work
 
+signal time_speed_changed(origin_speed, target_speed)
+signal pause_game
+signal resume_game
+
 enum {
 	KEYS_WORK
 	NODES_WORK
@@ -24,20 +28,36 @@ var done_Nodes_count = 0
 var done_Keys_count = 0
 var who_work = NODES_WORK
 
-var wait_time = 1
+var wait_time = 0.1
 var is_init_done = false
+var is_game_started = false
+var is_game_paused = false
+
+var control_time_speed = 1
+
+var round_number := 0
 
 var _load_data_count = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("主场景开始")
 	$Camera2D.zoom = Vector2(0.15, 0.15)
+	$GUI/TimeSpeedBar.max_value = Global.MAX_TIME_SPEED
+	$GUI/TimeSpeedBar.value = 1
+	Engine.time_scale = Global.time_speed
 	randomize()
+	connect("time_speed_changed", self, "_on_time_speed_changed")
+	connect("pause_game", self, "_on_paused_game")
+	connect("resume_game", self, "_on_resumed_game")
 	connect("_all_done", self, "_on_all_done")
+	
+	connect("Keys_work", self, "_on_Keys_work")
+	connect("Nodes_work", self, "_on_Nodes_work")
+	
 	$Camera2D.current = true
 	$Camera2D.position = Vector2()
 	generate_world()
-	
 	pass # Replace with function body.
 
 
@@ -45,15 +65,119 @@ func _ready():
 func _process(delta):
 	if !is_init_done:
 		return
+	elif !is_game_started:
+		emit_signal("Nodes_work")
+		is_game_started = true
+	if Input.is_action_just_pressed("key_space"):
+		if Global.time_speed != 0:
+			emit_signal("pause_game")
+		else:
+			emit_signal("resume_game")
+	if Input.is_action_just_pressed("key_1"):
+		control_time_speed += 0.4
+		control_time_speed = clamp(control_time_speed, Global.MIN_TIME_SPEED, Global.MAX_TIME_SPEED)
+		emit_signal("time_speed_changed", Global.time_speed, control_time_speed)
+	if Input.is_action_just_pressed("key_2"):
+		control_time_speed = clamp(control_time_speed - 0.4, Global.MIN_TIME_SPEED, Global.MAX_TIME_SPEED)
+		emit_signal("time_speed_changed", Global.time_speed, control_time_speed)
 	match who_work:
 		NODES_WORK:
-			if done_Nodes_count == Nodes_count:
+			if done_Nodes_count >= Nodes_count:
 				done_Nodes_count = 0
 				emit_signal("_all_done")
 		KEYS_WORK:
-			if done_Keys_count == Keys_count:
+			if done_Keys_count >= Keys_count:
 				done_Keys_count = 0
 				emit_signal("_all_done")
+	$DebugData/Label.text = "回合数：" + str(round_number) + "\n" + "运行中：" + str(who_work) + "\n"
+	$DebugData/Label.text += "运行完成节点数：" + str(done_Nodes_count) + "/" + str(Nodes_count) + "\n"
+	$DebugData/Label.text += "运行完成键数：" + str(done_Keys_count) + "/" + str(Keys_count) + "\n"
+	#print("ggg", Global.time_speed)
+	#print("ccc", control_time_speed)
+	#print("eee", Engine.time_scale)
+	pass
+
+func _on_time_speed_changed(origin_speed, target_speed):
+	if !is_game_paused:
+		$GUI/TimeSpeedBar.change_value(target_speed)
+		Global.time_speed = target_speed
+		Engine.time_scale = target_speed
+	pass
+
+func _on_paused_game():
+	is_game_paused = true
+	Global.time_speed = 0
+	$GUI/TimeSpeedBar.change_value(0)
+	#Engine.time_scale = Global.time_speed
+	pass
+
+func _on_resumed_game():
+	is_game_paused = false
+	Global.time_speed = control_time_speed
+	$GUI/TimeSpeedBar.change_value(control_time_speed)
+	#Engine.time_scale = Global.time_speed
+	pass
+
+func _on_all_done():
+	yield(get_tree().create_timer(wait_time), "timeout")
+	match who_work:
+		NODES_WORK:
+			_to_next_stage(KEYS_WORK)
+		KEYS_WORK:
+			_to_next_stage(NODES_WORK)
+
+func _to_next_stage(stage):
+	round_number += 1
+	who_work = stage
+	match who_work:
+		NODES_WORK:
+			emit_signal("Nodes_work")
+		KEYS_WORK:
+			emit_signal("Keys_work")
+	pass
+
+func _on_Keys_work():
+	for i in $Keys.get_child_count():
+		$Keys.get_child(i).work()
+		if Global.time_speed == 0:
+			yield(self, "resume_game")
+		elif i % int(ceil(4 * Global.time_speed)) == 0:
+			yield(get_tree(), "idle_frame")
+	pass
+
+func _on_Nodes_work():
+	for i in $Nodes/EmptyNodes.get_child_count():
+		if is_instance_valid($Nodes/EmptyNodes.get_child(i)) and $Nodes/EmptyNodes.get_child(i) != null:
+			$Nodes/EmptyNodes.get_child(i).work()
+		if Global.time_speed == 0:
+			yield(self, "resume_game")
+		elif i % int(ceil(4 * Global.time_speed)) == 0:
+			yield(get_tree(), "idle_frame")
+		
+	for i in $Nodes/EntropyNodes.get_child_count():
+		if is_instance_valid($Nodes/EntropyNodes.get_child(i)) and $Nodes/EntropyNodes.get_child(i) != null:
+			$Nodes/EntropyNodes.get_child(i).work()
+		if Global.time_speed == 0:
+			yield(self, "resume_game")
+		elif i % int(ceil(4 * Global.time_speed)) == 0:
+			yield(get_tree(), "idle_frame")
+		
+	for i in $Nodes/OrderNodes.get_child_count():
+		if is_instance_valid($Nodes/OrderNodes.get_child(i)) and $Nodes/OrderNodes.get_child(i) != null:
+			$Nodes/OrderNodes.get_child(i).work()
+		if Global.time_speed == 0:
+			yield(self, "resume_game")
+		elif i % int(ceil(4 * Global.time_speed)) == 0:
+			yield(get_tree(), "idle_frame")
+		
+	pass
+
+func _on_Node_done():
+	done_Nodes_count += 1
+	pass
+
+func _on_Key_done():
+	done_Keys_count += 1
 	pass
 
 func generate_world():
@@ -150,39 +274,15 @@ func generate_world():
 	update_all_Nodes_connect()
 	
 	
+	
 	$LoadData/ProgressBar.value = $LoadData/ProgressBar.max_value
 	$LoadData/Label.text += "完成" + "\n" + "游戏初始化...完成"
 	yield(get_tree(), "idle_frame")
 	
 	
-	#$LoadData/Label.visible = false
-	#$LoadData/ProgressBar.visible = false
+	$LoadData/Label.visible = false
+	$LoadData/ProgressBar.visible = false
 	is_init_done = true
-	pass
-
-func _on_all_done():
-	yield(get_tree().create_timer(wait_time), "timeout")
-	match who_work:
-		NODES_WORK:
-			_to_next_stage(KEYS_WORK)
-		KEYS_WORK:
-			_to_next_stage(NODES_WORK)
-
-func _to_next_stage(stage):
-	who_work = stage
-	match who_work:
-		NODES_WORK:
-			emit_signal("Nodes_work")
-		KEYS_WORK:
-			emit_signal("Keys_work")
-	pass
-
-func _on_Node_done():
-	done_Nodes_count += 1
-	pass
-
-func _on_Key_done():
-	done_Keys_count += 1
 	pass
 
 func update_all_Nodes_connect():
@@ -231,7 +331,12 @@ func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
 	#yield(get_tree(), "idle_frame")
 	new_EntropyNode.update_keys()
 	new_EntropyNode.update_neighbor_nodes()
+	new_EntropyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
+	if is_game_started and who_work == NODES_WORK:
+		yield(get_tree(), "idle_frame")
+		new_EntropyNode.work()
+	
 	pass
 
 func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
@@ -245,7 +350,12 @@ func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
 	Nodes[origin_Node.location] = new_EmptyNode
 	new_EmptyNode.update_keys()
 	new_EmptyNode.update_neighbor_nodes()
+	new_EmptyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
+	if is_game_started and who_work == NODES_WORK:
+		yield(get_tree(), "idle_frame")
+		new_EmptyNode.work()
+	
 	pass
 
 func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
@@ -259,7 +369,12 @@ func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
 	Nodes[origin_Node.location] = new_EmptyNode
 	new_EmptyNode.update_keys()
 	new_EmptyNode.update_neighbor_nodes()
+	new_EmptyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
+	if is_game_started and who_work == NODES_WORK:
+		yield(get_tree(), "idle_frame")
+		new_EmptyNode.work()
+	
 	pass
 
 func _on_built_OrderNode(origin_Node):

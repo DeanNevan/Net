@@ -47,7 +47,9 @@ var SE_ORD_COLOR = Color(_SE_ORD_COLOR.r, _SE_ORD_COLOR.g, _SE_ORD_COLOR.b, 0.7)
 var SE_EGY_COLOR = Color(_SE_EGY_COLOR.r, _SE_EGY_COLOR.g, _SE_EGY_COLOR.b, 0.7)
 var SE_Values_BASIC_SPEED = 18
 
-var time_speed := 1
+var time_speed = 1
+var MIN_TIME_SPEED = 0.2
+var MAX_TIME_SPEED = 3
 
 var BLUE_NODE_COLOR = Color(0.19, 0.49, 0.76, 1)
 var GREEN_NODE_COLOR = Color(0.28, 0.66, 0.3, 1)

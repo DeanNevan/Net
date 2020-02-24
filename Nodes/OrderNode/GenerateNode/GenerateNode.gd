@@ -14,11 +14,11 @@ func _ready():
 #	pass
 
 func work():
-	#update_neighbor_nodes()
-	yield(get_tree(), "idle_frame")
-	$Light2D.enabled = true
-	for i in keys.keys():
-		i.get_node("Light2D").enabled = true
+	if is_queued_for_deletion() or !is_instance_valid(self):
+		return
+	update_neighbor_nodes()
+	if send_value_list.size() > 0:
+		turn_on_lights()
 	if is_building:
 		build()
 	if is_building:
@@ -41,6 +41,9 @@ func work():
 	pass
 
 func _on_Keys_work():
-	$Light2D.enabled = false
-	for i in keys.keys():
-		i.get_node("Light2D").enabled = false
+	EGY = 0
+	ENT = 0
+	ORD = 0
+	accepted_value = []
+	send_value_list = []
+	turn_off_lights()

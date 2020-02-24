@@ -14,40 +14,45 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	$Label.text = str(send_value_list) + "\n" + str($Light2D.enabled)
+	pass
 
 func work():
+	if is_queued_for_deletion() or !is_instance_valid(self):
+		return
+	update_neighbor_nodes()
 	#update_neighbor_nodes()
-	yield(get_tree(), "idle_frame")
-	$Light2D.enabled = true
-	for i in keys.keys():
-		i.get_node("Light2D").enabled = true
+	if send_value_list.size() > 0:
+		turn_on_lights()
 	if EGY > 0:
 		super_entropy_value += 1
 	if ENT > 0:
 		super_entropy_value += 1
+	var _jud = false
 	if randf() <= 0.5:
-		var _jud = false
 		for i in neighbor_nodes:
 			if i.type == Global.NODE_TYPE.ORD_NODE:
 				_jud = true#周围1格存在秩序节点
 				break
-		if !_jud:
+		if !_jud and keys.size() > 0:
+			
 			send_value_list.append([self,
-									keys[randi() % keys.size()],
-									Global.VALUE_TYPE.EGY,
-									EGY]
+									keys.keys()[randi() % keys.size()],
+									Global.VALUE_TYPE.ENT,
+									1]
 								  )
 	var neighbor_2_nodes = []
 	for i1 in neighbor_nodes:
-		for i2 in i1.neighbor_nodes:
-			if !neighbor_2_nodes.has(i2):
-				neighbor_2_nodes.append(i2)
+		if is_instance_valid(i1):
+			for i2 in i1.neighbor_nodes:
+				if !neighbor_2_nodes.has(i2):
+					neighbor_2_nodes.append(i2)
 	var _ord_nodes = []#1-2格内的秩序节点
 	for i in neighbor_2_nodes:
-		if i.type == Global.NODE_TYPE.ORD_NODE:
-			_ord_nodes.append(i)
+		if is_instance_valid(i):
+			if i.type == Global.NODE_TYPE.ORD_NODE:
+				_ord_nodes.append(i)
 	for i in _ord_nodes:
 		if neighbor_nodes.has(i):
 			send_value_list.append([self, neighbor_nodes[i], Global.VALUE_TYPE.ENT, 2])
@@ -55,66 +60,73 @@ func work():
 			for a in _ord_nodes.neighbor_nodes:
 				if neighbor_nodes.has(a):
 					send_value_list.append([self, neighbor_nodes[a], Global.VALUE_TYPE.ENT, 2])
-	
+	yield(get_tree(), "idle_frame")
+	get_send_value_list()
 	if ORD > 1:
 		super_entropy_value -= ORD - 1
 	if super_entropy_value <= 0:
 		destroyed(abs(super_entropy_value))
+		return
 	super_entropy_value = clamp(super_entropy_value, 0, max_sev)
+	yield(get_tree(), "idle_frame")
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
 
 func get_send_value_list():
 	if EGY > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.EGY:
 				_source_arr.append(i[0])
-		for i in _source_arr:
+		for i in _source_arr.size():
 			_keys_arr.erase(_source_arr[i])
 		if _keys_arr.size() != 0:
 			send_value_list.append([self,
-									_keys_arr[randi() % _keys_arr.size()],
+									_keys_arr.keys()[randi() % _keys_arr.size()],
 									Global.VALUE_TYPE.EGY,
 									EGY]
 								  )
+	yield(get_tree(), "idle_frame")
 	if ENT > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.ENT:
 				_source_arr.append(i[0])
-		for i in _source_arr:
+		for i in _source_arr.size():
 			_keys_arr.erase(_source_arr[i])
 		if _keys_arr.size() != 0:
 			send_value_list.append([self,
-									_keys_arr[randi() % _keys_arr.size()],
+									_keys_arr.keys()[randi() % _keys_arr.size()],
 									Global.VALUE_TYPE.ENT,
 									ENT]
 								  )
+	yield(get_tree(), "idle_frame")
 	if ORD > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.ORD:
 				_source_arr.append(i[0])
-		for i in _source_arr:
+		for i in _source_arr.size():
 			_keys_arr.erase(_source_arr[i])
 		if _keys_arr.size() != 0:
 			send_value_list.append([self,
-									_keys_arr[randi() % _keys_arr.size()],
+									_keys_arr.keys()[randi() % _keys_arr.size()],
 									Global.VALUE_TYPE.ORD,
 									ORD]
 								  )
-	return send_value_list
 	pass
 
 func _on_Keys_work():
-	$Light2D.enabled = false
-	for i in keys.keys():
-		i.get_node("Light2D").enabled = false
+	EGY = 0
+	ENT = 0
+	ORD = 0
+	accepted_value = []
+	send_value_list = []
+	turn_off_lights()
 
 func get_damage(value):
 	pass

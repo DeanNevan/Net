@@ -14,15 +14,8 @@ var is_ending := false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Sprite.visible = false
-	match direction:
-		0:
-			direction_vector = Vector2(1, 0)
-		1:
-			direction_vector = Vector2(1, 0)
-		2:
-			direction_vector = Vector2(-1, 0)
-		3:
-			direction_vector = Vector2(-1, 0)
+	direction_vector = Vector2(-direction, 0)
+			
 	start_position = - direction_vector * length / 2
 	position = start_position
 	end_position = start_position + (direction_vector.normalized() * length)
@@ -35,7 +28,7 @@ func _ready():
 			modulate = Global.GREEN_NODE_COLOR
 		Global.VALUE_TYPE.BLANK:
 			modulate = Color(1, 1, 1, 0.7)
-	$Light2D.color = modulate
+	$Light2D.color = self_modulate
 	$Light2D.mode = $Light2D.MODE_ADD
 	if type == Global.VALUE_TYPE.ENT:
 		$Light2D.mode = $Light2D.MODE_SUB
