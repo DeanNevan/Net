@@ -10,7 +10,8 @@ var controllable = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_child(Tween1)
-	Tween1.interpolate_property(self, "zoom", zoom, Vector2(12, 12), 3.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property(self, "zoom", zoom, Vector2(10, 10), 2.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	
 	Tween1.start()
 	yield(Tween1, "tween_completed")
 	controllable = true
@@ -33,13 +34,13 @@ func _process(delta):
 	position += vec * zoom
 	var _zoom
 	if Input.is_action_just_released("wheel_up"):
-		_zoom = clamp(zoom.x - 1.3, min_zoom, max_zoom)
+		_zoom = clamp(zoom.x - 1.2, min_zoom, max_zoom)
 	elif Input.is_action_just_released("wheel_down"):
-		_zoom = clamp(zoom.x + 1.3, min_zoom, max_zoom)
+		_zoom = clamp(zoom.x + 1.2, min_zoom, max_zoom)
 	if _zoom != null and _zoom != zoom.x:
 		smooth_zoom(Vector2(_zoom, _zoom))
 
-func smooth_zoom(target_zoom):
+func smooth_zoom(target_zoom, speed = 0.25):
 	Tween1.stop_all()
-	Tween1.interpolate_property(self, "zoom", zoom, target_zoom, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property(self, "zoom", zoom, target_zoom, speed, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	Tween1.start()

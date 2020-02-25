@@ -49,7 +49,7 @@ var SE_Values_BASIC_SPEED = 18
 
 var time_speed = 1
 var MIN_TIME_SPEED = 0.2
-var MAX_TIME_SPEED = 3
+var MAX_TIME_SPEED = 12
 
 var BLUE_NODE_COLOR = Color(0.19, 0.49, 0.76, 1)
 var GREEN_NODE_COLOR = Color(0.28, 0.66, 0.3, 1)

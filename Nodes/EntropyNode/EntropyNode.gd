@@ -24,21 +24,24 @@ func work():
 	update_neighbor_nodes()
 	#update_neighbor_nodes()
 	if send_value_list.size() > 0:
-		turn_on_lights()
+		turn_on_lights(true, 1.2)
+	super_entropy_value += 1
 	if EGY > 0:
 		super_entropy_value += 1
-	if ENT > 0:
-		super_entropy_value += 1
+	#if ENT > 0:
+		#super_entropy_value += 1
 	var _jud = false
-	if randf() <= 0.5:
-		for i in neighbor_nodes:
-			if i.type == Global.NODE_TYPE.ORD_NODE:
-				_jud = true#周围1格存在秩序节点
-				break
-		if !_jud and keys.size() > 0:
-			
+	var emp_nodes = []
+	for i in neighbor_nodes:
+		if i.type == Global.NODE_TYPE.ORD_NODE:
+			_jud = true#周围1格存在秩序节点
+		if i.type == Global.NODE_TYPE.EMP_NODE:
+			emp_nodes.append(i)
+	if !_jud and keys.size() > 0 and emp_nodes.size() > 0:
+		if randf() <= 0.5:
+			var _ran = emp_nodes[randi() % emp_nodes.size()]
 			send_value_list.append([self,
-									keys.keys()[randi() % keys.size()],
+									neighbor_nodes[_ran],
 									Global.VALUE_TYPE.ENT,
 									1]
 								  )
@@ -60,7 +63,6 @@ func work():
 			for a in _ord_nodes.neighbor_nodes:
 				if neighbor_nodes.has(a):
 					send_value_list.append([self, neighbor_nodes[a], Global.VALUE_TYPE.ENT, 2])
-	yield(get_tree(), "idle_frame")
 	get_send_value_list()
 	if ORD > 1:
 		super_entropy_value -= ORD - 1
@@ -88,7 +90,7 @@ func get_send_value_list():
 									Global.VALUE_TYPE.EGY,
 									EGY]
 								  )
-	yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	if ENT > 0:
 		var _keys_arr = keys.duplicate()
 		var _source_arr = []
@@ -103,7 +105,7 @@ func get_send_value_list():
 									Global.VALUE_TYPE.ENT,
 									ENT]
 								  )
-	yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	if ORD > 0:
 		var _keys_arr = keys.duplicate()
 		var _source_arr = []

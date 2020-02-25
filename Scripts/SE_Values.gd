@@ -8,6 +8,7 @@ var start_position := Vector2()
 var end_position := Vector2()
 var length = Global.KEY_LENGTH
 var direction = 0
+var key_direction = 0
 var direction_vector := Vector2()
 var is_ending := false
 
@@ -15,7 +16,10 @@ var is_ending := false
 func _ready():
 	$Sprite.visible = false
 	direction_vector = Vector2(-direction, 0)
-			
+	if direction == 1:
+		global_rotation += PI
+	#if direction == -1 and key_direction == 1:
+		#global_rotation += PI
 	start_position = - direction_vector * length / 2
 	position = start_position
 	end_position = start_position + (direction_vector.normalized() * length)
@@ -28,7 +32,7 @@ func _ready():
 			modulate = Global.GREEN_NODE_COLOR
 		Global.VALUE_TYPE.BLANK:
 			modulate = Color(1, 1, 1, 0.7)
-	$Light2D.color = self_modulate
+	$Light2D.color = modulate
 	$Light2D.mode = $Light2D.MODE_ADD
 	if type == Global.VALUE_TYPE.ENT:
 		$Light2D.mode = $Light2D.MODE_SUB

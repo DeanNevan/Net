@@ -23,7 +23,7 @@ func maichong(a):
 	if !can_maichong:
 		return
 	can_maichong = false
-	maichongTimer.start(0.02)
+	maichongTimer.start(0.3)
 	get_parent().generate_SE_values(get_parent().get_node("NormalKeyEnd"))
 
 func update_text():

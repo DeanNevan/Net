@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://StartMenu/StartMenu.gd" type="Script" id=1]
 [ext_resource path="res://StartMenu/RandomStartButton.tscn" type="PackedScene" id=2]
@@ -40,6 +40,14 @@ extents = Vector2( 191.466, 57.5443 )
 [sub_resource type="DynamicFont" id=4]
 size = 45
 font_data = ExtResource( 9 )
+
+[sub_resource type="PanoramaSky" id=5]
+
+[sub_resource type="Environment" id=6]
+background_sky = SubResource( 5 )
+background_color = Color( 0.756863, 0.0823529, 0.0823529, 1 )
+ambient_light_color = Color( 1, 0, 0, 1 )
+glow_enabled = true
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0
@@ -269,7 +277,7 @@ energy = 0.99
 
 [node name="Camera2D" type="Camera2D" parent="."]
 smoothing_enabled = true
-smoothing_speed = 10.0
+smoothing_speed = 15.0
 
 [node name="BigLight" type="Sprite" parent="."]
 position = Vector2( 6091.08, 848.402 )
@@ -285,5 +293,8 @@ position = Vector2( 732.237, 16.5363 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 14 )
 energy = 3.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 6 )
 [connection signal="mouse_entered" from="StartArrow" to="StartArrow" method="_on_StartArrow_mouse_entered"]
 [connection signal="mouse_exited" from="StartArrow" to="StartArrow" method="_on_StartArrow_mouse_exited"]

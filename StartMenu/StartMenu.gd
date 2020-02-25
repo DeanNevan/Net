@@ -8,12 +8,16 @@ var enable_camera = false
 
 var _load_data_count = 0
 
-onready var KeysArray = [$NormalKey1, $NormalKey2, $NormalKey3, $NormalKey4]
+onready var KeysArray = [$NormalKey1, $NormalKey2, $NormalKey3, $NormalKey4, $NormalKeyEnd]
 
 onready var Tween1 = Tween.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	
+	for i in KeysArray:
+		i.get_node("CollisionShape2D").disabled = true
+	
 	add_child(Tween1)
 	$StartArrow.connect("start", self, "generate_world")
 	connect("generate_done", self, "change_to_MainScene")
@@ -26,7 +30,7 @@ func _process(delta):
 		$StartArrow.is_ok()
 		$Camera2D.current = true
 		$Camera2D.position = $StartArrow.rect_position
-		Tween1.interpolate_property($Camera2D, "zoom", $Camera2D.zoom, Vector2(0.15, 0.15), 3.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		Tween1.interpolate_property($Camera2D, "zoom", $Camera2D.zoom, Vector2(0.15, 0.15), 4.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 		if !Tween1.is_active():
 			Tween1.start()
 		#yield(get_tree(), "idle_frame")

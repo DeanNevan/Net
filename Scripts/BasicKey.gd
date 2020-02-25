@@ -8,9 +8,9 @@ signal values_all_displayed
 signal send_value(send_list)
 
 signal selected
-signal double_selected
+signal double_selected(key)
 signal cancel_select
-signal cancel_double_select
+signal cancel_double_select(key)
 
 var type = Global.KEY_TYPE.KEY
 var location
@@ -28,8 +28,8 @@ var is_double_selected := false
 
 var is_working = false
 
-var sending_values = []
-#[{direction:[EGY, ENT, ORD]}]
+var sending_values = {}
+#{direction:[EGY, ENT, ORD]}
 
 #var EGY := 0#传输的能量值
 #var ENT := 0#传输的熵值
@@ -44,7 +44,8 @@ func _ready():
 	add_child(SelectedAnimation)
 	SelectedAnimation.stop()
 	SelectedAnimation.get_node("Sprite").visible = false
-	connect("selected", self, "show_SelectedAnimation")
+	connect("selected", self, "_on_selected")
+	#connect("double_selected", self, "_on_double_selected")
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
 	if location != null and direction != null:
@@ -66,22 +67,24 @@ func _process(delta):
 	#$Label.text = str($Light2D.enabled)
 	#if is_selected:
 		#print(send_value_list)
-	if on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		is_selected = true
-		emit_signal("selected")
-	if !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		is_selected = false
-		emit_signal("cancel_select")
-	if is_selected and Input.is_action_just_pressed("left_mouse_button"):
-		emit_signal("double_selected")
-		is_double_selected = true
+	if Input.is_action_just_pressed("left_mouse_button"):
+		if on_mouse and is_selected:
+			emit_signal("double_selected", self)
+			is_double_selected = true
+		elif on_mouse and !is_selected:
+			is_selected = true
+			emit_signal("selected")
+		elif !on_mouse:
+			is_selected = false
+			emit_signal("cancel_select")
+	
 	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
 		#is_selected = false
 		#emit_signal("cancel_select")
 	if Input.is_action_just_pressed("right_mouse_button"):
 		is_double_selected = false
 		is_selected = false
-		emit_signal("cancel_double_select")
+		emit_signal("cancel_double_select", self)
 		emit_signal("cancel_select")
 	if is_selected:
 		SelectedAnimation.get_node("Sprite").visible = true
@@ -98,42 +101,58 @@ func work():
 		turn_on_lights(true)
 	#yield(get_tree(), "idle_frame")
 	
-	if direction == nodes.values()[0]:
-		display_values(sending_values[nodes.values()[0]], -1)
-		display_values(sending_values[nodes.values()[1]], 1)
-	else:
-		display_values(sending_values[nodes.values()[0]], 1)
-		display_values(sending_values[nodes.values()[1]], -1)
+	if send_value_list.size() > 0:
+		if direction == nodes.values()[0]:
+			display_values(sending_values[nodes.values()[0]], -1, direction)
+			display_values(sending_values[nodes.values()[1]], 1, direction)
+		else:
+			display_values(sending_values[nodes.values()[0]], 1, direction)
+			display_values(sending_values[nodes.values()[1]], -1, direction)
 	#yield(get_tree(), "idle_frame")
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
 
-func display_values(values_array := [0, 0, 0], direction = 0, direction_vector := Vector2(1, 0)):
-	#print(values_array)
+func display_values(values_array := [0, 0, 0], direction1 = 0, key_direction = 0):
+	var Node_direction = 0
+	if direction1 == -1:
+		Node_direction = direction
+	elif direction1 == 1:
+		match direction:
+			0:
+				Node_direction = 2
+			1:
+				Node_direction = 3
+			2:
+				Node_direction = 0
+			3:
+				Node_direction = 1
 	for i in values_array[0]:
 		var new_SE_EGY = Global.SE_EGY.instance()
-		new_SE_EGY.direction = direction
-		new_SE_EGY.direction_vector = direction_vector
+		new_SE_EGY.direction = direction1
+		new_SE_EGY.key_direction = key_direction
 		new_SE_EGY.type = Global.VALUE_TYPE.EGY
+		new_SE_EGY.connect("end", reverse_nodes[Node_direction], "_on_SE_EGY_arrived")
 		add_child(new_SE_EGY)
 		new_SE_EGY.start()
 		yield(new_SE_EGY, "next")
 	yield(get_tree(), "idle_frame")
 	for i in values_array[1]:
 		var new_SE_ENT = Global.SE_ENT.instance()
-		new_SE_ENT.direction = direction
-		new_SE_ENT.direction_vector = direction_vector
+		new_SE_ENT.direction = direction1
+		new_SE_ENT.key_direction = key_direction
 		new_SE_ENT.type = Global.VALUE_TYPE.ENT
+		new_SE_ENT.connect("end", reverse_nodes[Node_direction], "_on_SE_ENT_arrived")
 		add_child(new_SE_ENT)
 		new_SE_ENT.start()
 		yield(new_SE_ENT, "next")
 	yield(get_tree(), "idle_frame")
 	for i in values_array[2]:
 		var new_SE_ORD = Global.SE_ORD.instance()
-		new_SE_ORD.direction = direction
-		new_SE_ORD.direction_vector = direction_vector
+		new_SE_ORD.direction = direction1
+		new_SE_ORD.key_direction = key_direction
 		new_SE_ORD.type = Global.VALUE_TYPE.ORD
+		new_SE_ORD.connect("end", reverse_nodes[Node_direction], "_on_SE_ORD_arrived")
 		add_child(new_SE_ORD)
 		new_SE_ORD.start()
 		yield(new_SE_ORD, "next")
@@ -169,13 +188,28 @@ func _on_nodes_send_value(list):
 				sending_values[nodes[_nodes_arr[0]]][2] += i[3]
 
 func update_nodes():
-	if nodes.size() > 0:
-		for i in nodes:
-			if is_instance_valid(i):
-				if i.is_connected("send_value", self, "_on_nodes_send_value"):
-					i.disconnect("send_value", self, "_on_nodes_send_value")
-			else:
-				nodes.erase(i)
+	"""nodes.clear()
+	reverse_nodes.clear()
+	if MainScene.Nodes.keys().has(Vector2(location.x + 0.5, location.y)):
+		var node = MainScene.Keys[Vector2(location.x + 0.5, location.y)]
+		nodes[node] = 0
+		reverse_nodes[0] = node
+	if MainScene.Nodes.keys().has(Vector2(location.x - 0.5, location.y)):
+		var node = MainScene.Keys[Vector2(location.x - 0.5, location.y)]
+		nodes[node] = 2
+		reverse_nodes[2] = node
+	if MainScene.Nodes.keys().has(Vector2(location.x, location.y + 0.5)):
+		var node = MainScene.Keys[Vector2(location.x, location.y + 0.5)]
+		nodes[node] = 1
+		reverse_nodes[1] = node
+	if MainScene.Nodes.keys().has(Vector2(location.x, location.y - 0.5)):
+		var node = MainScene.Keys[Vector2(location.x, location.y - 0.5)]
+		nodes[node] = 3
+		reverse_nodes[3] = node"""
+	
+	if sending_values.size() == 0 and nodes.size() > 0:
+		sending_values[nodes[nodes.keys()[0]]] = [0, 0, 0]
+		sending_values[nodes[nodes.keys()[1]]] = [0, 0, 0]
 	
 	var pollution = 0
 	if nodes.size() > 0:
@@ -214,6 +248,7 @@ func _on_area_entered(area):
 			reverse_nodes[3] = area
 
 func _on_area_exited(area):
+	reverse_nodes.erase(area)
 	return
 	if area.has_method("update_keys"):
 		reverse_nodes.erase(nodes[area])
@@ -224,14 +259,26 @@ func set_position_with_location(location, direction):
 	global_position = location * (Global.NODE_RADIUS + (Global.KEY_LENGTH / 2)) * 2
 	pass
 
+func _on_selected():
+	show_SelectedAnimation()
+
+func _on_double_seleted():
+	pass
+
 func show_SelectedAnimation():
 	print("该键是", self)
 	print("nodes", nodes)
 	print("亮暗",$Light2D.enabled)
+	print("direction", direction)
 	print("___")
 	SelectedAnimation.play("nodes_selected")
 	SelectedAnimation.get_node("Sprite").position = position
-	SelectedAnimation.get_node("Sprite").modulate = modulate
+	if type == Global.NODE_TYPE.ENT_NODE:
+		SelectedAnimation.get_node("Sprite").modulate = Color.black
+	else:
+		SelectedAnimation.get_node("Sprite").modulate = modulate
+	SelectedAnimation.get_node("Light2D").color = SelectedAnimation.get_node("Sprite").modulate
+	SelectedAnimation.get_node("Light2D").visible = true
 	SelectedAnimation.get_node("Sprite").visible = true
 
 func _on_mouse_entered():

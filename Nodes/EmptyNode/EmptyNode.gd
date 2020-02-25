@@ -14,9 +14,9 @@ var modulate_array=[Color(0.94, 0.94, 0.94, 1),
 					Color(0.62, 0.62, 0.62, 1),
 					Color(0.54, 0.54, 0.54, 1),
 					Color(0.46, 0.46, 0.46, 1),
-					Color(0.38, 0.38, 0.38, 1),
-					Color(0.30, 0.30, 0.30, 1),
-					Color(0.22, 0.22, 0.22, 1)]
+					Color(0.40, 0.40, 0.40, 1),
+					Color(0.37, 0.37, 0.37, 1),
+					Color(0.23, 0.23, 0.23, 1)]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	type = Global.NODE_TYPE.EMP_NODE
@@ -36,6 +36,7 @@ func _process(delta):
 	if on_mouse and Input.is_action_just_pressed("key_shift"):
 		send_value_list.append([self, keys.keys()[randi() % keys.size()], Global.VALUE_TYPE.EGY, 2])
 	modulate = modulate_array[clamp(entropy_value, 0, 9)]
+	$Light2D.color = modulate
 	$Label.text = str(entropy_value) + "\n" + str(send_value_list) + "\n" + str($Light2D.enabled)
 	pass
 
@@ -46,20 +47,22 @@ func work():
 	
 	#yield(get_tree(), "idle_frame")
 	if send_value_list.size() > 0:
-		turn_on_lights(true)
+		turn_on_lights(true, 1.2)
 	#update_neighbor_nodes()
 	if EGY > 0:
 		entropy_value += 1
 		EGY -= 1
 	if ENT > 0:
-		entropy_value += 1
-		ENT -= 1
+		entropy_value += ENT
+		ENT = 0
 	if ORD > 0:
-		entropy_value -= 1
+		if entropy_value > 0:
+			entropy_value -= ORD
+			ORD = 0
 	if entropy_value >= Global.MAX_ENT:
 		turn_to_EntropyNode()
 		return
-	yield(get_tree(), "idle_frame")
+	#yield(get_tree(), "idle_frame")
 	entropy_value = clamp(entropy_value, 0, Global.MAX_ENT)
 	emit_signal("send_value", get_send_value_list())
 	emit_signal("done")
@@ -78,7 +81,7 @@ func _on_Keys_work():
 
 func get_send_value_list():
 	if EGY > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.EGY:
@@ -95,7 +98,7 @@ func get_send_value_list():
 									EGY]
 								  )
 	if ENT > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.ENT:
@@ -112,7 +115,7 @@ func get_send_value_list():
 									ENT]
 								  )
 	if ORD > 0:
-		var _keys_arr = keys
+		var _keys_arr = keys.duplicate()
 		var _source_arr = []
 		for i in accepted_value:
 			if i[2] == Global.VALUE_TYPE.ORD:

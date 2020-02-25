@@ -4,9 +4,9 @@ signal done
 signal update_ok
 signal send_value(send_list)
 signal selected
-signal double_selected
+signal double_selected(node)
 signal cancel_select
-signal cancel_double_select
+signal cancel_double_select(node)
 
 var on_mouse := false
 var is_selected := false
@@ -57,7 +57,8 @@ func _ready():
 	add_to_group("Nodes")
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
-	connect("selected", self, "show_SelectedAnimation")
+	connect("selected", self, "_on_selected")
+	#connect("double_selected", self, "_on_double_selected")
 	pass
 
 
@@ -65,28 +66,30 @@ func _ready():
 func _process(delta):
 	if $Light2D.energy == 0:
 		$Light2D.enabled = false
-	if on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		is_selected = true
-		emit_signal("selected")
-	if !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		is_selected = false
-		emit_signal("cancel_select")
-	if is_selected and Input.is_action_just_pressed("left_mouse_button"):
-		emit_signal("double_selected")
-		is_double_selected = true
+	if Input.is_action_just_pressed("left_mouse_button"):
+		if on_mouse and is_selected:
+			emit_signal("double_selected", self)
+			is_double_selected = true
+		elif on_mouse and !is_selected:
+			is_selected = true
+			emit_signal("selected")
+		elif !on_mouse:
+			is_selected = false
+			emit_signal("cancel_select")
 	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
 		#is_selected = false
 		#emit_signal("cancel_select")
 	if Input.is_action_just_pressed("right_mouse_button"):
 		is_double_selected = false
 		is_selected = false
-		emit_signal("cancel_double_select")
+		emit_signal("cancel_double_select", self)
 		emit_signal("cancel_select")
 	if is_selected:
-		SelectedAnimation.get_node("Sprite").visible = true
+		#SelectedAnimation.get_node("Sprite").visible = true
 		SelectedAnimation.playback_speed = Global.time_speed
 	else:
 		SelectedAnimation.get_node("Sprite").visible = false
+		SelectedAnimation.get_node("Light2D").visible = false
 
 func work():
 	pass
@@ -116,6 +119,12 @@ func _on_keys_send_value(list : Array):
 					ORD += i[3]
 	pass
 
+func _on_selected():
+	show_SelectedAnimation()
+
+func _on_double_seleted(node):
+	pass
+
 func show_SelectedAnimation():
 	print("该节点是", self)
 	print("neighbor_nodes", neighbor_nodes)
@@ -126,21 +135,37 @@ func show_SelectedAnimation():
 	#update_neighbor_nodes()
 	SelectedAnimation.play("nodes_selected")
 	SelectedAnimation.get_node("Sprite").position = position
-	SelectedAnimation.get_node("Sprite").modulate = modulate
+	SelectedAnimation.get_node("Light2D").position = position
+	if type == Global.NODE_TYPE.ENT_NODE:
+		SelectedAnimation.get_node("Sprite").modulate = Color.black
+	else:
+		SelectedAnimation.get_node("Sprite").modulate = modulate
+	SelectedAnimation.get_node("Light2D").color = SelectedAnimation.get_node("Sprite").modulate
+	SelectedAnimation.get_node("Light2D").visible = true
 	SelectedAnimation.get_node("Sprite").visible = true
 
 func update_keys():
 	
 	#$CollisionShape2D2.disabled = false
 	#$CollisionShape2D3.disabled = false
-	
-	if keys.size() > 0:
-		for i in keys:
-			if is_instance_valid(i):
-				if i.is_connected("send_value", self, "_on_keys_send_value"):
-					i.disconnect("send_value", self, "_on_keys_send_value")
-			else:
-				keys.erase(i)
+	"""keys.clear()
+	reverse_keys.clear()
+	if MainScene.Keys.keys().has(Vector2(location.x + 0.5, location.y)):
+		var key = MainScene.Keys[Vector2(location.x + 0.5, location.y)]
+		keys[key] = 0
+		reverse_keys[0] = key
+	if MainScene.Keys.keys().has(Vector2(location.x - 0.5, location.y)):
+		var key = MainScene.Keys[Vector2(location.x - 0.5, location.y)]
+		keys[key] = 2
+		reverse_keys[2] = key
+	if MainScene.Keys.keys().has(Vector2(location.x, location.y + 0.5)):
+		var key = MainScene.Keys[Vector2(location.x, location.y + 0.5)]
+		keys[key] = 1
+		reverse_keys[1] = key
+	if MainScene.Keys.keys().has(Vector2(location.x, location.y - 0.5)):
+		var key = MainScene.Keys[Vector2(location.x, location.y - 0.5)]
+		keys[key] = 3
+		reverse_keys[3] = key"""
 	
 	if keys.size() > 0:
 		for i in keys:
@@ -195,17 +220,53 @@ func _on_area_exited(area):
 func set_position_with_location(location):
 	global_position = location * (Global.NODE_RADIUS * 2 + Global.KEY_LENGTH)
 
+func _on_SE_EGY_arrived():
+	var _modulate = modulate
+	Tween1.stop_all()
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.17, 0.71, 0.95, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	yield(Tween1, "tween_completed")
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	pass
+
+func _on_SE_ENT_arrived():
+	var _modulate = modulate
+	Tween1.stop_all()
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.05, 0.05, 0.05, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	yield(Tween1, "tween_completed")
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	pass
+
+func _on_SE_ORD_arrived():
+	var _modulate = modulate
+	Tween1.stop_all()
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.61, 1, 0.39, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	yield(Tween1, "tween_completed")
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.start()
+	pass
+
 func _on_mouse_entered():
 	on_mouse = true
 
 func _on_mouse_exited():
 	on_mouse = false
 
-func turn_on_lights(spread = false):
+func turn_on_lights(spread = false, target_energy = 1.2):
 	#yield(get_tree(), "idle_frame")
 	$Light2D.enabled = true
 	#Tween1.stop_all()
-	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.2, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, target_energy, 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	if spread:
 		for i in keys.keys():

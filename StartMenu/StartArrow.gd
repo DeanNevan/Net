@@ -38,9 +38,9 @@ func start():
 	get_parent().enable_camera = true
 	Tween1.interpolate_property(self, "rect_position", rect_position, rect_position - Vector2(50, -167), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
-	yield(get_tree().create_timer(0.5), "timeout")
+	yield(get_tree().create_timer(0.25), "timeout")
 	Tween1.stop_all()
-	Tween1.interpolate_property(self, "rect_position", rect_position, rect_position + Vector2(4540, 0), 3, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property(self, "rect_position", rect_position, rect_position + Vector2(4540, 0), 2.5, Tween.TRANS_BACK, Tween.EASE_IN)
 	Tween1.start()
 	yield(get_tree().create_timer(3.1), "timeout")
 	Tween1.stop_all()

@@ -21,7 +21,7 @@ func maichong(a):
 	if !can_maichong:
 		return
 	can_maichong = false
-	maichongTimer.start(0.02)
+	maichongTimer.start(0.3)
 	if randf() <= 0.5:
 		get_parent().generate_SE_values(get_parent().get_node("NormalKey1"))
 		yield(get_tree().create_timer(0.65), "timeout")

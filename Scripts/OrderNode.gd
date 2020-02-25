@@ -3,11 +3,12 @@ extends "res://Scripts/BasicNode.gd"
 signal build_done
 signal destroyed
 
+var build_value = 10
+
 var max_ov := 10
 var order_value := 10
 
 var is_building := true
-var stored_EGY_during_building := 0
 
 var direction := 0
 
@@ -17,10 +18,13 @@ onready var DirectionArrow2 = preload("res://Assets/SE/DirectionArrow/DirectionA
 onready var DirectionArrow3 = preload("res://Assets/SE/DirectionArrow/DirectionArrow.tscn").instance()
 onready var DirectionArrows = [DirectionArrow0, DirectionArrow1, DirectionArrow2, DirectionArrow3]
 
-# Called when the node enters the scene tree for the first time.
+var TweenBuildProgress = Tween.new()
 func _ready():
+	add_child(TweenBuildProgress)
 	_set_DirectionArrows()
 	type = Global.NODE_TYPE.ORD_NODE
+	$TextureProgress.max_value = build_value
+	$TextureProgress.value = 0
 	add_to_group("OrderNodes")
 	connect("build_done", self, "_on_build_done")
 	connect("selected", self, "show_DirectionArrows")
@@ -43,11 +47,16 @@ func build():
 	if ENT > 0:
 		destroyed(ENT)
 	elif EGY > 0:
-		stored_EGY_during_building += EGY
-	if stored_EGY_during_building >= max_ov:
+		build_value -= EGY
+	TweenBuildProgress.interpolate_property($TextureProgress, "value", $TextureProgress.value, $TextureProgress.max_value - build_value, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenBuildProgress.start()
+	if build_value <= 0:
 		emit_signal("build_done")
 
 func _on_build_done():
+	$TextureProgress.visible = false
+	$Sprite.visible = true
+	$Sprite2.visible = true
 	is_building = false
 
 #被破坏
@@ -75,6 +84,9 @@ func show_DirectionArrows():
 			DirectionArrow2.pressed = true
 		3:
 			DirectionArrow3.pressed = true
+	pass
+
+func play_animation():
 	pass
 
 func _set_DirectionArrows():
