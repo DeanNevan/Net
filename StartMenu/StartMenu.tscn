@@ -44,10 +44,16 @@ font_data = ExtResource( 9 )
 [sub_resource type="PanoramaSky" id=5]
 
 [sub_resource type="Environment" id=6]
+background_mode = 4
 background_sky = SubResource( 5 )
 background_color = Color( 0.756863, 0.0823529, 0.0823529, 1 )
 ambient_light_color = Color( 1, 0, 0, 1 )
 glow_enabled = true
+glow_intensity = 0.27
+glow_bicubic_upscale = true
+adjustment_enabled = true
+adjustment_brightness = 0.9
+adjustment_contrast = 0.9
 
 [node name="StartMenu" type="Control"]
 anchor_right = 1.0

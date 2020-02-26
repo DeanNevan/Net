@@ -8,6 +8,7 @@ var super_entropy_value := 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	name_CN = "熵节点"
 	type = Global.NODE_TYPE.ENT_NODE
 	add_to_group("EntropyNodes")
 	pass # Replace with function body.

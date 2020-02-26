@@ -17,6 +17,7 @@ func _ready():
 	
 	for i in KeysArray:
 		i.get_node("CollisionShape2D").disabled = true
+		i.get_node("Light2D").energy = 0.9
 	
 	add_child(Tween1)
 	$StartArrow.connect("start", self, "generate_world")

@@ -8,6 +8,7 @@ extends "res://Scripts/OrderNode.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	name_CN = "哨兵节点"
 	modulate = Global.BLUE_NODE_COLOR
 	type = Global.NODE_TYPE.ORD_NODE
 	pass # Replace with function body.

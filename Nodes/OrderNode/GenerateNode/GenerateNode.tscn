@@ -19,7 +19,7 @@ extents = Vector2( 250, 10 )
 resource_local_to_scene = true
 extents = Vector2( 10, 250 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "New Anim"
 length = 4.0
 loop = true
@@ -35,9 +35,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1.5, 1 ), Vector2( 0, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -15 ), Vector2( 0, 15 ) ]
+}
 
-[sub_resource type="Animation" id=4]
-resource_name = "idle"
+[sub_resource type="Animation" id=5]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -62,7 +73,8 @@ texture = ExtResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
 modulate = Color( 0.329412, 0.843137, 1, 1 )
-scale = Vector2( 1.5, 1 )
+position = Vector2( 0, -0.542089 )
+scale = Vector2( 0.777104, 1 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -98,5 +110,5 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/New Anim" = SubResource( 5 )
-anims/working = SubResource( 4 )
+"anims/New Anim" = SubResource( 4 )
+anims/working = SubResource( 5 )

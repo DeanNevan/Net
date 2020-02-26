@@ -2,6 +2,7 @@ extends "res://Scripts/OrderNode.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	name_CN = "生产节点"
 	$Sprite.visible = false
 	$Sprite2.visible = false
 	#modulate = Global.GREEN_NODE_COLOR

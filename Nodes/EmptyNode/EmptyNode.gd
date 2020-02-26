@@ -19,6 +19,7 @@ var modulate_array=[Color(0.94, 0.94, 0.94, 1),
 					Color(0.23, 0.23, 0.23, 1)]
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	name_CN = "空节点"
 	type = Global.NODE_TYPE.EMP_NODE
 	add_to_group("EmptyNodes")
 	#$CollisionShape2D2.disabled = true

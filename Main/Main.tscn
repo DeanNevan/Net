@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
 [ext_resource path="res://Main/Camera2D.gd" type="Script" id=2]
@@ -8,6 +8,24 @@
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-ExtraLight.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://Main/TimeSpeedBar.gd" type="Script" id=7]
 [ext_resource path="res://Main/WorldEnvironment.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=9]
+[ext_resource path="res://BuildButtons/GenerateNodeBuildButton.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/Art/LJZA]68MZ6LOG_LNX_3D(CL.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Art/ListChoice/3.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Art/ListChoice/4.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Art/ListChoice/2.png" type="Texture" id=14]
+[ext_resource path="res://Main/BuildMenu.gd" type="Script" id=15]
+[ext_resource path="res://Main/List1.gd" type="Script" id=16]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=17]
+[ext_resource path="res://Main/BuildList.gd" type="Script" id=18]
+[ext_resource path="res://Main/Info.gd" type="Script" id=19]
+[ext_resource path="res://Main/BuildButton.gd" type="Script" id=20]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=21]
+[ext_resource path="res://Assets/Art/ListChoice/7.png" type="Texture" id=22]
+[ext_resource path="res://Assets/Art/ListChoice/1.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Art/ListChoice/5.png" type="Texture" id=24]
+[ext_resource path="res://Assets/Art/ListChoice/6.png" type="Texture" id=25]
+[ext_resource path="res://Main/BuildList1.gd" type="Script" id=26]
 
 [sub_resource type="DynamicFont" id=1]
 resource_local_to_scene = true
@@ -30,6 +48,129 @@ size = 40
 outline_size = 1
 outline_color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 25
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 26
+font_data = ExtResource( 17 )
+
+[sub_resource type="AnimatedTexture" id=7]
+flags = 4
+frames = 9
+fps = 19.0
+frame_0/texture = ExtResource( 22 )
+frame_1/texture = ExtResource( 25 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 24 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 13 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 12 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 14 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 23 )
+frame_6/delay_sec = 16.0
+frame_7/delay_sec = 16.0
+frame_8/delay_sec = 16.0
+
+[sub_resource type="StreamTexture" id=8]
+flags = 4
+load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
+
+[sub_resource type="StreamTexture" id=9]
+flags = 4
+load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
+
+[sub_resource type="AnimatedTexture" id=10]
+resource_local_to_scene = true
+frames = 9
+fps = 19.0
+frame_0/texture = ExtResource( 22 )
+frame_1/texture = ExtResource( 25 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 24 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 13 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 12 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 14 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 23 )
+frame_6/delay_sec = 16.0
+frame_7/delay_sec = 16.0
+frame_8/delay_sec = 16.0
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends \"res://Main/BasicListButton.gd\"
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	list_number = 2
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
+[sub_resource type="StreamTexture" id=12]
+flags = 4
+load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
+
+[sub_resource type="StreamTexture" id=13]
+flags = 4
+load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
+
+[sub_resource type="AnimatedTexture" id=14]
+frames = 9
+fps = 19.0
+frame_0/texture = ExtResource( 22 )
+frame_1/texture = ExtResource( 25 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 24 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 13 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 12 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 14 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 23 )
+frame_6/delay_sec = 16.0
+frame_7/delay_sec = 16.0
+frame_8/delay_sec = 16.0
+
+[sub_resource type="GDScript" id=15]
+script/source = "extends \"res://Main/BasicListButton.gd\"
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	list_number = 3
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
 
 [sub_resource type="Environment" id=4]
 background_mode = 4
@@ -93,10 +234,10 @@ __meta__ = {
 [node name="GUI" type="CanvasLayer" parent="."]
 
 [node name="TimeSpeedBar" type="TextureProgress" parent="GUI"]
-margin_left = 1842.83
-margin_top = 841.2
-margin_right = 1898.83
-margin_bottom = 1059.2
+margin_left = 59.09
+margin_top = 843.894
+margin_right = 115.09
+margin_bottom = 1061.89
 max_value = 3.0
 step = 0.1
 value = 3.0
@@ -106,6 +247,7 @@ fill_mode = 3
 nine_patch_stretch = true
 script = ExtResource( 7 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -123,6 +265,244 @@ text = "时
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Light2D" type="Light2D" parent="GUI/TimeSpeedBar"]
+position = Vector2( 31.7335, 113.572 )
+texture = ExtResource( 9 )
+texture_scale = 0.5
+color = Color( 0.270588, 0.760784, 1, 1 )
+
+[node name="BuildMenu" type="HBoxContainer" parent="GUI"]
+margin_left = 1520.0
+margin_top = 176.0
+margin_right = 1915.0
+margin_bottom = 976.0
+mouse_filter = 0
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/BuildMenu"]
+margin_right = 200.0
+margin_bottom = 800.0
+custom_constants/separation = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/BuildMenu/VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 215.0
+mouse_filter = 1
+custom_constants/margin_top = 15
+
+[node name="Background2" type="TextureRect" parent="GUI/BuildMenu/VBoxContainer/MarginContainer"]
+show_behind_parent = true
+margin_top = 15.0
+margin_right = 200.0
+margin_bottom = 215.0
+texture = ExtResource( 11 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="RichTextLabel" parent="GUI/BuildMenu/VBoxContainer/MarginContainer"]
+modulate = Color( 0.247059, 0.694118, 0.956863, 1 )
+margin_top = 15.0
+margin_right = 200.0
+margin_bottom = 215.0
+rect_min_size = Vector2( 200, 200 )
+custom_fonts/normal_font = SubResource( 6 )
+bbcode_enabled = true
+bbcode_text = "
+[center]生产节点[/center]
+
+sadasdasfasfsaasdasdasdasfsafassdasdasdasdasdasdfasdadasdf"
+text = "
+生产节点
+
+sadasdasfasfsaasdasdasdasfsafassdasdasdasdasdasdfasdadasdf"
+script = ExtResource( 19 )
+
+[node name="BuildButton" type="Button" parent="GUI/BuildMenu/VBoxContainer"]
+visible = false
+margin_top = 235.0
+margin_right = 200.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 0, 60 )
+script = ExtResource( 20 )
+
+[node name="Label" type="Label" parent="GUI/BuildMenu/VBoxContainer/BuildButton"]
+margin_left = 23.0
+margin_top = 4.0
+margin_right = 121.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.701961, 0.701961, 0.701961, 1 )
+text = "     建造"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Choice" type="VBoxContainer" parent="GUI/BuildMenu"]
+show_behind_parent = true
+margin_left = 204.0
+margin_right = 279.0
+margin_bottom = 800.0
+
+[node name="List1" type="TextureButton" parent="GUI/BuildMenu/Choice"]
+modulate = Color( 0.160784, 0.92549, 1, 1 )
+margin_right = 75.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 75, 138 )
+mouse_filter = 1
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 23 )
+texture_hover = ExtResource( 23 )
+texture_focused = SubResource( 7 )
+expand = true
+script = ExtResource( 16 )
+
+[node name="Light2D" type="Light2D" parent="GUI/BuildMenu/Choice/List1"]
+position = Vector2( 36, 64 )
+z_index = 1
+texture = ExtResource( 9 )
+
+[node name="List2" type="TextureButton" parent="GUI/BuildMenu/Choice"]
+modulate = Color( 1, 0.286275, 0.286275, 1 )
+margin_top = 142.0
+margin_right = 75.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 75, 138 )
+mouse_filter = 1
+texture_normal = SubResource( 8 )
+texture_pressed = SubResource( 9 )
+texture_hover = SubResource( 9 )
+texture_focused = SubResource( 10 )
+expand = true
+script = SubResource( 11 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="GUI/BuildMenu/Choice/List2"]
+position = Vector2( 36, -78 )
+z_index = 1
+texture = ExtResource( 9 )
+
+[node name="List3" type="TextureButton" parent="GUI/BuildMenu/Choice"]
+modulate = Color( 0.392157, 1, 0.458824, 1 )
+margin_top = 284.0
+margin_right = 75.0
+margin_bottom = 422.0
+rect_min_size = Vector2( 75, 138 )
+mouse_filter = 1
+texture_normal = SubResource( 12 )
+texture_pressed = SubResource( 13 )
+texture_hover = SubResource( 13 )
+texture_focused = SubResource( 14 )
+expand = true
+script = SubResource( 15 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="GUI/BuildMenu/Choice/List3"]
+position = Vector2( 36, -220 )
+z_index = 1
+texture = ExtResource( 9 )
+
+[node name="BuildList" type="MarginContainer" parent="GUI/BuildMenu"]
+show_behind_parent = true
+margin_left = 283.0
+margin_right = 395.0
+margin_bottom = 800.0
+mouse_filter = 1
+size_flags_horizontal = 3
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="GUI/BuildMenu/BuildList"]
+show_behind_parent = true
+margin_right = 112.0
+margin_bottom = 800.0
+texture = ExtResource( 11 )
+expand = true
+
+[node name="BuildList1" type="ScrollContainer" parent="GUI/BuildMenu/BuildList"]
+margin_right = 112.0
+margin_bottom = 800.0
+rect_min_size = Vector2( 100, 0 )
+mouse_filter = 1
+follow_focus = true
+scroll_horizontal_enabled = false
+scroll_vertical = 100
+script = ExtResource( 26 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List1" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList1"]
+margin_top = -100.0
+margin_right = 100.0
+margin_bottom = 1440.0
+custom_constants/separation = 80
+
+[node name="GenerateNodeBuildButton" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_bottom = 100.0
+
+[node name="GenerateNodeBuildButton2" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 180.0
+margin_bottom = 280.0
+
+[node name="GenerateNodeBuildButton3" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 360.0
+margin_bottom = 460.0
+
+[node name="GenerateNodeBuildButton4" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 540.0
+margin_bottom = 640.0
+
+[node name="GenerateNodeBuildButton5" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 720.0
+margin_bottom = 820.0
+
+[node name="GenerateNodeBuildButton6" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 900.0
+margin_bottom = 1000.0
+
+[node name="GenerateNodeBuildButton7" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 1080.0
+margin_bottom = 1180.0
+
+[node name="GenerateNodeBuildButton8" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 1260.0
+margin_bottom = 1360.0
+
+[node name="GenerateNodeBuildButton9" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+margin_top = 1440.0
+margin_bottom = 1540.0
+
+[node name="BuildList2" type="ScrollContainer" parent="GUI/BuildMenu/BuildList"]
+visible = false
+margin_right = 112.0
+margin_bottom = 800.0
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList2"]
+
+[node name="BuildList3" type="ScrollContainer" parent="GUI/BuildMenu/BuildList"]
+visible = false
+margin_right = 112.0
+margin_bottom = 800.0
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList3"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 smoothing_enabled = true
@@ -142,3 +522,6 @@ script = ExtResource( 2 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 4 )
 script = ExtResource( 8 )
+[connection signal="pressed" from="GUI/BuildMenu/VBoxContainer/BuildButton" to="GUI/BuildMenu" method="_on_BuildButton_pressed"]
+[connection signal="mouse_entered" from="GUI/BuildMenu/BuildList" to="GUI/BuildMenu/BuildList" method="_on_BuildList_mouse_entered"]
+[connection signal="mouse_exited" from="GUI/BuildMenu/BuildList" to="GUI/BuildMenu/BuildList" method="_on_BuildList_mouse_exited"]

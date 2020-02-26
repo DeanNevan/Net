@@ -33,6 +33,9 @@ var is_init_done = false
 var is_game_started = false
 var is_game_paused = false
 
+var is_double_selected = false
+var double_select_Node_or_Key
+
 var control_time_speed = 1
 
 var round_number := 0
@@ -62,6 +65,8 @@ func _ready():
 	
 	connect("Keys_work", self, "_on_Keys_work")
 	connect("Nodes_work", self, "_on_Nodes_work")
+	
+	$GUI/BuildMenu.connect("build_Node", self, "_on_build_Node")
 	
 	$Camera2D.current = true
 	$Camera2D.position = Vector2()
@@ -100,6 +105,11 @@ func _process(delta):
 	$DebugData/Label.text = "回合数：" + str(round_number) + "\n" + "运行中：" + str(who_work) + "\n"
 	$DebugData/Label.text += "运行完成节点数：" + str(done_Nodes_count) + "/" + str(Nodes_count) + "\n"
 	$DebugData/Label.text += "运行完成键数：" + str(done_Keys_count) + "/" + str(Keys_count) + "\n"
+	if is_double_selected:
+		$DebugData/Label.text += "选中的是" + double_select_Node_or_Key.name_CN
+		if double_select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
+			 $DebugData/Label.text += "熵值：" + str(double_select_Node_or_Key.entropy_value)
+	
 	#print("ggg", Global.time_speed)
 	#print("ccc", control_time_speed)
 	#print("eee", Engine.time_scale)
@@ -379,20 +389,28 @@ func update_all_Keys_connect():
 			$Keys.get_child(i).update_nodes()
 
 func _on_Node_double_selected(node):
+	is_double_selected = true
+	double_select_Node_or_Key = node
 	$Camera2D.position = node.position
-	$Camera2D.smooth_zoom(Vector2(2.5, 2.5), 0.5)
+	$Camera2D.smooth_zoom(Vector2(2.5, 2.5),0.5)
 	pass
 
 func _on_Node_cancel_double_select(node):
+	is_double_selected = false
+	double_select_Node_or_Key = null
 	$Camera2D.smooth_zoom(Vector2(5, 5), 0.5)
 	pass
 
 func _on_Key_double_selected(key):
+	is_double_selected = true
+	double_select_Node_or_Key = key
 	$Camera2D.position = key.position
 	$Camera2D.smooth_zoom(Vector2(2.5, 2.5), 0.5)
 	pass
 
 func _on_Key_cancel_double_select(key):
+	is_double_selected = false
+	double_select_Node_or_Key = null
 	$Camera2D.smooth_zoom(Vector2(5, 5), 0.5)
 	pass
 
@@ -459,5 +477,26 @@ func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
 	
 	pass
 
-func _on_built_OrderNode(origin_Node):
+func _on_build_Node(target_Node):
+	if double_select_Node_or_Key == null:
+		return
+	if double_select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
+		if double_select_Node_or_Key.entropy_value != 0:
+			return
+	var new_Node = target_Node.instance()
+	new_Node.location = double_select_Node_or_Key.location
+	new_Node.MainScene = self
+	$Nodes/OrderNodes.add_child(new_Node)
+	new_Node.connect("done", self, "_on_Node_done")
+	new_Node.connect("destroyed", self, "_on_OrderNode_destroyed")
+	new_Node.connect("double_selected", self, "_on_Node_double_selected")
+	new_Node.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
+	Nodes[double_select_Node_or_Key.location] = new_Node
+	new_Node.update_keys()
+	new_Node.update_neighbor_nodes()
+	new_Node.accepted_value = double_select_Node_or_Key.accepted_value
+	double_select_Node_or_Key.queue_free()
+	if is_game_started and who_work == NODES_WORK:
+		yield(get_tree(), "idle_frame")
+		new_Node.work()
 	pass

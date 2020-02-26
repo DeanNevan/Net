@@ -12,6 +12,8 @@ signal double_selected(key)
 signal cancel_select
 signal cancel_double_select(key)
 
+var name_CN = "键"
+
 var type = Global.KEY_TYPE.KEY
 var location
 var direction

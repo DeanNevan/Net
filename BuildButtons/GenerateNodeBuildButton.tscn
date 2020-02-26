@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://BuildButtons/GenerateNodeBuildButton.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Art/NodesPicture/GenerateNode.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Art/NodesPicture/GenerateNodeLight.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 19
+font_data = ExtResource( 4 )
+
+[node name="GenerateNodeBuildButton" type="TextureButton"]
+margin_right = 100.0
+margin_bottom = 130.0
+rect_pivot_offset = Vector2( 50, 50 )
+mouse_filter = 1
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 104.0
+margin_right = 92.0
+margin_bottom = 124.0
+mouse_filter = 1
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.235294, 0.662745, 0.886275, 1 )
+text = "生产节点"
+__meta__ = {
+"_edit_use_anchors_": false
+}

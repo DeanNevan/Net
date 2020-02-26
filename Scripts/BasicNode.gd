@@ -12,6 +12,8 @@ var on_mouse := false
 var is_selected := false
 var is_double_selected := false
 
+var name_CN = "节点"
+
 var type = Global.NODE_TYPE.EMP_NODE
 
 var keys := {}

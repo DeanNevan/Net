@@ -28,7 +28,7 @@ func _process(delta):
 func start():
 	$Sprite.visible = true
 	Tween1.interpolate_property(self, "modulate", Color(modulate.r, modulate.g, modulate.b, 0), Color(modulate.r, modulate.g, modulate.b, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	Tween1.interpolate_property($Light2D, "energy", 0, 3, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "energy", 0, 4, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	yield(Tween1, "tween_completed")
 	is_started = true

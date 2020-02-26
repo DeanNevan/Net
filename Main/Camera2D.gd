@@ -35,12 +35,19 @@ func _process(delta):
 	var _zoom
 	if Input.is_action_just_released("wheel_up"):
 		_zoom = clamp(zoom.x - 1.2, min_zoom, max_zoom)
+		
 	elif Input.is_action_just_released("wheel_down"):
 		_zoom = clamp(zoom.x + 1.2, min_zoom, max_zoom)
+		
 	if _zoom != null and _zoom != zoom.x:
+		if _zoom < zoom.x:
+			position += (get_global_mouse_position() - position) / 8
+		else:
+			position -= (get_global_mouse_position() - position) / 8
 		smooth_zoom(Vector2(_zoom, _zoom))
+		
 
-func smooth_zoom(target_zoom, speed = 0.25):
+func smooth_zoom(target_zoom, speed = 0.35):
 	Tween1.stop_all()
 	Tween1.interpolate_property(self, "zoom", zoom, target_zoom, speed, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	Tween1.start()
