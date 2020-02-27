@@ -16,9 +16,7 @@ rect_pivot_offset = Vector2( 50, 50 )
 mouse_filter = 1
 toggle_mode = true
 texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 3 )
-texture_focused = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

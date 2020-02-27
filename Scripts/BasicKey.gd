@@ -30,6 +30,14 @@ var is_double_selected := false
 
 var is_working = false
 
+var pollution = 0
+var color = Color.black
+var modulate_array=[Color(0.9, 0.9, 0.9, 1),
+					Color(0.7, 0.7, 0.7, 1),
+					Color(0.5, 0.5, 0.5, 1),
+					Color(0.1, 0.1, 0.1, 1),
+					Color(0.05, 0.05, 0.05, 1)]
+
 var sending_values = {}
 #{direction:[EGY, ENT, ORD]}
 
@@ -47,7 +55,7 @@ func _ready():
 	SelectedAnimation.stop()
 	SelectedAnimation.get_node("Sprite").visible = false
 	connect("selected", self, "_on_selected")
-	#connect("double_selected", self, "_on_double_selected")
+	connect("double_selected", self, "_on_double_selected")
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
 	if location != null and direction != null:
@@ -61,33 +69,31 @@ func _ready():
 		MainScene.connect("Nodes_work", self, "_on_Nodes_work")
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if $Light2D.energy == 0:
-		$Light2D.enabled = false
-	#$Label.text = str($Light2D.enabled)
-	#if is_selected:
-		#print(send_value_list)
-	if Input.is_action_just_pressed("left_mouse_button"):
+func _unhandled_input(event):
+	if event.is_action_pressed("left_mouse_button"):
 		if on_mouse and is_selected:
 			emit_signal("double_selected", self)
 			is_double_selected = true
 		elif on_mouse and !is_selected:
 			is_selected = true
-			emit_signal("selected")
+			emit_signal("selected", self)
 		elif !on_mouse:
 			is_selected = false
-			emit_signal("cancel_select")
-	
-	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		#is_selected = false
-		#emit_signal("cancel_select")
-	if Input.is_action_just_pressed("right_mouse_button"):
+			emit_signal("cancel_select", self)
+	if event.is_action_pressed("right_mouse_button"):
 		is_double_selected = false
 		is_selected = false
 		emit_signal("cancel_double_select", self)
-		emit_signal("cancel_select")
+		emit_signal("cancel_select", self)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if $Light2D.energy == 0:
+		$Light2D.enabled = false
+	
+	modulate = modulate_array[clamp(pollution, 0, 4)]
+	color = modulate
+	
 	if is_selected:
 		SelectedAnimation.get_node("Sprite").visible = true
 	else:
@@ -213,7 +219,7 @@ func update_nodes():
 		sending_values[nodes[nodes.keys()[0]]] = [0, 0, 0]
 		sending_values[nodes[nodes.keys()[1]]] = [0, 0, 0]
 	
-	var pollution = 0
+	pollution = 0
 	if nodes.size() > 0:
 		for i in nodes:
 			if is_instance_valid(i):
@@ -225,12 +231,6 @@ func update_nodes():
 					pollution += 1
 			else:
 				nodes.erase(i)
-	var modulate_array=[Color(0.9, 0.9, 0.9, 1),
-						Color(0.7, 0.7, 0.7, 1),
-						Color(0.5, 0.5, 0.5, 1),
-						Color(0.1, 0.1, 0.1, 1),
-						Color(0.05, 0.05, 0.05, 1)]
-	modulate = modulate_array[clamp(pollution, 0, 4)]
 	emit_signal("update_ok")
 	pass
 
@@ -261,10 +261,10 @@ func set_position_with_location(location, direction):
 	global_position = location * (Global.NODE_RADIUS + (Global.KEY_LENGTH / 2)) * 2
 	pass
 
-func _on_selected():
+func _on_selected(key):
 	show_SelectedAnimation()
 
-func _on_double_seleted():
+func _on_double_selected(key):
 	pass
 
 func show_SelectedAnimation():
@@ -278,7 +278,7 @@ func show_SelectedAnimation():
 	if type == Global.NODE_TYPE.ENT_NODE:
 		SelectedAnimation.get_node("Sprite").modulate = Color.black
 	else:
-		SelectedAnimation.get_node("Sprite").modulate = modulate
+		SelectedAnimation.get_node("Sprite").modulate = color
 	SelectedAnimation.get_node("Light2D").color = SelectedAnimation.get_node("Sprite").modulate
 	SelectedAnimation.get_node("Light2D").visible = true
 	SelectedAnimation.get_node("Sprite").visible = true

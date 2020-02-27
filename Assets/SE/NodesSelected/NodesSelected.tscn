@@ -57,4 +57,3 @@ texture = ExtResource( 1 )
 visible = false
 texture = ExtResource( 2 )
 energy = 2.0
-mode = 2

@@ -2,6 +2,8 @@ extends Node2D
 
 signal _all_done
 
+signal built
+
 signal Nodes_work
 signal Keys_work
 
@@ -35,6 +37,8 @@ var is_game_paused = false
 
 var is_double_selected = false
 var double_select_Node_or_Key
+var is_selected = false
+var select_Node_or_Key
 
 var control_time_speed = 1
 
@@ -93,22 +97,14 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_MINUS):
 		control_time_speed = clamp(control_time_speed - 0.1, Global.MIN_TIME_SPEED, Global.MAX_TIME_SPEED)
 		emit_signal("time_speed_changed", Global.time_speed, control_time_speed)
-	match who_work:
-		NODES_WORK:
-			if done_Nodes_count >= Nodes_count:
-				done_Nodes_count = 0
-				emit_signal("_all_done")
-		KEYS_WORK:
-			if done_Keys_count >= Keys_count:
-				done_Keys_count = 0
-				emit_signal("_all_done")
+	
 	$DebugData/Label.text = "回合数：" + str(round_number) + "\n" + "运行中：" + str(who_work) + "\n"
 	$DebugData/Label.text += "运行完成节点数：" + str(done_Nodes_count) + "/" + str(Nodes_count) + "\n"
 	$DebugData/Label.text += "运行完成键数：" + str(done_Keys_count) + "/" + str(Keys_count) + "\n"
-	if is_double_selected:
-		$DebugData/Label.text += "选中的是" + double_select_Node_or_Key.name_CN
-		if double_select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
-			 $DebugData/Label.text += "熵值：" + str(double_select_Node_or_Key.entropy_value)
+	if is_selected and is_instance_valid(select_Node_or_Key):
+		$DebugData/Label.text += "选中的是" + select_Node_or_Key.name_CN
+		if select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
+			 $DebugData/Label.text += "熵值：" + str(select_Node_or_Key.entropy_value)
 	
 	#print("ggg", Global.time_speed)
 	#print("ccc", control_time_speed)
@@ -138,6 +134,8 @@ func _on_resumed_game():
 
 func _on_all_done():
 	yield(get_tree().create_timer(wait_time), "timeout")
+	done_Keys_count = 0
+	done_Nodes_count = 0
 	match who_work:
 		NODES_WORK:
 			_to_next_stage(KEYS_WORK)
@@ -161,6 +159,8 @@ func _on_Keys_work():
 			yield(self, "resume_game")
 		elif i % int(ceil(3 * Global.time_speed)) == 0:
 			yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	emit_signal("_all_done")
 	pass
 
 func _on_Nodes_work():
@@ -194,7 +194,8 @@ func _on_Nodes_work():
 			yield(self, "resume_game")
 		elif i % int(ceil(3 * Global.time_speed)) == 0:
 			yield(get_tree(), "idle_frame")
-		
+	yield(get_tree(), "idle_frame")
+	emit_signal("_all_done")
 	pass
 
 func _on_Node_done():
@@ -225,6 +226,8 @@ func generate_world():
 		new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 		new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 		new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
+		new_EmptyNode.connect("selected", self, "_on_Node_selected")
+		new_EmptyNode.connect("cancel_select", self, "_on_Node_cancel_select")
 		Nodes[i] = new_EmptyNode
 	$LoadData/ProgressBar.value = $LoadData/ProgressBar.max_value
 	$LoadData/Label.text += "完成" + "\n" + "连接键与节点..."
@@ -244,6 +247,8 @@ func generate_world():
 		new_Key.connect("done", self, "_on_Key_done")
 		new_Key.connect("double_selected", self, "_on_Key_double_selected")
 		new_Key.connect("cancel_double_select", self, "_on_Key_cancel_double_select")
+		new_Key.connect("selected", self, "_on_Key_selected")
+		new_Key.connect("cancel_select", self, "_on_Key_cancel_select")
 	$LoadData/ProgressBar.value = $LoadData/ProgressBar.max_value
 	$LoadData/Label.text += "完成" + "\n" + "将空节点替换成熵节点..."
 	yield(get_tree(), "idle_frame")
@@ -389,6 +394,7 @@ func update_all_Keys_connect():
 			$Keys.get_child(i).update_nodes()
 
 func _on_Node_double_selected(node):
+	yield(get_tree(), "idle_frame")
 	is_double_selected = true
 	double_select_Node_or_Key = node
 	$Camera2D.position = node.position
@@ -401,7 +407,19 @@ func _on_Node_cancel_double_select(node):
 	$Camera2D.smooth_zoom(Vector2(5, 5), 0.5)
 	pass
 
+func _on_Node_selected(node):
+	yield(get_tree(), "idle_frame")
+	is_selected = true
+	select_Node_or_Key = node
+	pass
+
+func _on_Node_cancel_select(node):
+	is_selected = false
+	select_Node_or_Key = null
+	pass
+
 func _on_Key_double_selected(key):
+	yield(get_tree(), "idle_frame")
 	is_double_selected = true
 	double_select_Node_or_Key = key
 	$Camera2D.position = key.position
@@ -414,6 +432,17 @@ func _on_Key_cancel_double_select(key):
 	$Camera2D.smooth_zoom(Vector2(5, 5), 0.5)
 	pass
 
+func _on_Key_selected(key):
+	yield(get_tree(), "idle_frame")
+	is_selected = true
+	select_Node_or_Key = key
+	pass
+
+func _on_Key_cancel_select(key):
+	select_Node_or_Key = null
+	is_selected = false
+	pass
+
 func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
 	var new_EntropyNode = Global.ENTROPY_NODE.instance()
 	new_EntropyNode.location = origin_Node.location
@@ -423,15 +452,24 @@ func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
 	new_EntropyNode.connect("destroyed", self, "_on_EntropyNode_destroyed")
 	new_EntropyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EntropyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
+	new_EntropyNode.connect("selected", self, "_on_Node_selected")
+	new_EntropyNode.connect("cancel_select", self, "_on_Node_cancel_select")
 	Nodes[origin_Node.location] = new_EntropyNode
 	#yield(get_tree(), "idle_frame")
 	new_EntropyNode.update_keys()
 	new_EntropyNode.update_neighbor_nodes()
+	for i in origin_Node.keys.keys():
+		if is_instance_valid(i):
+			i.update_nodes()
+	for i in origin_Node.neighbor_nodes.keys():
+		if is_instance_valid(i):
+			i.update_keys()
+			i.update_neighbor_nodes()
 	new_EntropyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
 	if is_game_started and who_work == NODES_WORK:
 		yield(get_tree(), "idle_frame")
-		new_EntropyNode.work()
+		#new_EntropyNode.work()
 	
 	pass
 
@@ -445,14 +483,23 @@ func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
 	new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 	new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
+	new_EmptyNode.connect("selected", self, "_on_Node_selected")
+	new_EmptyNode.connect("cancel_select", self, "_on_Node_cancel_select")
 	Nodes[origin_Node.location] = new_EmptyNode
 	new_EmptyNode.update_keys()
 	new_EmptyNode.update_neighbor_nodes()
+	for i in origin_Node.keys.keys():
+		if is_instance_valid(i):
+			i.update_nodes()
+	for i in origin_Node.neighbor_nodes.keys():
+		if is_instance_valid(i):
+			i.update_keys()
+			i.update_neighbor_nodes()
 	new_EmptyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
 	if is_game_started and who_work == NODES_WORK:
 		yield(get_tree(), "idle_frame")
-		new_EmptyNode.work()
+		#new_EmptyNode.work()
 	
 	pass
 
@@ -460,43 +507,62 @@ func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
 	var new_EmptyNode = Global.EMPTY_NODE.instance()
 	new_EmptyNode.location = origin_Node.location
 	new_EmptyNode.MainScene = self
-	new_EmptyNode.entropy_value = 0 + accepted_ENT
+	#new_EmptyNode.entropy_value = 0 + accepted_ENT
 	$Nodes/EmptyNodes.add_child(new_EmptyNode)
 	new_EmptyNode.connect("done", self, "_on_Node_done")
 	new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 	new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
+	new_EmptyNode.connect("selected", self, "_on_Node_selected")
+	new_EmptyNode.connect("cancel_select", self, "_on_Node_cancel_select")
 	Nodes[origin_Node.location] = new_EmptyNode
 	new_EmptyNode.update_keys()
 	new_EmptyNode.update_neighbor_nodes()
+	for i in origin_Node.keys.keys():
+		if is_instance_valid(i):
+			i.update_nodes()
+	for i in origin_Node.neighbor_nodes.keys():
+		if is_instance_valid(i):
+			i.update_keys()
+			i.update_neighbor_nodes()
 	new_EmptyNode.accepted_value = origin_Node.accepted_value
 	origin_Node.queue_free()
 	if is_game_started and who_work == NODES_WORK:
 		yield(get_tree(), "idle_frame")
-		new_EmptyNode.work()
+		#new_EmptyNode.work()
 	
 	pass
 
 func _on_build_Node(target_Node):
-	if double_select_Node_or_Key == null:
+	if !is_selected:
 		return
-	if double_select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
-		if double_select_Node_or_Key.entropy_value != 0:
+	if select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
+		if select_Node_or_Key.entropy_value != 0:
 			return
+	emit_signal("built")
 	var new_Node = target_Node.instance()
-	new_Node.location = double_select_Node_or_Key.location
+	new_Node.location = select_Node_or_Key.location
 	new_Node.MainScene = self
 	$Nodes/OrderNodes.add_child(new_Node)
 	new_Node.connect("done", self, "_on_Node_done")
 	new_Node.connect("destroyed", self, "_on_OrderNode_destroyed")
 	new_Node.connect("double_selected", self, "_on_Node_double_selected")
 	new_Node.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
-	Nodes[double_select_Node_or_Key.location] = new_Node
+	new_Node.connect("selected", self, "_on_Node_selected")
+	new_Node.connect("cancel_select", self, "_on_Node_cancel_select")
+	Nodes[select_Node_or_Key.location] = new_Node
 	new_Node.update_keys()
 	new_Node.update_neighbor_nodes()
-	new_Node.accepted_value = double_select_Node_or_Key.accepted_value
-	double_select_Node_or_Key.queue_free()
+	for i in select_Node_or_Key.keys.keys():
+		if is_instance_valid(i):
+			i.update_nodes()
+	for i in select_Node_or_Key.neighbor_nodes.keys():
+		if is_instance_valid(i):
+			i.update_keys()
+			i.update_neighbor_nodes()
+	new_Node.accepted_value = select_Node_or_Key.accepted_value
+	select_Node_or_Key.queue_free()
 	if is_game_started and who_work == NODES_WORK:
 		yield(get_tree(), "idle_frame")
-		new_Node.work()
+		#new_Node.build()
 	pass

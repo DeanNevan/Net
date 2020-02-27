@@ -17,8 +17,21 @@ func _ready():
 	controllable = true
 	pass # Replace with function body.
 
+func _unhandled_input(event):
+	var _zoom
+	if event.is_action_released("wheel_up"):
+		_zoom = clamp(zoom.x - 1.2, min_zoom, max_zoom)
+		
+	elif event.is_action_released("wheel_down"):
+		_zoom = clamp(zoom.x + 1.2, min_zoom, max_zoom)
+		
+	if _zoom != null and _zoom != zoom.x:
+		if _zoom < zoom.x:
+			position += (get_global_mouse_position() - position) / 8
+		else:
+			position -= (get_global_mouse_position() - position) / 8
+		smooth_zoom(Vector2(_zoom, _zoom))
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if !controllable:
 		return
@@ -32,20 +45,7 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_D):
 		vec += Vector2(10, 0)
 	position += vec * zoom
-	var _zoom
-	if Input.is_action_just_released("wheel_up"):
-		_zoom = clamp(zoom.x - 1.2, min_zoom, max_zoom)
-		
-	elif Input.is_action_just_released("wheel_down"):
-		_zoom = clamp(zoom.x + 1.2, min_zoom, max_zoom)
-		
-	if _zoom != null and _zoom != zoom.x:
-		if _zoom < zoom.x:
-			position += (get_global_mouse_position() - position) / 8
-		else:
-			position -= (get_global_mouse_position() - position) / 8
-		smooth_zoom(Vector2(_zoom, _zoom))
-		
+	
 
 func smooth_zoom(target_zoom, speed = 0.35):
 	Tween1.stop_all()

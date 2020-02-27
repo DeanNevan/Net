@@ -1,6 +1,7 @@
 extends TextureButton
 
 signal selected(button)
+signal cancel_select(button)
 
 var name_CN = ""
 var introduction = ""
@@ -10,7 +11,7 @@ var color
 var on_mouse = false
 
 func _init():
-	add_to_group("build_buttons")
+	add_to_group("build_targets")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,7 +19,8 @@ func _ready():
 	connect("button_up", self, "_on_button_up")
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
-	connect("pressed", self, "_on_pressed")
+	#connect("pressed", self, "_on_pressed")
+	connect("toggled", self, "_on_toggled")
 	pass # Replace with function body.
 
 
@@ -43,5 +45,13 @@ func _on_mouse_exited():
 	on_mouse = false
 	pass
 
-func _pressed():
+func _on_pressed():
 	emit_signal("selected", self)
+
+func _on_toggled(is_pressed):
+	if !is_pressed:
+		pressed = false
+		emit_signal("cancel_select", self)
+	if is_pressed:
+		emit_signal("selected", self)
+		pressed = true

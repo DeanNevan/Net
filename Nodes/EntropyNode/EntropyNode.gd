@@ -8,6 +8,7 @@ var super_entropy_value := 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	color = Color.black
 	name_CN = "熵节点"
 	type = Global.NODE_TYPE.ENT_NODE
 	add_to_group("EntropyNodes")
@@ -22,6 +23,7 @@ func _process(delta):
 func work():
 	if is_queued_for_deletion() or !is_instance_valid(self):
 		return
+	update_keys()
 	update_neighbor_nodes()
 	#update_neighbor_nodes()
 	if send_value_list.size() > 0:
@@ -29,12 +31,16 @@ func work():
 	super_entropy_value += 1
 	if EGY > 0:
 		super_entropy_value += 1
-	#if ENT > 0:
-		#super_entropy_value += 1
+		EGY = 0
+	if is_selected:
+		print("___work___")
+		print("接受数值：", accepted_value)
 	var _jud = false
 	var emp_nodes = []
 	for i in neighbor_nodes:
 		if i.type == Global.NODE_TYPE.ORD_NODE:
+			if is_selected:
+				print("周围1格存在秩序节点")
 			_jud = true#周围1格存在秩序节点
 		if i.type == Global.NODE_TYPE.EMP_NODE:
 			emp_nodes.append(i)
@@ -46,32 +52,30 @@ func work():
 									Global.VALUE_TYPE.ENT,
 									1]
 								  )
-	var neighbor_2_nodes = []
-	for i1 in neighbor_nodes:
-		if is_instance_valid(i1):
-			for i2 in i1.neighbor_nodes:
-				if !neighbor_2_nodes.has(i2):
-					neighbor_2_nodes.append(i2)
-	var _ord_nodes = []#1-2格内的秩序节点
-	for i in neighbor_2_nodes:
+	var _ord_nodes = []
+	for i in neighbor_nodes.keys():
 		if is_instance_valid(i):
 			if i.type == Global.NODE_TYPE.ORD_NODE:
 				_ord_nodes.append(i)
 	for i in _ord_nodes:
-		if neighbor_nodes.has(i):
-			send_value_list.append([self, neighbor_nodes[i], Global.VALUE_TYPE.ENT, 2])
-		else:
-			for a in _ord_nodes.neighbor_nodes:
-				if neighbor_nodes.has(a):
-					send_value_list.append([self, neighbor_nodes[a], Global.VALUE_TYPE.ENT, 2])
-	get_send_value_list()
+		send_value_list.append([
+			self,
+			neighbor_nodes[i],
+			Global.VALUE_TYPE.ENT,
+			1
+		])
 	if ORD > 1:
 		super_entropy_value -= ORD - 1
+		ORD = 0
+	get_send_value_list()
 	if super_entropy_value <= 0:
 		destroyed(abs(super_entropy_value))
 		return
 	super_entropy_value = clamp(super_entropy_value, 0, max_sev)
 	yield(get_tree(), "idle_frame")
+	if is_selected:
+		print("发送数值：", send_value_list)
+		print("___end___")
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass

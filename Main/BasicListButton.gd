@@ -15,7 +15,7 @@ func _init():
 	add_to_group("list_choices")
 
 func _ready():
-	for i in get_tree().get_nodes_in_group("list_choice"):
+	for i in get_tree().get_nodes_in_group("list_choices"):
 		if i != self:
 			i.connect("pressed", self, "_on_other_pressed")
 	
@@ -23,8 +23,8 @@ func _ready():
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 0, 0.5, Tween.TRANS_BOUNCE, Tween.EASE_OUT)
 	Tween1.start()
 	#rect_position += Vector2(50, 0)
-	connect("mouse_entered", self, "_on_mouse_entered")
-	connect("mouse_exited", self, "_on_mouse_exited")
+	#connect("mouse_entered", self, "_on_mouse_entered")
+	#connect("mouse_exited", self, "_on_mouse_exited")
 	connect("pressed", self, "_on_pressed")
 	$Light2D.color = modulate
 	pass # Replace with function body.
@@ -46,13 +46,13 @@ func _process(delta):
 	$Light2D.position = rect_position
 
 func _on_mouse_entered():
-	state = 1
-	show()
+	#state = 1
+	#show()
 	pass
 
 func _on_mouse_exited():
-	state = 0
-	shrink()
+	#state = 0
+	#shrink()
 	pass
 
 func _on_pressed():

@@ -8,7 +8,6 @@ extends ScrollContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("mouse_entered", self, "a")
 	pass # Replace with function body.
 
 
@@ -16,5 +15,3 @@ func _ready():
 func _process(delta):
 	pass
 
-func a():
-	print("23123231321")

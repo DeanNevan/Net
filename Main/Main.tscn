@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
 [ext_resource path="res://Main/Camera2D.gd" type="Script" id=2]
@@ -11,9 +11,6 @@
 [ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=9]
 [ext_resource path="res://BuildButtons/GenerateNodeBuildButton.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Art/LJZA]68MZ6LOG_LNX_3D(CL.png" type="Texture" id=11]
-[ext_resource path="res://Assets/Art/ListChoice/3.png" type="Texture" id=12]
-[ext_resource path="res://Assets/Art/ListChoice/4.png" type="Texture" id=13]
-[ext_resource path="res://Assets/Art/ListChoice/2.png" type="Texture" id=14]
 [ext_resource path="res://Main/BuildMenu.gd" type="Script" id=15]
 [ext_resource path="res://Main/List1.gd" type="Script" id=16]
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=17]
@@ -23,8 +20,6 @@
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=21]
 [ext_resource path="res://Assets/Art/ListChoice/7.png" type="Texture" id=22]
 [ext_resource path="res://Assets/Art/ListChoice/1.png" type="Texture" id=23]
-[ext_resource path="res://Assets/Art/ListChoice/5.png" type="Texture" id=24]
-[ext_resource path="res://Assets/Art/ListChoice/6.png" type="Texture" id=25]
 [ext_resource path="res://Main/BuildList1.gd" type="Script" id=26]
 
 [sub_resource type="DynamicFont" id=1]
@@ -49,7 +44,7 @@ outline_size = 1
 outline_color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 font_data = ExtResource( 6 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=4]
 size = 25
 font_data = ExtResource( 21 )
 
@@ -57,55 +52,15 @@ font_data = ExtResource( 21 )
 size = 26
 font_data = ExtResource( 17 )
 
-[sub_resource type="AnimatedTexture" id=7]
-flags = 4
-frames = 9
-fps = 19.0
-frame_0/texture = ExtResource( 22 )
-frame_1/texture = ExtResource( 25 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 24 )
-frame_2/delay_sec = 0.0
-frame_3/texture = ExtResource( 13 )
-frame_3/delay_sec = 0.0
-frame_4/texture = ExtResource( 12 )
-frame_4/delay_sec = 0.0
-frame_5/texture = ExtResource( 14 )
-frame_5/delay_sec = 0.0
-frame_6/texture = ExtResource( 23 )
-frame_6/delay_sec = 16.0
-frame_7/delay_sec = 16.0
-frame_8/delay_sec = 16.0
-
-[sub_resource type="StreamTexture" id=8]
+[sub_resource type="StreamTexture" id=6]
 flags = 4
 load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
 
-[sub_resource type="StreamTexture" id=9]
+[sub_resource type="StreamTexture" id=7]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="AnimatedTexture" id=10]
-resource_local_to_scene = true
-frames = 9
-fps = 19.0
-frame_0/texture = ExtResource( 22 )
-frame_1/texture = ExtResource( 25 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 24 )
-frame_2/delay_sec = 0.0
-frame_3/texture = ExtResource( 13 )
-frame_3/delay_sec = 0.0
-frame_4/texture = ExtResource( 12 )
-frame_4/delay_sec = 0.0
-frame_5/texture = ExtResource( 14 )
-frame_5/delay_sec = 0.0
-frame_6/texture = ExtResource( 23 )
-frame_6/delay_sec = 16.0
-frame_7/delay_sec = 16.0
-frame_8/delay_sec = 16.0
-
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id=8]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -125,34 +80,11 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="StreamTexture" id=12]
-flags = 4
-load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
-
-[sub_resource type="StreamTexture" id=13]
+[sub_resource type="StreamTexture" id=9]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="AnimatedTexture" id=14]
-frames = 9
-fps = 19.0
-frame_0/texture = ExtResource( 22 )
-frame_1/texture = ExtResource( 25 )
-frame_1/delay_sec = 0.0
-frame_2/texture = ExtResource( 24 )
-frame_2/delay_sec = 0.0
-frame_3/texture = ExtResource( 13 )
-frame_3/delay_sec = 0.0
-frame_4/texture = ExtResource( 12 )
-frame_4/delay_sec = 0.0
-frame_5/texture = ExtResource( 14 )
-frame_5/delay_sec = 0.0
-frame_6/texture = ExtResource( 23 )
-frame_6/delay_sec = 16.0
-frame_7/delay_sec = 16.0
-frame_8/delay_sec = 16.0
-
-[sub_resource type="GDScript" id=15]
+[sub_resource type="GDScript" id=10]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -172,7 +104,7 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="Environment" id=4]
+[sub_resource type="Environment" id=11]
 background_mode = 4
 background_canvas_max_layer = 5
 ambient_light_color = Color( 1, 0, 0, 1 )
@@ -277,7 +209,6 @@ margin_left = 1520.0
 margin_top = 176.0
 margin_right = 1915.0
 margin_bottom = 976.0
-mouse_filter = 0
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -291,7 +222,6 @@ custom_constants/separation = 20
 [node name="MarginContainer" type="MarginContainer" parent="GUI/BuildMenu/VBoxContainer"]
 margin_right = 200.0
 margin_bottom = 215.0
-mouse_filter = 1
 custom_constants/margin_top = 15
 
 [node name="Background2" type="TextureRect" parent="GUI/BuildMenu/VBoxContainer/MarginContainer"]
@@ -311,7 +241,8 @@ margin_top = 15.0
 margin_right = 200.0
 margin_bottom = 215.0
 rect_min_size = Vector2( 200, 200 )
-custom_fonts/normal_font = SubResource( 6 )
+mouse_filter = 1
+custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "
 [center]生产节点[/center]
@@ -336,6 +267,7 @@ margin_left = 23.0
 margin_top = 4.0
 margin_right = 121.0
 margin_bottom = 54.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = SubResource( 5 )
@@ -358,11 +290,10 @@ modulate = Color( 0.160784, 0.92549, 1, 1 )
 margin_right = 75.0
 margin_bottom = 138.0
 rect_min_size = Vector2( 75, 138 )
-mouse_filter = 1
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 23 )
 texture_hover = ExtResource( 23 )
-texture_focused = SubResource( 7 )
+texture_focused = ExtResource( 23 )
 expand = true
 script = ExtResource( 16 )
 
@@ -377,13 +308,12 @@ margin_top = 142.0
 margin_right = 75.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 75, 138 )
-mouse_filter = 1
-texture_normal = SubResource( 8 )
-texture_pressed = SubResource( 9 )
-texture_hover = SubResource( 9 )
-texture_focused = SubResource( 10 )
+texture_normal = SubResource( 6 )
+texture_pressed = SubResource( 7 )
+texture_hover = ExtResource( 23 )
+texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 11 )
+script = SubResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -399,13 +329,12 @@ margin_top = 284.0
 margin_right = 75.0
 margin_bottom = 422.0
 rect_min_size = Vector2( 75, 138 )
-mouse_filter = 1
-texture_normal = SubResource( 12 )
-texture_pressed = SubResource( 13 )
-texture_hover = SubResource( 13 )
-texture_focused = SubResource( 14 )
+texture_normal = ExtResource( 22 )
+texture_pressed = SubResource( 9 )
+texture_hover = ExtResource( 23 )
+texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 15 )
+script = SubResource( 10 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -420,7 +349,6 @@ show_behind_parent = true
 margin_left = 283.0
 margin_right = 395.0
 margin_bottom = 800.0
-mouse_filter = 1
 size_flags_horizontal = 3
 script = ExtResource( 18 )
 __meta__ = {
@@ -441,16 +369,16 @@ rect_min_size = Vector2( 100, 0 )
 mouse_filter = 1
 follow_focus = true
 scroll_horizontal_enabled = false
-scroll_vertical = 100
+scroll_vertical = 20
 script = ExtResource( 26 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="List1" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList1"]
-margin_top = -100.0
+margin_top = -20.0
 margin_right = 100.0
-margin_bottom = 1440.0
+margin_bottom = 1160.0
 custom_constants/separation = 80
 
 [node name="GenerateNodeBuildButton" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
@@ -479,14 +407,6 @@ margin_bottom = 1000.0
 [node name="GenerateNodeBuildButton7" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
 margin_top = 1080.0
 margin_bottom = 1180.0
-
-[node name="GenerateNodeBuildButton8" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
-margin_top = 1260.0
-margin_bottom = 1360.0
-
-[node name="GenerateNodeBuildButton9" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
-margin_top = 1440.0
-margin_bottom = 1540.0
 
 [node name="BuildList2" type="ScrollContainer" parent="GUI/BuildMenu/BuildList"]
 visible = false
@@ -520,8 +440,9 @@ script = ExtResource( 2 )
 [node name="Keys" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 4 )
+environment = SubResource( 11 )
 script = ExtResource( 8 )
+[connection signal="cancel_select" from="GUI/BuildMenu" to="GUI/BuildMenu/VBoxContainer/BuildButton" method="_on_BuildMenu_cancel_select"]
 [connection signal="pressed" from="GUI/BuildMenu/VBoxContainer/BuildButton" to="GUI/BuildMenu" method="_on_BuildButton_pressed"]
 [connection signal="mouse_entered" from="GUI/BuildMenu/BuildList" to="GUI/BuildMenu/BuildList" method="_on_BuildList_mouse_entered"]
 [connection signal="mouse_exited" from="GUI/BuildMenu/BuildList" to="GUI/BuildMenu/BuildList" method="_on_BuildList_mouse_exited"]

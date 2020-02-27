@@ -3,9 +3,9 @@ extends Area2D
 signal done
 signal update_ok
 signal send_value(send_list)
-signal selected
+signal selected(node)
 signal double_selected(node)
-signal cancel_select
+signal cancel_select(node)
 signal cancel_double_select(node)
 
 var on_mouse := false
@@ -31,6 +31,8 @@ var send_value_list := []
 var EGY := 0
 var ENT := 0
 var ORD := 0
+
+var color = Color.blue
 
 var MainScene
 var SelectedAnimation
@@ -60,32 +62,33 @@ func _ready():
 	connect("mouse_entered", self, "_on_mouse_entered")
 	connect("mouse_exited", self, "_on_mouse_exited")
 	connect("selected", self, "_on_selected")
-	#connect("double_selected", self, "_on_double_selected")
+	connect("double_selected", self, "_on_double_selected")
 	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if $Light2D.energy == 0:
-		$Light2D.enabled = false
-	if Input.is_action_just_pressed("left_mouse_button"):
+func _unhandled_input(event):
+	if event.is_action_pressed("left_mouse_button"):
 		if on_mouse and is_selected:
 			emit_signal("double_selected", self)
 			is_double_selected = true
 		elif on_mouse and !is_selected:
 			is_selected = true
-			emit_signal("selected")
+			emit_signal("selected", self)
 		elif !on_mouse:
 			is_selected = false
-			emit_signal("cancel_select")
-	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
-		#is_selected = false
-		#emit_signal("cancel_select")
-	if Input.is_action_just_pressed("right_mouse_button"):
+			emit_signal("cancel_select", self)
+	if event.is_action_pressed("right_mouse_button"):
 		is_double_selected = false
 		is_selected = false
 		emit_signal("cancel_double_select", self)
-		emit_signal("cancel_select")
+		emit_signal("cancel_select", self)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	if $Light2D.energy == 0:
+		$Light2D.enabled = false
+	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
+		#is_selected = false
+		#emit_signal("cancel_select")
 	if is_selected:
 		#SelectedAnimation.get_node("Sprite").visible = true
 		SelectedAnimation.playback_speed = Global.time_speed
@@ -121,10 +124,10 @@ func _on_keys_send_value(list : Array):
 					ORD += i[3]
 	pass
 
-func _on_selected():
+func _on_selected(node):
 	show_SelectedAnimation()
 
-func _on_double_seleted(node):
+func _on_double_selected(node):
 	pass
 
 func show_SelectedAnimation():
@@ -141,7 +144,7 @@ func show_SelectedAnimation():
 	if type == Global.NODE_TYPE.ENT_NODE:
 		SelectedAnimation.get_node("Sprite").modulate = Color.black
 	else:
-		SelectedAnimation.get_node("Sprite").modulate = modulate
+		SelectedAnimation.get_node("Sprite").modulate = color
 	SelectedAnimation.get_node("Light2D").color = SelectedAnimation.get_node("Sprite").modulate
 	SelectedAnimation.get_node("Light2D").visible = true
 	SelectedAnimation.get_node("Sprite").visible = true

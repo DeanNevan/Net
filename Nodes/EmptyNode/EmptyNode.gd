@@ -36,6 +36,7 @@ func _process(delta):
 		#print(entropy_value)
 	if on_mouse and Input.is_action_just_pressed("key_shift"):
 		send_value_list.append([self, keys.keys()[randi() % keys.size()], Global.VALUE_TYPE.EGY, 2])
+	color = modulate
 	modulate = modulate_array[clamp(entropy_value, 0, 9)]
 	$Light2D.color = modulate
 	$Label.text = str(entropy_value) + "\n" + str(send_value_list) + "\n" + str($Light2D.enabled)
@@ -44,6 +45,7 @@ func _process(delta):
 func work():
 	if is_queued_for_deletion() or !is_instance_valid(self):
 		return
+	update_keys()
 	update_neighbor_nodes()
 	
 	#yield(get_tree(), "idle_frame")
@@ -136,7 +138,6 @@ func get_send_value_list():
 	pass
 
 func turn_to_EntropyNode():
-	print("turned!")
 	emit_signal("turned", self)
 	remove_from_group("EmptyNodes")
 	remove_from_group("Nodes")
