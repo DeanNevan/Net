@@ -41,13 +41,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if !is_selected:
-		for i in DirectionArrows:
-			i.visible = false
 	pass
 
 func build():
-	update_DirectionArrows()
+	
 	if ENT > 0:
 		print("i get ent")
 		destroyed(ENT)
@@ -82,6 +79,7 @@ func _on_OrderNode_cancel_select(node):
 
 func assign_direction(new_direction):
 	direction = new_direction
+	update_DirectionArrows()
 
 func update_DirectionArrows():
 	if direction == null:
@@ -96,14 +94,17 @@ func update_DirectionArrows():
 		else:
 			DirectionArrows[i].disabled = true
 	match direction:
-			0:
-				DirectionArrow0.pressed = true
-			1:
-				DirectionArrow1.pressed = true
-			2:
-				DirectionArrow2.pressed = true
-			3:
-				DirectionArrow3.pressed = true
+		0:
+			DirectionArrow0.pressed = true
+		1:
+			DirectionArrow1.pressed = true
+		2:
+			DirectionArrow2.pressed = true
+		3:
+			DirectionArrow3.pressed = true
+		
+	for i in 4:
+		print(DirectionArrows[i].pressed)
 
 func show_DirectionArrows(is_show = true):
 	for i in 4:

@@ -30,5 +30,5 @@ func _on_DirectionArrow_mouse_exited():
 
 
 func _on_DirectionArrow_toggled(button_pressed):
-	pressed = true
+	pressed = button_pressed
 	pass # Replace with function body.

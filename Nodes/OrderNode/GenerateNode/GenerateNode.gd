@@ -28,6 +28,7 @@ func work():
 	var _ord = order_value
 	update_keys()
 	update_neighbor_nodes()
+	update_DirectionArrows()
 	if accepted_value.size() > 0:
 		turn_on_lights(true, 1.2)
 	if is_building:
@@ -40,6 +41,7 @@ func work():
 		destroyed(abs(order_value))
 		return
 	_ord = clamp(_ord, 0, max_ov)
+	order_value = _ord
 	$Sprite.visible = false
 	$TextureProgress.fill_mode = TextureProgress.FILL_BOTTOM_TO_TOP
 	$TextureProgress.visible = true
