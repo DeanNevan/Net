@@ -1,16 +1,19 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
 [ext_resource path="res://Main/Camera2D.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-Light.otf" type="DynamicFontData" id=3]
 [ext_resource path="res://Assets/Art/time_bar/time_speed_bar_2.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Art/time_bar/time_speed_bar_1.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Fonts/SourceHanSansCN-ExtraLight.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://Main/RoundCounter.gd" type="Script" id=6]
 [ext_resource path="res://Main/TimeSpeedBar.gd" type="Script" id=7]
 [ext_resource path="res://Main/WorldEnvironment.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=9]
 [ext_resource path="res://BuildButtons/GenerateNodeBuildButton.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Art/LJZA]68MZ6LOG_LNX_3D(CL.png" type="Texture" id=11]
+[ext_resource path="res://BuildButtons/SentryNodeBuildButton.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Assets/Art/time_bar/round_counter_2.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Art/time_bar/round_counter_1.png" type="Texture" id=14]
 [ext_resource path="res://Main/BuildMenu.gd" type="Script" id=15]
 [ext_resource path="res://Main/List1.gd" type="Script" id=16]
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=17]
@@ -20,6 +23,7 @@
 [ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=21]
 [ext_resource path="res://Assets/Art/ListChoice/7.png" type="Texture" id=22]
 [ext_resource path="res://Assets/Art/ListChoice/1.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Art/time_bar/split.png" type="Texture" id=24]
 [ext_resource path="res://Main/BuildList1.gd" type="Script" id=26]
 
 [sub_resource type="DynamicFont" id=1]
@@ -38,11 +42,24 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
+[sub_resource type="DynamicFont" id=12]
+size = 40
+font_data = ExtResource( 21 )
+
 [sub_resource type="DynamicFont" id=3]
 size = 40
-outline_size = 1
-outline_color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
-font_data = ExtResource( 6 )
+outline_size = 2
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 40
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 21 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 25
@@ -127,9 +144,8 @@ anchor_left = 0.001
 anchor_top = 0.58
 anchor_right = 1.0
 anchor_bottom = 0.914
-margin_left = 0.0799999
+margin_left = -1.92
 margin_top = -2.39996
-margin_right = 2.0
 margin_bottom = -0.119995
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -164,12 +180,13 @@ __meta__ = {
 }
 
 [node name="GUI" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="TimeSpeedBar" type="TextureProgress" parent="GUI"]
-margin_left = 59.09
-margin_top = 843.894
-margin_right = 115.09
-margin_bottom = 1061.89
+margin_left = 56.0
+margin_top = 840.0
+margin_right = 112.0
+margin_bottom = 1058.0
 max_value = 3.0
 step = 0.1
 value = 3.0
@@ -183,32 +200,95 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="GUI/TimeSpeedBar"]
-margin_left = -44.5304
-margin_top = 35.0256
-margin_right = 19.4696
-margin_bottom = 208.026
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "时
-间
-流
-速"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Light2D" type="Light2D" parent="GUI/TimeSpeedBar"]
 position = Vector2( 31.7335, 113.572 )
 texture = ExtResource( 9 )
 texture_scale = 0.5
 color = Color( 0.270588, 0.760784, 1, 1 )
 
+[node name="TimeNumber" type="Label" parent="GUI/TimeSpeedBar"]
+margin_left = -15.0
+margin_top = -47.0
+margin_right = 52.0
+margin_bottom = -5.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0.45098, 0.752941, 1, 1 )
+text = "10x"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/TimeSpeedBar"]
+margin_left = 4.91
+margin_top = 20.106
+margin_right = 68.91
+margin_bottom = 193.106
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.180392, 0.180392, 0.776471, 1 )
+text = "时
+间
+倍
+速"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RoundCounter" type="TextureProgress" parent="GUI"]
+margin_left = 128.0
+margin_top = 840.0
+margin_right = 184.0
+margin_bottom = 1058.0
+max_value = 100.0
+step = 1.0
+value = 3.0
+texture_under = ExtResource( 14 )
+texture_progress = ExtResource( 13 )
+fill_mode = 3
+nine_patch_stretch = true
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Light2D" type="Light2D" parent="GUI/RoundCounter"]
+position = Vector2( 31.7335, 113.572 )
+texture = ExtResource( 9 )
+texture_scale = 0.5
+color = Color( 0.262745, 0.262745, 0.262745, 1 )
+
+[node name="RoundNumber" type="Label" parent="GUI/RoundCounter"]
+margin_top = -47.0
+margin_right = 46.0
+margin_bottom = -6.0
+custom_fonts/font = SubResource( 13 )
+custom_colors/font_color = Color( 0.623529, 0.623529, 0.623529, 1 )
+text = "56"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/RoundCounter"]
+margin_left = 4.91
+margin_top = 20.106
+margin_right = 68.91
+margin_bottom = 193.106
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color = Color( 0.2, 0.2, 0.2, 1 )
+text = "回
+合
+计
+时"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="BuildMenu" type="HBoxContainer" parent="GUI"]
 margin_left = 1520.0
 margin_top = 176.0
 margin_right = 1915.0
 margin_bottom = 976.0
+mouse_filter = 2
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -217,18 +297,20 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/BuildMenu"]
 margin_right = 200.0
 margin_bottom = 800.0
+mouse_filter = 2
 custom_constants/separation = 20
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/BuildMenu/VBoxContainer"]
 margin_right = 200.0
-margin_bottom = 215.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 400 )
 custom_constants/margin_top = 15
 
 [node name="Background2" type="TextureRect" parent="GUI/BuildMenu/VBoxContainer/MarginContainer"]
 show_behind_parent = true
 margin_top = 15.0
 margin_right = 200.0
-margin_bottom = 215.0
+margin_bottom = 400.0
 texture = ExtResource( 11 )
 expand = true
 __meta__ = {
@@ -239,9 +321,10 @@ __meta__ = {
 modulate = Color( 0.247059, 0.694118, 0.956863, 1 )
 margin_top = 15.0
 margin_right = 200.0
-margin_bottom = 215.0
+margin_bottom = 400.0
 rect_min_size = Vector2( 200, 200 )
 mouse_filter = 1
+size_flags_vertical = 3
 custom_fonts/normal_font = SubResource( 4 )
 bbcode_enabled = true
 bbcode_text = "
@@ -284,6 +367,7 @@ show_behind_parent = true
 margin_left = 204.0
 margin_right = 279.0
 margin_bottom = 800.0
+mouse_filter = 2
 
 [node name="List1" type="TextureButton" parent="GUI/BuildMenu/Choice"]
 modulate = Color( 0.160784, 0.92549, 1, 1 )
@@ -378,35 +462,29 @@ __meta__ = {
 [node name="List1" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList1"]
 margin_top = -20.0
 margin_right = 100.0
-margin_bottom = 1160.0
+margin_bottom = 800.0
 custom_constants/separation = 80
 
 [node name="GenerateNodeBuildButton" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
 margin_bottom = 100.0
 
-[node name="GenerateNodeBuildButton2" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+[node name="SentryNodeBuildButton" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 12 )]
 margin_top = 180.0
+margin_right = 100.0
 margin_bottom = 280.0
 
-[node name="GenerateNodeBuildButton3" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+[node name="GenerateNodeBuildButton6" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
 margin_top = 360.0
 margin_bottom = 460.0
 
-[node name="GenerateNodeBuildButton4" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+[node name="SentryNodeBuildButton2" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 12 )]
 margin_top = 540.0
+margin_right = 100.0
 margin_bottom = 640.0
 
-[node name="GenerateNodeBuildButton5" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
+[node name="GenerateNodeBuildButton7" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
 margin_top = 720.0
 margin_bottom = 820.0
-
-[node name="GenerateNodeBuildButton6" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
-margin_top = 900.0
-margin_bottom = 1000.0
-
-[node name="GenerateNodeBuildButton7" parent="GUI/BuildMenu/BuildList/BuildList1/List1" instance=ExtResource( 10 )]
-margin_top = 1080.0
-margin_bottom = 1180.0
 
 [node name="BuildList2" type="ScrollContainer" parent="GUI/BuildMenu/BuildList"]
 visible = false
@@ -423,6 +501,18 @@ margin_bottom = 800.0
 mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/BuildMenu/BuildList/BuildList3"]
+
+[node name="TextureRect" type="TextureRect" parent="GUI"]
+visible = false
+margin_left = 112.0
+margin_top = 776.0
+margin_right = 128.0
+margin_bottom = 1080.0
+texture = ExtResource( 24 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 smoothing_enabled = true

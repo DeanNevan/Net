@@ -8,6 +8,7 @@ extends "res://Main/BasicListButton.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pressed = true
 	list_number = 1
 	pass # Replace with function body.
 

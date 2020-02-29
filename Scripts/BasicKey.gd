@@ -81,10 +81,12 @@ func _unhandled_input(event):
 			is_selected = false
 			emit_signal("cancel_select", self)
 	if event.is_action_pressed("right_mouse_button"):
-		is_double_selected = false
-		is_selected = false
-		emit_signal("cancel_double_select", self)
-		emit_signal("cancel_select", self)
+		if is_selected:
+			emit_signal("cancel_select", self)
+			is_selected = false
+		if is_double_selected:
+			emit_signal("cancel_double_select", self)
+			is_double_selected = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -95,6 +97,7 @@ func _process(delta):
 	color = modulate
 	
 	if is_selected:
+		SelectedAnimation.playback_speed = Global.time_speed
 		SelectedAnimation.get_node("Sprite").visible = true
 	else:
 		SelectedAnimation.get_node("Sprite").visible = false
@@ -218,6 +221,11 @@ func update_nodes():
 	if sending_values.size() == 0 and nodes.size() > 0:
 		sending_values[nodes[nodes.keys()[0]]] = [0, 0, 0]
 		sending_values[nodes[nodes.keys()[1]]] = [0, 0, 0]
+	elif sending_values.size() == 1 and nodes.size() > 0:
+		if sending_values.keys().has(nodes[nodes.keys()[0]]):
+			sending_values[nodes[nodes.keys()[1]]] = [0, 0, 0]
+		else:
+			sending_values[nodes[nodes.keys()[0]]] = [0, 0, 0]
 	
 	pollution = 0
 	if nodes.size() > 0:
@@ -270,6 +278,9 @@ func _on_double_selected(key):
 func show_SelectedAnimation():
 	print("该键是", self)
 	print("nodes", nodes)
+	for i in nodes:
+		if !is_instance_valid(i):
+			print("有节点不合法")
 	print("亮暗",$Light2D.enabled)
 	print("direction", direction)
 	print("___")

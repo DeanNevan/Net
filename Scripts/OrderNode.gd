@@ -2,6 +2,7 @@ extends "res://Scripts/BasicNode.gd"
 
 signal build_done
 signal destroyed
+signal direction_changed
 
 var max_bv = 10
 var build_value = 0
@@ -46,7 +47,6 @@ func _process(delta):
 func build():
 	
 	if ENT > 0:
-		print("i get ent")
 		destroyed(ENT)
 	elif EGY > 0:
 		build_value += EGY
@@ -81,6 +81,9 @@ func assign_direction(new_direction):
 	direction = new_direction
 	update_DirectionArrows()
 
+func update_target_direction_3_Nodes():
+	pass
+
 func update_DirectionArrows():
 	if direction == null:
 		for i in 4:
@@ -102,9 +105,6 @@ func update_DirectionArrows():
 			DirectionArrow2.pressed = true
 		3:
 			DirectionArrow3.pressed = true
-		
-	for i in 4:
-		print(DirectionArrows[i].pressed)
 
 func show_DirectionArrows(is_show = true):
 	for i in 4:

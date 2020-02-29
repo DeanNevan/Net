@@ -20,10 +20,10 @@ func _ready():
 func _unhandled_input(event):
 	var _zoom
 	if event.is_action_released("wheel_up"):
-		_zoom = clamp(zoom.x - 1.2, min_zoom, max_zoom)
+		_zoom = clamp(zoom.x - 0.9, min_zoom, max_zoom)
 		
 	elif event.is_action_released("wheel_down"):
-		_zoom = clamp(zoom.x + 1.2, min_zoom, max_zoom)
+		_zoom = clamp(zoom.x + 0.9, min_zoom, max_zoom)
 		
 	if _zoom != null and _zoom != zoom.x:
 		if _zoom < zoom.x:

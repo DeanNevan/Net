@@ -41,16 +41,14 @@ func work():
 		destroyed(abs(order_value))
 		return
 	_ord = clamp(_ord, 0, max_ov)
-	order_value = _ord
-	$Sprite.visible = false
-	$TextureProgress.fill_mode = TextureProgress.FILL_BOTTOM_TO_TOP
-	$TextureProgress.visible = true
-	$TextureProgress.max_value = max_ov
 	TweenBuildProgress.interpolate_property($TextureProgress, "value", order_value, _ord, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenBuildProgress.start()
+	order_value = _ord
 	var _temp := false
 	for i in neighbor_nodes:
 		if i.type == Global.NODE_TYPE.ENT_NODE:
+			_temp = true
+		elif i.type == Global.NODE_TYPE.EMP_NODE and i.entropy_value > 0:
 			_temp = true
 	if !_temp:
 		send_value_list.append([self, reverse_keys[direction], Global.VALUE_TYPE.EGY, 1])
@@ -71,7 +69,9 @@ func play_animation():
 	pass
 
 func _on_build_done():
-	$TextureProgress.visible = false
-	$Sprite.visible = true
+	$Sprite.visible = false
 	$Sprite2.visible = true
+	$TextureProgress.fill_mode = TextureProgress.FILL_BOTTOM_TO_TOP
+	$TextureProgress.visible = true
+	$TextureProgress.max_value = max_ov
 	is_building = false

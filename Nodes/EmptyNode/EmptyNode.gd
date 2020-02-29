@@ -53,15 +53,15 @@ func work():
 		turn_on_lights(true, 1.2)
 	#update_neighbor_nodes()
 	if EGY > 0:
-		entropy_value += 1
+		#entropy_value += 1
 		EGY -= 1
 	if ENT > 0:
-		entropy_value += ENT
-		ENT = 0
+		entropy_value += 1
+		ENT -= 1
 	if ORD > 0:
 		if entropy_value > 0:
-			entropy_value -= ORD
-			ORD = 0
+			entropy_value -= 1
+			ORD -= 1
 	if entropy_value >= Global.MAX_ENT:
 		turn_to_EntropyNode()
 		return

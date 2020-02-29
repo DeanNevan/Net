@@ -18,7 +18,7 @@
 [ext_resource path="res://Assets/SE/DirectionArrow/DirectionArrow.gd" type="Script" id=16]
 [ext_resource path="res://Assets/Art/fangxiangjiantou/focused.png" type="Texture" id=17]
 
-[sub_resource type="AnimatedTexture" id=3]
+[sub_resource type="AnimatedTexture" id=1]
 flags = 4
 frames = 14
 fps = 14.0
@@ -61,7 +61,7 @@ rect_pivot_offset = Vector2( -55, 54 )
 toggle_mode = true
 action_mode = 0
 texture_normal = ExtResource( 2 )
-texture_pressed = SubResource( 3 )
+texture_pressed = SubResource( 1 )
 texture_hover = ExtResource( 17 )
 texture_disabled = SubResource( 2 )
 texture_focused = ExtResource( 2 )

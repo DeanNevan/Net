@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bar.png-2f7737b5df5fa3e9843434362da6d61a.stex"
+path="res://.import/bar_circle_1.png-cd69718c5c0f1e963c9eedd6fa393e69.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Art/time_bar/bar.png"
-dest_files=[ "res://.import/bar.png-2f7737b5df5fa3e9843434362da6d61a.stex" ]
+source_file="res://Assets/Art/time_bar/bar_circle_1.png"
+dest_files=[ "res://.import/bar_circle_1.png-cd69718c5c0f1e963c9eedd6fa393e69.stex" ]
 
 [params]
 

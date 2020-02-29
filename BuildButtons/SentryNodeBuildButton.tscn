@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Art/NodesPicture/SentryNodeLight.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/NodesPicture/SentryNode.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://BuildButtons/SentryNodeBuildButton.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 19
+font_data = ExtResource( 3 )
+
+[node name="SentryNodeBuildButton" type="TextureButton"]
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 1
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 104.0
+margin_right = 92.0
+margin_bottom = 124.0
+mouse_filter = 1
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.235294, 0.662745, 0.886275, 1 )
+text = "哨兵节点"
+__meta__ = {
+"_editor_description_": ""
+}

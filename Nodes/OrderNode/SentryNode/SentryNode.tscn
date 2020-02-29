@@ -1,37 +1,100 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Assets/Art/white_circle.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/white_circle_progress.png" type="Texture" id=1]
 [ext_resource path="res://Nodes/OrderNode/SentryNode/SentryNode.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Art/circle_light.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Art/white_circle_kuang.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Art/tubiao/sentry1.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Art/tubiao/sentry2.png" type="Texture" id=6]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="Animation" id=1]
+resource_name = "working"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 0.183011, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite2:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 0.129408, 1 ),
+"update": 0,
+"values": [ 0.0, -360.0 ]
+}
+
+[sub_resource type="CircleShape2D" id=2]
 resource_local_to_scene = true
 radius = 49.0
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 resource_local_to_scene = true
 extents = Vector2( 65, 10 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 resource_local_to_scene = true
 extents = Vector2( 10, 65 )
 
 [node name="SentryNode" type="Area2D"]
 script = ExtResource( 2 )
 
+[node name="TextureProgress" type="TextureProgress" parent="."]
+modulate = Color( 0.160784, 0.407843, 0.835294, 1 )
+margin_left = -200.0
+margin_top = -200.0
+margin_right = 199.0
+margin_bottom = 199.0
+rect_pivot_offset = Vector2( 199.5, 199.5 )
+mouse_filter = 2
+step = 0.1
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 1 )
+fill_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/working = SubResource( 1 )
+
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.216873, 0.536433, 0.910156, 1 )
-texture = ExtResource( 1 )
+modulate = Color( 0.34902, 0.505882, 0.752941, 1 )
+texture = ExtResource( 5 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+modulate = Color( 0.490196, 0.639216, 1, 1 )
+position = Vector2( 0, -5 )
+texture = ExtResource( 6 )
+offset = Vector2( 0, 20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 2 )
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 3 )
 
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 4 )
+
 [node name="Light2D" type="Light2D" parent="."]
+visible = false
 texture = ExtResource( 3 )
-color = Color( 0.196078, 0.815686, 0.980392, 1 )
+color = Color( 0.207843, 0.607843, 1, 1 )
