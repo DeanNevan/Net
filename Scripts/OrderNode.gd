@@ -112,12 +112,19 @@ func show_DirectionArrows(is_show = true):
 		DirectionArrows[i].modulate = color
 	pass
 
+func _on_mouse_entered():
+	on_mouse = true
+
+func _on_mouse_exited():
+	on_mouse = false
+
 func play_animation():
 	pass
 
 func _set_DirectionArrows():
 	for i in 4:
 		add_child(DirectionArrows[i])
+		#DirectionArrows[i].mouse_filter = Control.MOUSE_FILTER_STOP
 		#DirectionArrows[i].modulate = modulate
 		DirectionArrows[i].disabled = true
 		if i == 0:

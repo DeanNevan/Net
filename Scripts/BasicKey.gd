@@ -13,6 +13,8 @@ signal cancel_select
 signal cancel_double_select(key)
 
 var name_CN = "键"
+var detail = ""
+var introduction = "-This is a key to the truth"
 
 var type = Global.KEY_TYPE.KEY
 var location
@@ -23,6 +25,8 @@ var reverse_nodes := {}
 
 var send_value_list := []
 #[self, target, value_type, value_count]
+
+var round_send_value_list := []
 
 var on_mouse := false
 var is_selected := false
@@ -47,6 +51,7 @@ var sending_values = {}
 var MainScene
 var SelectedAnimation
 onready var Tween1 = Tween.new()
+onready var Icon = Sprite.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_child(Tween1)
@@ -67,26 +72,29 @@ func _ready():
 	if MainScene != null:
 		#MainScene.connect("Keys_work", self, "work")
 		MainScene.connect("Nodes_work", self, "_on_Nodes_work")
+		MainScene.connect("next_round", self, "_on_next_round")
 	pass # Replace with function body.
 
 func _unhandled_input(event):
 	if event.is_action_pressed("left_mouse_button"):
 		if on_mouse and is_selected:
-			emit_signal("double_selected", self)
+			if !is_double_selected:
+				emit_signal("double_selected", self)
 			is_double_selected = true
 		elif on_mouse and !is_selected:
 			is_selected = true
 			emit_signal("selected", self)
 		elif !on_mouse:
+			if is_selected:
+				emit_signal("cancel_select", self)
 			is_selected = false
-			emit_signal("cancel_select", self)
 	if event.is_action_pressed("right_mouse_button"):
-		if is_selected:
-			emit_signal("cancel_select", self)
-			is_selected = false
 		if is_double_selected:
 			emit_signal("cancel_double_select", self)
-			is_double_selected = false
+		if is_selected:
+			emit_signal("cancel_select", self)
+		is_double_selected = false
+		is_selected = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -174,6 +182,10 @@ func _on_Nodes_work():
 	sending_values = {nodes.values()[0] : [0, 0, 0], nodes.values()[1] : [0, 0, 0]}
 	send_value_list.clear()
 	turn_off_lights(true)
+	pass
+
+func _on_next_round():
+	round_send_value_list.clear()
 
 func _on_done():
 	pass
@@ -197,6 +209,7 @@ func _on_nodes_send_value(list):
 				sending_values[nodes[_nodes_arr[0]]][1] += i[3]
 			Global.VALUE_TYPE.ORD:
 				sending_values[nodes[_nodes_arr[0]]][2] += i[3]
+	round_send_value_list = send_value_list.duplicate()
 
 func update_nodes():
 	"""nodes.clear()

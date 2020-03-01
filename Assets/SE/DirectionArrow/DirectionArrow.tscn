@@ -54,10 +54,12 @@ frame_13/delay_sec = 0.0
 
 [node name="DirectionArrow" type="TextureButton"]
 margin_left = 55.0
-margin_top = -53.782
+margin_top = -54.0
 margin_right = 515.0
-margin_bottom = 54.218
+margin_bottom = 54.0
 rect_pivot_offset = Vector2( -55, 54 )
+rect_clip_content = true
+mouse_filter = 1
 toggle_mode = true
 action_mode = 0
 texture_normal = ExtResource( 2 )
@@ -71,4 +73,3 @@ __meta__ = {
 }
 [connection signal="mouse_entered" from="." to="." method="_on_DirectionArrow_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_DirectionArrow_mouse_exited"]
-[connection signal="toggled" from="." to="." method="_on_DirectionArrow_toggled"]

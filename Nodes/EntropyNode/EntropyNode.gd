@@ -10,6 +10,13 @@ var super_entropy_value := 1
 func _ready():
 	color = Color.black
 	name_CN = "熵节点"
+	detail = "-接收并消耗【x能量】：超熵值+1" + "\n"
+	detail += "-接收并消耗【x秩序】：超熵值-（x-1）" + "\n"
+	detail += "-接收并消耗【x熵】：超熵值+1" + "\n"
+	detail += "-若全方向1格无秩序节点，50%概率 向 随机方向 发送【1熵】" + "\n"
+	detail += "-若全方向1-2格有秩序节点，向有秩序节点的方向发送 【2熵】" + "\n"
+	detail += "-若全方向均为熵节点，20%概率 向 随机方向 发送【1熵】"
+	introduction = "熵寂是生命的末日"
 	type = Global.NODE_TYPE.ENT_NODE
 	add_to_group("EntropyNodes")
 	pass # Replace with function body.
@@ -17,6 +24,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
 	$Label.text = str(send_value_list) + "\n" + str($Light2D.enabled)
 	pass
 
@@ -32,15 +40,13 @@ func work():
 	if EGY > 0:
 		super_entropy_value += 1
 		EGY = 0
-	if is_selected:
-		print("___work___")
-		print("接受数值：", accepted_value)
+	if ENT > 0:
+		super_entropy_value += 1
+		ENT = 0
 	var _jud = false
 	var emp_nodes = []
 	for i in neighbor_nodes:
 		if i.type == Global.NODE_TYPE.ORD_NODE:
-			if is_selected:
-				print("周围1格存在秩序节点")
 			_jud = true#周围1格存在秩序节点
 		if i.type == Global.NODE_TYPE.EMP_NODE:
 			emp_nodes.append(i)
@@ -64,6 +70,15 @@ func work():
 			Global.VALUE_TYPE.ENT,
 			1
 		])
+	
+	var _all_ent_Node = true
+	for i in neighbor_nodes:
+		if i.type != Global.NODE_TYPE.ENT_NODE:
+			_all_ent_Node = false
+			break
+	if _all_ent_Node and randf() <= 0.2:
+		send_value_list.append([self, keys.keys()[randi() % keys.size()], Global.VALUE_TYPE.ENT, 1])
+	
 	if ORD > 1:
 		super_entropy_value -= ORD - 1
 		ORD = 0
@@ -72,10 +87,8 @@ func work():
 		destroyed(abs(super_entropy_value))
 		return
 	super_entropy_value = clamp(super_entropy_value, 0, max_sev)
-	yield(get_tree(), "idle_frame")
-	if is_selected:
-		print("发送数值：", send_value_list)
-		print("___end___")
+	get_send_value_list()
+	round_send_value_list = send_value_list.duplicate()
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
@@ -134,6 +147,10 @@ func _on_Keys_work():
 	accepted_value = []
 	send_value_list = []
 	turn_off_lights()
+
+func _on_next_round():
+	round_accepted_value.clear()
+	round_send_value_list.clear()
 
 func get_damage(value):
 	pass

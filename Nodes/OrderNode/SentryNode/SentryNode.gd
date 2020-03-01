@@ -1,11 +1,12 @@
 extends "res://Scripts/OrderNode.gd"
 
-
 var target_direction_3_Nodes = []
 
 func _ready():
 	color = Color(0.21, 0.61, 1, 1)
 	name_CN = "哨兵节点"
+	detail = "-接收并消耗【1能量】：若 指定方向3格内 存在 熵节点，向其他方向 各发送【1能量】"
+	introduction = "哨兵凝视深渊"
 	$Sprite.visible = true
 	$Sprite2.visible = true
 	$Light2D.enabled = false
@@ -68,7 +69,7 @@ func work():
 			for t in keys:
 				if keys[t] != direction:
 					send_value_list.append([self, t, Global.VALUE_TYPE.EGY, 1])
-		
+	round_send_value_list = send_value_list.duplicate()
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
@@ -81,6 +82,8 @@ func update_target_direction_3_Nodes():
 		if keys[neighbor_nodes[i]] == direction:
 			target_direction_3_Nodes.append(i)
 			break
+	if target_direction_3_Nodes.size() == 0:
+		return
 	var _jud = false
 	for i in target_direction_3_Nodes[0].neighbor_nodes:
 		if target_direction_3_Nodes[0].keys[target_direction_3_Nodes[0].neighbor_nodes[i]] == direction:
@@ -118,13 +121,16 @@ func update_target_direction_3_Nodes():
 	pass
 
 func _on_Keys_work():
-	#$AnimationPlayer.stop()
 	EGY = 0
 	ENT = 0
 	ORD = 0
 	accepted_value = []
 	send_value_list = []
 	turn_off_lights()
+
+func _on_next_round():
+	round_accepted_value.clear()
+	round_send_value_list.clear()
 
 func play_animation():
 	pass

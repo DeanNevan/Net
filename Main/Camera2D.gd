@@ -48,6 +48,6 @@ func _process(delta):
 	
 
 func smooth_zoom(target_zoom, speed = 0.35):
-	Tween1.stop_all()
+	#Tween1.stop_all()
 	Tween1.interpolate_property(self, "zoom", zoom, target_zoom, speed, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	Tween1.start()

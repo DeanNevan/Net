@@ -13,6 +13,8 @@ var is_selected := false
 var is_double_selected := false
 
 var name_CN = "节点"
+var detail = "-这是细节介绍"
+var introduction = "-这是骚话"
 
 var type = Global.NODE_TYPE.EMP_NODE
 
@@ -28,6 +30,9 @@ var accepted_value := []
 var send_value_list := []
 #[[self, key, value_type, value_count]]
 
+var round_accepted_value := []
+var round_send_value_list := []
+
 var EGY := 0
 var ENT := 0
 var ORD := 0
@@ -37,6 +42,7 @@ var color = Color.blue
 var MainScene
 var SelectedAnimation
 onready var Tween1 = Tween.new()
+onready var Icon = Sprite.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	add_child(Tween1)
@@ -55,6 +61,7 @@ func _ready():
 	if MainScene != null:
 		#MainScene.connect("Nodes_work", self, "work")
 		MainScene.connect("Keys_work", self, "_on_Keys_work")
+		MainScene.connect("next_round", self, "_on_next_round")
 	connect("area_entered", self, "_on_area_entered")
 	connect("area_exited", self, "_on_area_exited")
 	connect("done", self, "_on_done")
@@ -68,22 +75,28 @@ func _ready():
 func _unhandled_input(event):
 	if event.is_action_pressed("left_mouse_button"):
 		if on_mouse and is_selected:
-			emit_signal("double_selected", self)
+			if !is_double_selected:
+				emit_signal("double_selected", self)
 			is_double_selected = true
 		elif on_mouse and !is_selected:
 			is_selected = true
 			emit_signal("selected", self)
 		elif !on_mouse:
+			if is_selected:
+				emit_signal("cancel_select", self)
 			is_selected = false
-			emit_signal("cancel_select", self)
 	if event.is_action_pressed("right_mouse_button"):
+		if is_double_selected:
+			emit_signal("cancel_double_select", self)
+		if is_selected:
+			emit_signal("cancel_select", self)
 		is_double_selected = false
 		is_selected = false
-		emit_signal("cancel_double_select", self)
-		emit_signal("cancel_select", self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	#if is_selected:
+		#print(introduction)
 	if $Light2D.energy == 0:
 		$Light2D.enabled = false
 	#if !is_double_selected and !on_mouse and Input.is_action_just_pressed("left_mouse_button"):
@@ -100,6 +113,9 @@ func work():
 	pass
 
 func _on_Keys_work():
+	pass
+
+func _on_next_round():
 	pass
 
 func _on_done():
@@ -122,7 +138,7 @@ func _on_keys_send_value(list : Array):
 					ENT += i[3]
 				Global.VALUE_TYPE.ORD:
 					ORD += i[3]
-	pass
+	round_accepted_value = accepted_value.duplicate()
 
 func _on_selected(node):
 	show_SelectedAnimation()

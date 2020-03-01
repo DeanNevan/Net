@@ -2,8 +2,6 @@ extends "res://Scripts/BasicNode.gd"
 
 signal turned
 
-var intro = "非秩序节点：接收1能量，熵+1，接收1熵，熵+1，接收1秩序，熵-1"
-
 var max_ev := 10
 var entropy_value := 0
 
@@ -20,6 +18,8 @@ var modulate_array=[Color(0.94, 0.94, 0.94, 1),
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	name_CN = "空节点"
+	detail = "-接收并消耗【1能量】：无" + "\n" + "-接收并消耗【1熵】：熵值+1" + "\n" + "-接收并消耗【1秩序】：熵值-1"
+	introduction = "空白上的黑暗 更加显眼"
 	type = Global.NODE_TYPE.EMP_NODE
 	add_to_group("EmptyNodes")
 	#$CollisionShape2D2.disabled = true
@@ -67,20 +67,24 @@ func work():
 		return
 	#yield(get_tree(), "idle_frame")
 	entropy_value = clamp(entropy_value, 0, Global.MAX_ENT)
-	emit_signal("send_value", get_send_value_list())
+	get_send_value_list()
+	round_send_value_list = send_value_list.duplicate()
+	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
 
 func _on_Keys_work():
-	#print("!!!")
 	EGY = 0
 	ENT = 0
 	ORD = 0
 	accepted_value = []
 	send_value_list = []
 	turn_off_lights()
-#func _on_Area_entered(area):
-	#pass
+	pass
+
+func _on_next_round():
+	round_accepted_value.clear()
+	round_send_value_list.clear()
 
 func get_send_value_list():
 	if EGY > 0:
@@ -134,7 +138,6 @@ func get_send_value_list():
 									Global.VALUE_TYPE.ORD,
 									ORD]
 								  )
-	return send_value_list
 	pass
 
 func turn_to_EntropyNode():

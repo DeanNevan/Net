@@ -3,7 +3,10 @@ extends "res://Scripts/OrderNode.gd"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	color = Global.BLUE_NODE_COLOR
+	
 	name_CN = "生产节点"
+	detail = "-当周围没有 熵节点 或 熵大于0的 空节点，向 指定方向 发送【1能量】"
+	introduction = "致敬伟大的生产者"
 	$Sprite.visible = false
 	$Sprite2.visible = true
 	$Light2D.enabled = false
@@ -52,18 +55,22 @@ func work():
 			_temp = true
 	if !_temp:
 		send_value_list.append([self, reverse_keys[direction], Global.VALUE_TYPE.EGY, 1])
+	round_send_value_list = send_value_list.duplicate()
 	emit_signal("send_value", send_value_list)
 	emit_signal("done")
 	pass
 
 func _on_Keys_work():
-	#$AnimationPlayer.stop()
 	EGY = 0
 	ENT = 0
 	ORD = 0
 	accepted_value = []
 	send_value_list = []
 	turn_off_lights()
+
+func _on_next_round():
+	round_accepted_value.clear()
+	round_send_value_list.clear()
 
 func play_animation():
 	pass

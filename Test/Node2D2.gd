@@ -1,16 +1,12 @@
 extends "res://Test/Node2D.gd"
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var a = 1
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var a = [1, 4]
-	a.erase(1)
-	print(a)
+	a = 2
 	pass
 
 

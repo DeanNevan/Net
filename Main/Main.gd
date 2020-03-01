@@ -2,6 +2,8 @@ extends Node2D
 
 signal _all_done
 
+signal selected(NodeOrKey)
+signal cancel_select
 signal built
 
 signal Nodes_work
@@ -10,6 +12,8 @@ signal Keys_work
 signal time_speed_changed(origin_speed, target_speed)
 signal pause_game
 signal resume_game
+signal next_round
+signal round_over
 
 enum {
 	KEYS_WORK
@@ -30,7 +34,7 @@ var done_Nodes_count = 0
 var done_Keys_count = 0
 var who_work = NODES_WORK
 
-var wait_time = 0.4
+var wait_time = 1.8
 var is_init_done = false
 var is_game_started = false
 var is_game_paused = false
@@ -99,7 +103,7 @@ func _process(delta):
 		emit_signal("Nodes_work")
 		is_game_started = true
 	if Input.is_action_just_pressed("key_space"):
-		if Global.time_speed != 0:
+		if !is_game_paused:
 			emit_signal("pause_game")
 		else:
 			emit_signal("resume_game")
@@ -109,7 +113,7 @@ func _process(delta):
 			emit_signal("time_speed_changed", Global.time_speed, control_time_speed)
 		if !time_plus_monitor:
 			time_plus_monitor = true
-			TimePlusMonitorTimer.start(0.9)
+			TimePlusMonitorTimer.start(0.6)
 			can_time_plus = false
 	else:
 		can_time_plus = true
@@ -120,15 +124,11 @@ func _process(delta):
 			emit_signal("time_speed_changed", Global.time_speed, control_time_speed)
 		if !time_minus_monitor:
 			time_minus_monitor = true
-			TimeMinusMonitorTimer.start(0.9)
+			TimeMinusMonitorTimer.start(0.6)
 			can_time_minus = false
 	else:
 		can_time_minus = true
 		time_minus_monitor = false
-	if is_selected and is_instance_valid(select_Node_or_Key):
-		$DebugData/Label.text = "选中的是" + select_Node_or_Key.name_CN
-		if select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
-			 $DebugData/Label.text += "熵值：" + str(select_Node_or_Key.entropy_value)
 	$GUI/RoundCounter.change_value(done_Keys_count + done_Nodes_count)
 	#print("ggg", Global.time_speed)
 	#print("ccc", control_time_speed)
@@ -165,14 +165,14 @@ func _on_resumed_game():
 func _on_all_done():
 	done_Keys_count = 0
 	done_Nodes_count = 0
-	round_number += 1
-	$GUI/RoundCounter.round_number = round_number
 	if is_game_paused:
 		yield(self, "resume_game")
 	yield(get_tree().create_timer(wait_time), "timeout")
 	if is_game_paused:
 		yield(self, "resume_game")
-	
+	round_number += 1
+	$GUI/RoundCounter.round_number = round_number
+	emit_signal("next_round")
 	emit_signal("Nodes_work")
 
 func _on_Keys_work():
@@ -183,6 +183,7 @@ func _on_Keys_work():
 			yield(self, "resume_game")
 		elif i % int(ceil((3 * clamp(floor(Keys_count / 100), 1, 5)) * Global.time_speed)) == 0:
 			yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
 	emit_signal("_all_done")
 	pass
 
@@ -433,11 +434,14 @@ func _on_Node_cancel_double_select(node):
 
 func _on_Node_selected(node):
 	yield(get_tree(), "idle_frame")
+	emit_signal("selected", node)
 	is_selected = true
 	select_Node_or_Key = node
 	pass
 
 func _on_Node_cancel_select(node):
+	emit_signal("cancel_select")
+	#print("cancel!!!")
 	is_selected = false
 	select_Node_or_Key = null
 	pass
@@ -458,16 +462,20 @@ func _on_Key_cancel_double_select(key):
 
 func _on_Key_selected(key):
 	yield(get_tree(), "idle_frame")
+	emit_signal("selected", key)
 	is_selected = true
 	select_Node_or_Key = key
 	pass
 
 func _on_Key_cancel_select(key):
+	emit_signal("cancel_select")
 	select_Node_or_Key = null
 	is_selected = false
 	pass
 
 func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
+	if origin_Node == select_Node_or_Key:
+		emit_signal("cancel_select")
 	var new_EntropyNode = Global.ENTROPY_NODE.instance()
 	new_EntropyNode.location = origin_Node.location
 	new_EntropyNode.MainScene = self
@@ -504,6 +512,8 @@ func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
 	pass
 
 func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
+	if origin_Node == select_Node_or_Key:
+		emit_signal("cancel_select")
 	var new_EmptyNode = Global.EMPTY_NODE.instance()
 	new_EmptyNode.location = origin_Node.location
 	new_EmptyNode.MainScene = self
@@ -540,6 +550,8 @@ func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
 	pass
 
 func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
+	if origin_Node == select_Node_or_Key:
+		emit_signal("cancel_select")
 	var new_EmptyNode = Global.EMPTY_NODE.instance()
 	new_EmptyNode.location = origin_Node.location
 	new_EmptyNode.MainScene = self
@@ -582,6 +594,7 @@ func _on_build_Node(target_Node):
 	if select_Node_or_Key.type == Global.NODE_TYPE.EMP_NODE:
 		if select_Node_or_Key.entropy_value != 0:
 			return
+	emit_signal("cancel_select")
 	emit_signal("built")
 	var new_Node = target_Node.instance()
 	new_Node.location = select_Node_or_Key.location

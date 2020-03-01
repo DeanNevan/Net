@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Main/Main.gd" type="Script" id=1]
 [ext_resource path="res://Main/Camera2D.gd" type="Script" id=2]
@@ -24,7 +24,19 @@
 [ext_resource path="res://Assets/Art/ListChoice/7.png" type="Texture" id=22]
 [ext_resource path="res://Assets/Art/ListChoice/1.png" type="Texture" id=23]
 [ext_resource path="res://Assets/Art/time_bar/split.png" type="Texture" id=24]
+[ext_resource path="res://Assets/Art/big.png" type="Texture" id=25]
 [ext_resource path="res://Main/BuildList1.gd" type="Script" id=26]
+[ext_resource path="res://Main/Infomation.gd" type="Script" id=27]
+[ext_resource path="res://Assets/Art/tubiao/1_small.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Art/tubiao/baiselingxing2.png" type="Texture" id=29]
+[ext_resource path="res://Assets/Art/tubiao/sentry2_small.png" type="Texture" id=30]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/small.png" type="Texture" id=31]
+[ext_resource path="res://Assets/Art/out.png" type="Texture" id=32]
+[ext_resource path="res://Assets/Art/in.png" type="Texture" id=33]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Bold.otf" type="DynamicFontData" id=34]
+[ext_resource path="res://Main/EGY.gd" type="Script" id=35]
+[ext_resource path="res://Main/Infomation/ENT.gd" type="Script" id=36]
+[ext_resource path="res://Main/Infomation/ORD.gd" type="Script" id=37]
 
 [sub_resource type="DynamicFont" id=1]
 resource_local_to_scene = true
@@ -34,50 +46,42 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=2]
-resource_local_to_scene = true
-size = 46
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=12]
-size = 40
-font_data = ExtResource( 21 )
-
 [sub_resource type="DynamicFont" id=3]
 size = 40
-outline_size = 2
-font_data = ExtResource( 21 )
-
-[sub_resource type="DynamicFont" id=13]
-size = 40
-font_data = ExtResource( 21 )
-
-[sub_resource type="DynamicFont" id=14]
-size = 40
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 21 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 25
+size = 40
+outline_size = 2
 font_data = ExtResource( 21 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 26
+size = 40
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 25
+font_data = ExtResource( 21 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 36
 font_data = ExtResource( 17 )
 
-[sub_resource type="StreamTexture" id=6]
+[sub_resource type="StreamTexture" id=9]
 flags = 4
 load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
 
-[sub_resource type="StreamTexture" id=7]
+[sub_resource type="StreamTexture" id=10]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=11]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -97,11 +101,11 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="StreamTexture" id=9]
+[sub_resource type="StreamTexture" id=12]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=13]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -121,7 +125,36 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="Environment" id=11]
+[sub_resource type="DynamicFont" id=14]
+size = 21
+font_data = ExtResource( 34 )
+
+[sub_resource type="DynamicFont" id=15]
+size = 24
+font_data = ExtResource( 34 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 20
+font_data = ExtResource( 17 )
+
+[sub_resource type="DynamicFont" id=17]
+size = 18
+font_data = ExtResource( 17 )
+
+[sub_resource type="DynamicFont" id=18]
+size = 20
+use_filter = true
+font_data = ExtResource( 17 )
+
+[sub_resource type="DynamicFont" id=19]
+size = 18
+font_data = ExtResource( 17 )
+
+[sub_resource type="DynamicFont" id=20]
+size = 20
+font_data = ExtResource( 17 )
+
+[sub_resource type="Environment" id=21]
 background_mode = 4
 background_canvas_max_layer = 5
 ambient_light_color = Color( 1, 0, 0, 1 )
@@ -168,17 +201,6 @@ __meta__ = {
 
 [node name="DebugData" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="DebugData"]
-margin_right = 495.0
-margin_bottom = 304.0
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "这是一个Debug信息框"
-__meta__ = {
-"_edit_use_anchors_": false,
-"_editor_description_": ""
-}
-
 [node name="GUI" type="CanvasLayer" parent="."]
 layer = 2
 
@@ -211,7 +233,7 @@ margin_left = -15.0
 margin_top = -47.0
 margin_right = 52.0
 margin_bottom = -5.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.45098, 0.752941, 1, 1 )
 text = "10x"
 __meta__ = {
@@ -223,7 +245,7 @@ margin_left = 4.91
 margin_top = 20.106
 margin_right = 68.91
 margin_bottom = 193.106
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.180392, 0.180392, 0.776471, 1 )
 text = "时
 间
@@ -238,8 +260,6 @@ margin_left = 128.0
 margin_top = 840.0
 margin_right = 184.0
 margin_bottom = 1058.0
-max_value = 100.0
-step = 1.0
 value = 3.0
 texture_under = ExtResource( 14 )
 texture_progress = ExtResource( 13 )
@@ -261,7 +281,7 @@ color = Color( 0.262745, 0.262745, 0.262745, 1 )
 margin_top = -47.0
 margin_right = 46.0
 margin_bottom = -6.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0.623529, 0.623529, 0.623529, 1 )
 text = "56"
 __meta__ = {
@@ -273,7 +293,7 @@ margin_left = 4.91
 margin_top = 20.106
 margin_right = 68.91
 margin_bottom = 193.106
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 0.2, 0.2, 0.2, 1 )
 text = "回
 合
@@ -325,10 +345,10 @@ margin_bottom = 400.0
 rect_min_size = Vector2( 200, 200 )
 mouse_filter = 1
 size_flags_vertical = 3
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 7 )
 bbcode_enabled = true
 bbcode_text = "
-[center]生产节点[/center]
+[center][b]生产节点[/b][/center]
 
 sadasdasfasfsaasdasdasdasfsafassdasdasdasdasdasdfasdadasdf"
 text = "
@@ -338,24 +358,23 @@ sadasdasfasfsaasdasdasdasfsafassdasdasdasdasdasdfasdadasdf"
 script = ExtResource( 19 )
 
 [node name="BuildButton" type="Button" parent="GUI/BuildMenu/VBoxContainer"]
-visible = false
-margin_top = 235.0
+margin_top = 420.0
 margin_right = 200.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 0, 60 )
+margin_bottom = 520.0
+rect_min_size = Vector2( 0, 100 )
 script = ExtResource( 20 )
 
 [node name="Label" type="Label" parent="GUI/BuildMenu/VBoxContainer/BuildButton"]
 margin_left = 23.0
 margin_top = 4.0
-margin_right = 121.0
-margin_bottom = 54.0
+margin_right = 144.0
+margin_bottom = 100.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.701961, 0.701961, 0.701961, 1 )
-text = "     建造"
+text = "  建 造"
 align = 1
 valign = 1
 __meta__ = {
@@ -392,12 +411,12 @@ margin_top = 142.0
 margin_right = 75.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 75, 138 )
-texture_normal = SubResource( 6 )
-texture_pressed = SubResource( 7 )
+texture_normal = SubResource( 9 )
+texture_pressed = SubResource( 10 )
 texture_hover = ExtResource( 23 )
 texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 8 )
+script = SubResource( 11 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -414,11 +433,11 @@ margin_right = 75.0
 margin_bottom = 422.0
 rect_min_size = Vector2( 75, 138 )
 texture_normal = ExtResource( 22 )
-texture_pressed = SubResource( 9 )
+texture_pressed = SubResource( 12 )
 texture_hover = ExtResource( 23 )
 texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 10 )
+script = SubResource( 13 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -514,6 +533,772 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Infomation" type="TextureRect" parent="GUI"]
+show_behind_parent = true
+margin_left = 40.0
+margin_top = 48.0
+margin_right = 440.0
+margin_bottom = 800.0
+rect_pivot_offset = Vector2( 200, 368 )
+rect_clip_content = true
+texture = ExtResource( 25 )
+expand = true
+script = ExtResource( 27 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GUI/Infomation"]
+margin_top = 32.0
+margin_right = 400.0
+margin_bottom = 280.0
+custom_fonts/normal_font = SubResource( 14 )
+bbcode_enabled = true
+bbcode_text = "[center]节点名称[/center]
+
+秩序值：5/5
+
+状态：运行中
+
+说明： -这是第一条介绍
+		      -这是第二条介绍
+[center]———————————————————[/center]
+[right]\"这里放一段骚话\"[/right]
+[center]———————————————————[/center]
+
+"
+text = "节点名称
+
+秩序值：5/5
+
+状态：运行中
+
+说明： -这是第一条介绍
+		      -这是第二条介绍
+———————————————————
+\"这里放一段骚话\"
+———————————————————
+
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="GUI/Infomation"]
+margin_left = 112.0
+margin_top = 288.0
+margin_right = 328.0
+margin_bottom = 313.0
+custom_fonts/font = SubResource( 15 )
+text = "本回合收发数值一览"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InIcon" type="TextureRect" parent="GUI/Infomation"]
+margin_left = 112.0
+margin_top = 336.0
+margin_right = 216.0
+margin_bottom = 389.0
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 33 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/InIcon"]
+margin_left = 22.8571
+margin_top = -22.8572
+margin_right = 62.8571
+margin_bottom = -1.85718
+custom_fonts/font = SubResource( 16 )
+text = "接收"
+
+[node name="OutIcon" type="TextureRect" parent="GUI/Infomation"]
+margin_left = 264.0
+margin_top = 336.0
+margin_right = 370.0
+margin_bottom = 392.0
+rect_scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/OutIcon"]
+margin_left = 22.8571
+margin_top = -22.8572
+margin_right = 62.8571
+margin_bottom = -1.85718
+custom_fonts/font = SubResource( 16 )
+text = "发送"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="EGY" type="TextureRect" parent="GUI/Infomation"]
+self_modulate = Color( 0.0627451, 0.603922, 1, 1 )
+margin_left = 32.0
+margin_top = 392.0
+margin_right = 68.0
+margin_bottom = 473.0
+texture = ExtResource( 29 )
+script = ExtResource( 35 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY"]
+margin_left = -24.0
+margin_right = -6.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 17 )
+custom_colors/font_color = Color( 0.388235, 0.741176, 1, 1 )
+text = "能
+
+
+量"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In" type="Control" parent="GUI/Infomation/EGY"]
+modulate = Color( 0.0627451, 0.603922, 1, 1 )
+margin_left = 24.0
+margin_right = 56.0
+margin_bottom = 32.0
+rect_scale = Vector2( 0.9, 0.9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In0" type="TextureRect" parent="GUI/Infomation/EGY/In"]
+margin_left = 139.333
+margin_top = 53.3898
+margin_right = 179.333
+margin_bottom = 79.3898
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/In/In0"]
+margin_left = 1.0
+margin_top = 23.0
+margin_right = 13.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In1" type="TextureRect" parent="GUI/Infomation/EGY/In"]
+margin_left = 81.212
+margin_top = 87.3152
+margin_right = 127.212
+margin_bottom = 115.315
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/In/In1"]
+margin_left = 3.0
+margin_top = 7.0
+margin_right = 15.0
+margin_bottom = 28.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In2" type="TextureRect" parent="GUI/Infomation/EGY/In"]
+margin_left = 46.6667
+margin_top = 28.4806
+margin_right = 86.6667
+margin_bottom = 54.4806
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/In/In2"]
+margin_left = -11.0
+margin_top = 3.0
+margin_right = 0.999999
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In3" type="TextureRect" parent="GUI/Infomation/EGY/In"]
+margin_left = 106.556
+margin_top = -7.26849
+margin_right = 146.556
+margin_bottom = 18.7315
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/In/In3"]
+margin_left = -18.0
+margin_top = 19.0
+margin_right = -6.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out" type="Control" parent="GUI/Infomation/EGY"]
+modulate = Color( 0.0627451, 0.603922, 1, 1 )
+margin_left = 56.0
+margin_right = 96.0
+margin_bottom = 40.0
+rect_scale = Vector2( 0.9, 0.9 )
+
+[node name="Out0" type="TextureRect" parent="GUI/Infomation/EGY/Out"]
+margin_left = 238.667
+margin_top = 26.0
+margin_right = 278.667
+margin_bottom = 52.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/Out/Out0"]
+margin_left = 38.5
+margin_top = 2.0
+margin_right = 50.5
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out1" type="TextureRect" parent="GUI/Infomation/EGY/Out"]
+margin_left = 246.273
+margin_top = 45.0
+margin_right = 286.273
+margin_bottom = 71.0
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/Out/Out1"]
+margin_left = 37.0
+margin_top = 19.0
+margin_right = 49.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out2" type="TextureRect" parent="GUI/Infomation/EGY/Out"]
+margin_left = 226.667
+margin_top = 52.0
+margin_right = 266.667
+margin_bottom = 78.0
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/Out/Out2"]
+margin_left = 51.0
+margin_top = 23.0
+margin_right = 63.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out3" type="TextureRect" parent="GUI/Infomation/EGY/Out"]
+margin_left = 219.5
+margin_top = 31.0
+margin_right = 265.5
+margin_bottom = 59.0
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/EGY/Out/Out3"]
+margin_left = 57.0
+margin_top = 6.0
+margin_right = 69.0
+margin_bottom = 27.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ORD" type="TextureRect" parent="GUI/Infomation"]
+self_modulate = Color( 0.27451, 1, 0.623529, 1 )
+margin_left = 24.0
+margin_top = 520.0
+margin_right = 74.0
+margin_bottom = 570.0
+texture = ExtResource( 28 )
+script = ExtResource( 37 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD"]
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 24.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 19 )
+custom_colors/font_color = Color( 0.705882, 1, 0.827451, 1 )
+text = "秩
+
+
+序"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In" type="Control" parent="GUI/Infomation/ORD"]
+modulate = Color( 0.0627451, 1, 0.647059, 1 )
+margin_left = 32.0
+margin_top = -10.0
+margin_right = 64.0
+margin_bottom = 22.0
+rect_scale = Vector2( 0.9, 0.9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In0" type="TextureRect" parent="GUI/Infomation/ORD/In"]
+margin_left = 139.333
+margin_top = 53.3898
+margin_right = 179.333
+margin_bottom = 79.3898
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/In/In0"]
+margin_left = 1.0
+margin_top = 23.0
+margin_right = 13.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In1" type="TextureRect" parent="GUI/Infomation/ORD/In"]
+margin_left = 81.212
+margin_top = 87.3152
+margin_right = 127.212
+margin_bottom = 115.315
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/In/In1"]
+margin_left = 3.0
+margin_top = 7.0
+margin_right = 15.0
+margin_bottom = 28.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In2" type="TextureRect" parent="GUI/Infomation/ORD/In"]
+margin_left = 46.6667
+margin_top = 28.4806
+margin_right = 86.6667
+margin_bottom = 54.4806
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/In/In2"]
+margin_left = -11.0
+margin_top = 3.0
+margin_right = 0.999999
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In3" type="TextureRect" parent="GUI/Infomation/ORD/In"]
+margin_left = 106.556
+margin_top = -7.26849
+margin_right = 146.556
+margin_bottom = 18.7315
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/In/In3"]
+margin_left = -18.0
+margin_top = 19.0
+margin_right = -6.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out" type="Control" parent="GUI/Infomation/ORD"]
+modulate = Color( 0.0627451, 1, 0.647059, 1 )
+margin_left = 64.0
+margin_top = -10.0
+margin_right = 104.0
+margin_bottom = 30.0
+rect_scale = Vector2( 0.9, 0.9 )
+
+[node name="Out0" type="TextureRect" parent="GUI/Infomation/ORD/Out"]
+margin_left = 238.667
+margin_top = 26.0
+margin_right = 278.667
+margin_bottom = 52.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/Out/Out0"]
+margin_left = 38.5
+margin_top = 2.0
+margin_right = 50.5
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out1" type="TextureRect" parent="GUI/Infomation/ORD/Out"]
+margin_left = 246.273
+margin_top = 45.0
+margin_right = 286.273
+margin_bottom = 71.0
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/Out/Out1"]
+margin_left = 37.0
+margin_top = 19.0
+margin_right = 49.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out2" type="TextureRect" parent="GUI/Infomation/ORD/Out"]
+margin_left = 226.667
+margin_top = 52.0
+margin_right = 266.667
+margin_bottom = 78.0
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/Out/Out2"]
+margin_left = 51.0
+margin_top = 23.0
+margin_right = 63.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out3" type="TextureRect" parent="GUI/Infomation/ORD/Out"]
+margin_left = 219.5
+margin_top = 31.0
+margin_right = 265.5
+margin_bottom = 59.0
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ORD/Out/Out3"]
+margin_left = 57.0
+margin_top = 6.0
+margin_right = 69.0
+margin_bottom = 27.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ENT" type="TextureRect" parent="GUI/Infomation"]
+self_modulate = Color( 0.105882, 0.105882, 0.105882, 1 )
+margin_left = 24.0
+margin_top = 632.0
+margin_right = 75.0
+margin_bottom = 683.0
+texture = ExtResource( 30 )
+script = ExtResource( 36 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT"]
+margin_left = -18.0
+margin_top = 16.0
+margin_right = 2.0
+margin_bottom = 37.0
+custom_fonts/font = SubResource( 20 )
+custom_colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+text = "熵"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In" type="Control" parent="GUI/Infomation/ENT"]
+modulate = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+margin_left = 32.0
+margin_top = -5.0
+margin_right = 64.0
+margin_bottom = 27.0
+rect_scale = Vector2( 0.9, 0.9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In0" type="TextureRect" parent="GUI/Infomation/ENT/In"]
+margin_left = 139.333
+margin_top = 53.3898
+margin_right = 179.333
+margin_bottom = 79.3898
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/In/In0"]
+margin_left = 1.0
+margin_top = 23.0
+margin_right = 13.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In1" type="TextureRect" parent="GUI/Infomation/ENT/In"]
+margin_left = 81.212
+margin_top = 87.3152
+margin_right = 127.212
+margin_bottom = 115.315
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/In/In1"]
+margin_left = 3.0
+margin_top = 7.0
+margin_right = 15.0
+margin_bottom = 28.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In2" type="TextureRect" parent="GUI/Infomation/ENT/In"]
+margin_left = 46.6667
+margin_top = 28.4806
+margin_right = 86.6667
+margin_bottom = 54.4806
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/In/In2"]
+margin_left = -11.0
+margin_top = 3.0
+margin_right = 0.999999
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="In3" type="TextureRect" parent="GUI/Infomation/ENT/In"]
+margin_left = 106.556
+margin_top = -7.26849
+margin_right = 146.556
+margin_bottom = 18.7315
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/In/In3"]
+margin_left = -18.0
+margin_top = 19.0
+margin_right = -6.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out" type="Control" parent="GUI/Infomation/ENT"]
+modulate = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+margin_left = 64.0
+margin_top = -5.0
+margin_right = 104.0
+margin_bottom = 35.0
+rect_scale = Vector2( 0.9, 0.9 )
+
+[node name="Out0" type="TextureRect" parent="GUI/Infomation/ENT/Out"]
+margin_left = 238.667
+margin_top = 26.0
+margin_right = 278.667
+margin_bottom = 52.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/Out/Out0"]
+margin_left = 38.5
+margin_top = 2.0
+margin_right = 50.5
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out1" type="TextureRect" parent="GUI/Infomation/ENT/Out"]
+margin_left = 246.273
+margin_top = 45.0
+margin_right = 286.273
+margin_bottom = 71.0
+rect_rotation = 90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/Out/Out1"]
+margin_left = 37.0
+margin_top = 19.0
+margin_right = 49.0
+margin_bottom = 40.0
+rect_rotation = -90.0
+custom_fonts/font = SubResource( 18 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out2" type="TextureRect" parent="GUI/Infomation/ENT/Out"]
+margin_left = 226.667
+margin_top = 52.0
+margin_right = 266.667
+margin_bottom = 78.0
+rect_rotation = 180.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/Out/Out2"]
+margin_left = 51.0
+margin_top = 23.0
+margin_right = 63.0
+margin_bottom = 44.0
+rect_rotation = 180.0
+custom_fonts/font = SubResource( 18 )
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Out3" type="TextureRect" parent="GUI/Infomation/ENT/Out"]
+margin_left = 219.5
+margin_top = 31.0
+margin_right = 265.5
+margin_bottom = 59.0
+rect_rotation = -90.0
+texture = ExtResource( 31 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GUI/Infomation/ENT/Out/Out3"]
+margin_left = 57.0
+margin_top = 6.0
+margin_right = 69.0
+margin_bottom = 27.0
+rect_rotation = 90.0
+custom_fonts/font = SubResource( 18 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Camera2D" type="Camera2D" parent="."]
 smoothing_enabled = true
 smoothing_speed = 9.0
@@ -530,7 +1315,7 @@ script = ExtResource( 2 )
 [node name="Keys" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 11 )
+environment = SubResource( 21 )
 script = ExtResource( 8 )
 [connection signal="cancel_select" from="GUI/BuildMenu" to="GUI/BuildMenu/VBoxContainer/BuildButton" method="_on_BuildMenu_cancel_select"]
 [connection signal="pressed" from="GUI/BuildMenu/VBoxContainer/BuildButton" to="GUI/BuildMenu" method="_on_BuildButton_pressed"]

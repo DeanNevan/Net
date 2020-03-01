@@ -27,8 +27,3 @@ func _on_DirectionArrow_mouse_entered():
 func _on_DirectionArrow_mouse_exited():
 	on_mouse = false
 	pass # Replace with function body.
-
-
-func _on_DirectionArrow_toggled(button_pressed):
-	pressed = button_pressed
-	pass # Replace with function body.

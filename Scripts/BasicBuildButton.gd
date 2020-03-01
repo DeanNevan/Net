@@ -55,3 +55,16 @@ func _on_toggled(is_pressed):
 	if is_pressed:
 		emit_signal("selected", self)
 		pressed = true
+
+func update_info():
+	var _NodeScene = NodeScene.instance()
+	_NodeScene._ready()
+	name_CN = _NodeScene.name_CN
+	introduction += "-建造值：" + str(_NodeScene.max_bv) + "\n" + "-最大秩序值：" + str(_NodeScene.max_ov) + "\n"
+	introduction += _NodeScene.detail
+	introduction += "\n" + "\n" + "\n" + "——“" + _NodeScene.introduction + "”"
+	color = _NodeScene.color
+	_NodeScene.get_node("CollisionShape2D").disabled = true
+	_NodeScene.get_node("CollisionShape2D2").disabled = true
+	_NodeScene.get_node("CollisionShape2D3").disabled = true
+	_NodeScene.queue_free()

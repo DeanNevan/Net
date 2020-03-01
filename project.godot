@@ -104,6 +104,10 @@ key_2={
  ]
 }
 
+[memory]
+
+limits/message_queue/max_size_kb=2048
+
 [physics]
 
 2d/default_gravity=0
