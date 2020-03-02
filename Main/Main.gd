@@ -10,8 +10,8 @@ signal Nodes_work
 signal Keys_work
 
 signal time_speed_changed(origin_speed, target_speed)
-signal pause_game
-signal resume_game
+signal pause_game#信号：暂停游戏
+signal resume_game#信号：继续游戏
 signal next_round
 signal round_over
 
@@ -99,9 +99,12 @@ func _ready():
 func _process(delta):
 	if !is_init_done:
 		return
+	
 	elif !is_game_started:
 		emit_signal("Nodes_work")
 		is_game_started = true
+		
+	
 	if Input.is_action_just_pressed("key_space"):
 		if !is_game_paused:
 			emit_signal("pause_game")
@@ -179,6 +182,7 @@ func _on_Keys_work():
 	who_work = KEYS_WORK
 	for i in $Keys.get_child_count():
 		$Keys.get_child(i).work()
+		done_Keys_count += 1
 		if is_game_paused:
 			yield(self, "resume_game")
 		elif i % int(ceil((3 * clamp(floor(Keys_count / 100), 1, 5)) * Global.time_speed)) == 0:
@@ -195,6 +199,7 @@ func _on_Nodes_work():
 			break
 		if is_instance_valid($Nodes/EmptyNodes.get_child(i)) and $Nodes/EmptyNodes.get_child(i) != null:
 			$Nodes/EmptyNodes.get_child(i).work()
+			done_Nodes_count += 1
 		if is_game_paused:
 			yield(self, "resume_game")
 		elif i % int(ceil((3 * clamp(floor(Nodes_count / 100), 1, 5)) * Global.time_speed)) == 0:
@@ -205,6 +210,7 @@ func _on_Nodes_work():
 			break
 		if is_instance_valid($Nodes/EntropyNodes.get_child(i)) and $Nodes/EntropyNodes.get_child(i) != null:
 			$Nodes/EntropyNodes.get_child(i).work()
+			done_Nodes_count += 1
 		if is_game_paused:
 			yield(self, "resume_game")
 		elif i % int(ceil((3 * clamp(floor(Nodes_count / 100), 1, 5)) * Global.time_speed)) == 0:
@@ -215,20 +221,13 @@ func _on_Nodes_work():
 			break
 		if is_instance_valid($Nodes/OrderNodes.get_child(i)) and $Nodes/OrderNodes.get_child(i) != null:
 			$Nodes/OrderNodes.get_child(i).work()
+			done_Nodes_count += 1
 		if is_game_paused:
 			yield(self, "resume_game")
 		elif i % int(ceil((3 * clamp(floor(Nodes_count / 100), 1, 5)) * Global.time_speed)) == 0:
 			yield(get_tree(), "idle_frame")
 	yield(get_tree(), "idle_frame")
 	emit_signal("Keys_work")
-	pass
-
-func _on_Node_done():
-	done_Nodes_count += 1
-	pass
-
-func _on_Key_done():
-	done_Keys_count += 1
 	pass
 
 func generate_world():
@@ -247,7 +246,6 @@ func generate_world():
 		new_EmptyNode.location = i
 		new_EmptyNode.MainScene = self
 		$Nodes/EmptyNodes.add_child(new_EmptyNode)
-		new_EmptyNode.connect("done", self, "_on_Node_done")
 		new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 		new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 		new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
@@ -269,7 +267,6 @@ func generate_world():
 		new_Key.direction = Global.Keys_locations[i]
 		new_Key.MainScene = self
 		$Keys.add_child(new_Key)
-		new_Key.connect("done", self, "_on_Key_done")
 		new_Key.connect("double_selected", self, "_on_Key_double_selected")
 		new_Key.connect("cancel_double_select", self, "_on_Key_cancel_double_select")
 		new_Key.connect("selected", self, "_on_Key_selected")
@@ -383,8 +380,6 @@ func update_all_Nodes_connect():
 	for i in $Nodes/EmptyNodes.get_child_count():
 		if is_instance_valid($Nodes/EmptyNodes.get_child(i)):
 			$LoadData/ProgressBar.value += 1
-			if !$Nodes/EmptyNodes.get_child(i).is_connected("done", self, "_on_Node_done") and !get_child(i).is_queued_for_deletion():
-				$Nodes/EmptyNodes.get_child(i).connect("done", self, "_on_Node_done")
 			if i % 4 == 0:
 				yield(get_tree(), "idle_frame")
 			$Nodes/EmptyNodes.get_child(i).update_keys()
@@ -392,8 +387,6 @@ func update_all_Nodes_connect():
 	for i in $Nodes/EntropyNodes.get_child_count():
 		if is_instance_valid($Nodes/EntropyNodes.get_child(i)):
 			$LoadData/ProgressBar.value += 1
-			if !$Nodes/EntropyNodes.get_child(i).is_connected("done", self, "_on_Node_done") and !get_child(i).is_queued_for_deletion():
-				$Nodes/EntropyNodes.get_child(i).connect("done", self, "_on_Node_done")
 			if i % 4 == 0:
 				yield(get_tree(), "idle_frame")
 			$Nodes/EntropyNodes.get_child(i).update_keys()
@@ -401,8 +394,6 @@ func update_all_Nodes_connect():
 	for i in $Nodes/OrderNodes.get_child_count():
 		if is_instance_valid($Nodes/OrderNodes.get_child(i)):
 			$LoadData/ProgressBar.value += 1
-			if !$Nodes/OrderNodes.get_child(i).is_connected("done", self, "_on_Node_done") and !get_child(i).is_queued_for_deletion():
-				$Nodes/OrderNodes.get_child(i).connect("done", self, "_on_Node_done")
 			if i % 4 == 0:
 				yield(get_tree(), "idle_frame")
 			$Nodes/OrderNodes.get_child(i).update_keys()
@@ -412,8 +403,6 @@ func update_all_Keys_connect():
 	for i in $Keys.get_child_count():
 		if is_instance_valid($Keys.get_child(i)):
 			$LoadData/ProgressBar.value += 1
-			if !$Keys.get_child(i).is_connected("done", self, "_on_Key_done") and !get_child(i).is_queued_for_deletion():
-				$Keys.get_child(i).connect("done", self, "_on_Key_done")
 			if i % 4 == 0:
 				yield(get_tree(), "idle_frame")
 			$Keys.get_child(i).update_nodes()
@@ -480,7 +469,6 @@ func _on_EmptyNode_turned_to_EntropyNode(origin_Node):
 	new_EntropyNode.location = origin_Node.location
 	new_EntropyNode.MainScene = self
 	$Nodes/EntropyNodes.add_child(new_EntropyNode)
-	new_EntropyNode.connect("done", self, "_on_Node_done")
 	new_EntropyNode.connect("destroyed", self, "_on_EntropyNode_destroyed")
 	new_EntropyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EntropyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
@@ -519,7 +507,6 @@ func _on_EntropyNode_destroyed(origin_Node, accepted_ORD):
 	new_EmptyNode.MainScene = self
 	new_EmptyNode.entropy_value = 9 - accepted_ORD
 	$Nodes/EmptyNodes.add_child(new_EmptyNode)
-	new_EmptyNode.connect("done", self, "_on_Node_done")
 	new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 	new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
@@ -557,7 +544,6 @@ func _on_OrderNode_destroyed(origin_Node, accepted_ENT):
 	new_EmptyNode.MainScene = self
 	new_EmptyNode.entropy_value = 0 + accepted_ENT
 	$Nodes/EmptyNodes.add_child(new_EmptyNode)
-	new_EmptyNode.connect("done", self, "_on_Node_done")
 	new_EmptyNode.connect("turned", self, "_on_EmptyNode_turned_to_EntropyNode")
 	new_EmptyNode.connect("double_selected", self, "_on_Node_double_selected")
 	new_EmptyNode.connect("cancel_double_select", self, "_on_Node_cancel_double_select")
@@ -600,7 +586,6 @@ func _on_build_Node(target_Node):
 	new_Node.location = select_Node_or_Key.location
 	new_Node.MainScene = self
 	$Nodes/OrderNodes.add_child(new_Node)
-	new_Node.connect("done", self, "_on_Node_done")
 	new_Node.connect("destroyed", self, "_on_OrderNode_destroyed")
 	new_Node.connect("double_selected", self, "_on_Node_double_selected")
 	new_Node.connect("cancel_double_select", self, "_on_Node_cancel_double_select")

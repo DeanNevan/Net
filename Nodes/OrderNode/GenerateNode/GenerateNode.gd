@@ -57,7 +57,6 @@ func work():
 		send_value_list.append([self, reverse_keys[direction], Global.VALUE_TYPE.EGY, 1])
 	round_send_value_list = send_value_list.duplicate()
 	emit_signal("send_value", send_value_list)
-	emit_signal("done")
 	pass
 
 func _on_Keys_work():

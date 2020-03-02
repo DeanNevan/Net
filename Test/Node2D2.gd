@@ -1,4 +1,4 @@
-extends "res://Test/Node2D.gd"
+extends Node2D
 
 
 var a = 1
@@ -6,7 +6,8 @@ var a = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	a = 2
+	for i in 10:
+		print(i)
 	pass
 
 

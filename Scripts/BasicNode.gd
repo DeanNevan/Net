@@ -1,46 +1,56 @@
 extends Area2D
 
-signal done
+signal done#信号：运作完成
 signal update_ok
-signal send_value(send_list)
-signal selected(node)
-signal double_selected(node)
-signal cancel_select(node)
-signal cancel_double_select(node)
+signal send_value(send_list)#信号：发送数据
+signal selected(node)#信号：被选中
+signal double_selected(node)#信号：被双击选中
+signal cancel_select(node)#信号：取消选中
+signal cancel_double_select(node)#信号：取消双击选中
 
-var on_mouse := false
-var is_selected := false
-var is_double_selected := false
+var on_mouse := false#鼠标是否放在范围内
+var is_selected := false#是否被选中
+var is_double_selected := false#是否被双击选中
 
-var name_CN = "节点"
+var name_CN = "节点"#中文名
+
+#细节介绍
 var detail = "-这是细节介绍"
-var introduction = "-这是骚话"
 
-var type = Global.NODE_TYPE.EMP_NODE
+var introduction = "-这是骚话"#有逼格的描述
 
+var type = Global.NODE_TYPE.EMP_NODE#种类
+
+#连接的键
 var keys := {}
 var reverse_keys := {}
-var neighbor_nodes := {}#{节点 : 连接的键}
 
+#邻节点{节点 : 连接的键}
+var neighbor_nodes := {}
+
+#位置
 var location := Vector2()
 
+#接收的数据[[key, value_type, value_count]]
 var accepted_value := []
-#[[key, value_type, value_count]]
 
+
+#发送的数据[[self, key, value_type, value_count]]
 var send_value_list := []
-#[[self, key, value_type, value_count]]
 
+
+#本回合的接收、发送的数值
 var round_accepted_value := []
 var round_send_value_list := []
 
-var EGY := 0
-var ENT := 0
-var ORD := 0
+var EGY := 0#一回合内收到的能量总和
+var ENT := 0#一回合内收到的熵总和
+var ORD := 0#一回合内收到的秩序总和
 
-var color = Color.blue
+var color = Color.blue#颜色，用于对一些特定元素赋予与节点相匹配的颜色
 
-var MainScene
-var SelectedAnimation
+var MainScene#主场景
+var SelectedAnimation#选中动画效果
 onready var Tween1 = Tween.new()
 onready var Icon = Sprite.new()
 # Called when the node enters the scene tree for the first time.
@@ -146,6 +156,7 @@ func _on_selected(node):
 func _on_double_selected(node):
 	pass
 
+#显示选择效果动画
 func show_SelectedAnimation():
 	print("该节点是", self)
 	print("neighbor_nodes", neighbor_nodes)
@@ -165,29 +176,8 @@ func show_SelectedAnimation():
 	SelectedAnimation.get_node("Light2D").visible = true
 	SelectedAnimation.get_node("Sprite").visible = true
 
+#更新连接键
 func update_keys():
-	
-	#$CollisionShape2D2.disabled = false
-	#$CollisionShape2D3.disabled = false
-	"""keys.clear()
-	reverse_keys.clear()
-	if MainScene.Keys.keys().has(Vector2(location.x + 0.5, location.y)):
-		var key = MainScene.Keys[Vector2(location.x + 0.5, location.y)]
-		keys[key] = 0
-		reverse_keys[0] = key
-	if MainScene.Keys.keys().has(Vector2(location.x - 0.5, location.y)):
-		var key = MainScene.Keys[Vector2(location.x - 0.5, location.y)]
-		keys[key] = 2
-		reverse_keys[2] = key
-	if MainScene.Keys.keys().has(Vector2(location.x, location.y + 0.5)):
-		var key = MainScene.Keys[Vector2(location.x, location.y + 0.5)]
-		keys[key] = 1
-		reverse_keys[1] = key
-	if MainScene.Keys.keys().has(Vector2(location.x, location.y - 0.5)):
-		var key = MainScene.Keys[Vector2(location.x, location.y - 0.5)]
-		keys[key] = 3
-		reverse_keys[3] = key"""
-	
 	if keys.size() > 0:
 		for i in keys:
 			if is_instance_valid(i):
@@ -198,23 +188,15 @@ func update_keys():
 	
 	#update_neighbor_nodes()
 
+#更新邻节点
 func update_neighbor_nodes():
-	#print("我是", self)
-	#print("与我连接的键是", keys)
 	neighbor_nodes = {}
 	for i in keys:
-		#print("键" + str(i) + "连接的节点是" + str(i.nodes.keys()))
 		var _arr = i.nodes.keys()
 		_arr.erase(self)
-		#print("除去自己，连接的节点是", _arr)
 		if _arr.size() > 0:
 			if is_instance_valid(_arr[0]):
 				neighbor_nodes[_arr[0]] = i
-	#print("我的邻节点是", neighbor_nodes)
-	#print("_____")
-	
-	#for i in neighbor_nodes:
-		#i.update_neighbor_nodes()
 	emit_signal("update_ok")
 
 func _on_area_entered(area):
@@ -238,6 +220,7 @@ func _on_area_exited(area):
 		#keys.erase(area)
 	pass
 
+#用location设置位置
 func set_position_with_location(location):
 	global_position = location * (Global.NODE_RADIUS * 2 + Global.KEY_LENGTH)
 

@@ -37,6 +37,7 @@ var KEY = preload("res://Keys/NormalKey.tscn")
 var SE_ENT = preload("res://Assets/SE/SE_Values/1/SE_Values_1.tscn")
 var SE_ORD = preload("res://Assets/SE/SE_Values/1/SE_Values_1.tscn")
 var SE_EGY = preload("res://Assets/SE/SE_Values/1/SE_Values_1.tscn")
+var SE_MainMenu_value = preload("res://Assets/SE/SE_Values/1/SE_Values_1.tscn")
 
 var _SE_ENT_COLOR = Color.black
 var _SE_ORD_COLOR = Color.green

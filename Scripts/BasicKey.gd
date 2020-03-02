@@ -1,49 +1,50 @@
 extends Area2D
 
-signal done
+signal done#信号：运作完成
 signal update_ok
 
-signal values_all_displayed
+signal values_all_displayed#信号：数据全部发送完成
 
-signal send_value(send_list)
+signal send_value(send_list)#信号：发送数据
 
-signal selected
-signal double_selected(key)
-signal cancel_select
-signal cancel_double_select(key)
+signal selected#信号：选中
+signal double_selected(key)#信号：双击选中
+signal cancel_select#信号：取消选中
+signal cancel_double_select(key)#信号：取消双击选中
 
-var name_CN = "键"
-var detail = ""
-var introduction = "-This is a key to the truth"
+var name_CN = "键"#中文名
+var detail = ""#细节介绍
+var introduction = "-This is a key to the truth"#充满逼格的话
 
-var type = Global.KEY_TYPE.KEY
-var location
-var direction
+var type = Global.KEY_TYPE.KEY#种类
+var location#位置
+var direction#方向
 
+#连接的节点
 var nodes := {}
 var reverse_nodes := {}
 
-var send_value_list := []
-#[self, target, value_type, value_count]
+var send_value_list := []#[self, target, value_type, value_count]
 
-var round_send_value_list := []
+var round_send_value_list := []#本回合发送数值
 
 var on_mouse := false
 var is_selected := false
 var is_double_selected := false
 
-var is_working = false
+var is_working = false#是否运作中
 
-var pollution = 0
-var color = Color.black
+var pollution = 0#受污染程度
+var color = Color.black#颜色
+
+#颜色数组，随pollution污染程度而改变
 var modulate_array=[Color(0.9, 0.9, 0.9, 1),
 					Color(0.7, 0.7, 0.7, 1),
 					Color(0.5, 0.5, 0.5, 1),
 					Color(0.1, 0.1, 0.1, 1),
 					Color(0.05, 0.05, 0.05, 1)]
 
-var sending_values = {}
-#{direction:[EGY, ENT, ORD]}
+var sending_values = {}#{direction:[EGY, ENT, ORD]}
 
 #var EGY := 0#传输的能量值
 #var ENT := 0#传输的熵值
@@ -97,7 +98,7 @@ func _unhandled_input(event):
 		is_selected = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if $Light2D.energy == 0:
 		$Light2D.enabled = false
 	
@@ -110,6 +111,7 @@ func _process(delta):
 	else:
 		SelectedAnimation.get_node("Sprite").visible = false
 
+#运行一次
 func work():
 	for i in nodes:
 		if !is_instance_valid(i):
@@ -129,8 +131,8 @@ func work():
 			display_values(sending_values[nodes.values()[1]], -1, direction)
 	#yield(get_tree(), "idle_frame")
 	emit_signal("send_value", send_value_list)
-	emit_signal("done")
 	pass
+
 
 func display_values(values_array := [0, 0, 0], direction1 = 0, key_direction = 0):
 	var Node_direction = 0

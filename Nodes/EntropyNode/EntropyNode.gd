@@ -90,7 +90,6 @@ func work():
 	get_send_value_list()
 	round_send_value_list = send_value_list.duplicate()
 	emit_signal("send_value", send_value_list)
-	emit_signal("done")
 	pass
 
 func get_send_value_list():

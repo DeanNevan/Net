@@ -1,17 +1,25 @@
 extends "res://Scripts/BasicNode.gd"
 
-signal build_done
-signal destroyed
-signal direction_changed
+signal build_done#信号：建造完成
+signal destroyed#信号：摧毁
+signal direction_changed#信号：方向改变
 
+#最大建造值
 var max_bv = 10
+
+#建造值
 var build_value = 0
 
+#最大秩序值
 var max_ov := 10
+
+#秩序值
 var order_value := 10
 
+#建造的状态变量
 var is_building := true
 
+#如果该秩序节点需要玩家指示方向，direction表示该方向
 var direction
 
 
@@ -69,14 +77,17 @@ func destroyed(accepted_ENT):
 	remove_from_group("OrderNodes")
 	remove_from_group("Nodes")
 
+#节点被选中
 func _on_OrderNode_selected(node):
 	update_DirectionArrows()
 	show_DirectionArrows(true)
 
+#节点被取消选择
 func _on_OrderNode_cancel_select(node):
 	update_DirectionArrows()
 	show_DirectionArrows(false)
 
+#指定方向
 func assign_direction(new_direction):
 	direction = new_direction
 	update_DirectionArrows()
@@ -84,6 +95,7 @@ func assign_direction(new_direction):
 func update_target_direction_3_Nodes():
 	pass
 
+#更新方向箭头
 func update_DirectionArrows():
 	if direction == null:
 		for i in 4:
