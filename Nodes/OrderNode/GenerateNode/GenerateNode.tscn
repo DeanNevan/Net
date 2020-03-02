@@ -100,12 +100,15 @@ scale = Vector2( 1.5, 1 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 2
 shape = SubResource( 3 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+z_index = 2
 shape = SubResource( 4 )
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+z_index = 2
 shape = SubResource( 5 )
 
 [node name="Light2D" type="Light2D" parent="."]

@@ -52,7 +52,7 @@ func _on_BuildButton_pressed():
 	$VBoxContainer/BuildButton.visible = false
 	pass # Replace with function body.
 
-func _on_built():
+func _on_built(new_Node):
 	#build_target = null
 	pass
 	#$VBoxContainer/BuildButton.visible = false

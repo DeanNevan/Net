@@ -4,7 +4,7 @@ signal _all_done
 
 signal selected(NodeOrKey)
 signal cancel_select
-signal built
+signal built(new_Node_arrows)
 
 signal Nodes_work
 signal Keys_work
@@ -595,7 +595,7 @@ func _on_build_Node(target_Node):
 		if select_Node_or_Key.entropy_value != 0:
 			return
 	emit_signal("cancel_select")
-	emit_signal("built")
+	
 	var new_Node = target_Node.instance()
 	new_Node.location = select_Node_or_Key.location
 	new_Node.MainScene = self
@@ -623,6 +623,7 @@ func _on_build_Node(target_Node):
 			i.update_keys()
 			i.update_neighbor_nodes()
 	new_Node.accepted_value = select_Node_or_Key.accepted_value
+	emit_signal("built", new_Node)
 	select_Node_or_Key.queue_free()
 	if is_game_started and who_work == NODES_WORK:
 		yield(get_tree(), "idle_frame")

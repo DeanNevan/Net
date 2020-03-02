@@ -46,42 +46,42 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 40
 font_data = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 40
 outline_size = 2
 font_data = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 40
 font_data = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=5]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 25
 font_data = ExtResource( 21 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=7]
 size = 36
 font_data = ExtResource( 17 )
 
-[sub_resource type="StreamTexture" id=9]
+[sub_resource type="StreamTexture" id=8]
 flags = 4
 load_path = "res://.import/7.png-2d590034a6f672bf422e19a88af1e524.stex"
 
-[sub_resource type="StreamTexture" id=10]
+[sub_resource type="StreamTexture" id=9]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id=10]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -101,11 +101,11 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="StreamTexture" id=12]
+[sub_resource type="StreamTexture" id=11]
 flags = 4
 load_path = "res://.import/1.png-7435150f378b8eedb7f40df8209331a5.stex"
 
-[sub_resource type="GDScript" id=13]
+[sub_resource type="GDScript" id=12]
 script/source = "extends \"res://Main/BasicListButton.gd\"
 
 
@@ -125,36 +125,36 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=13]
 size = 21
 font_data = ExtResource( 34 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=14]
 size = 24
 font_data = ExtResource( 34 )
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=15]
 size = 20
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=16]
 size = 18
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=17]
 size = 20
 use_filter = true
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=18]
 size = 18
 font_data = ExtResource( 17 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=19]
 size = 20
 font_data = ExtResource( 17 )
 
-[sub_resource type="Environment" id=21]
+[sub_resource type="Environment" id=20]
 background_mode = 4
 background_canvas_max_layer = 5
 ambient_light_color = Color( 1, 0, 0, 1 )
@@ -233,7 +233,7 @@ margin_left = -15.0
 margin_top = -47.0
 margin_right = 52.0
 margin_bottom = -5.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.45098, 0.752941, 1, 1 )
 text = "10x"
 __meta__ = {
@@ -245,7 +245,7 @@ margin_left = 4.91
 margin_top = 20.106
 margin_right = 68.91
 margin_bottom = 193.106
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.180392, 0.180392, 0.776471, 1 )
 text = "时
 间
@@ -281,7 +281,7 @@ color = Color( 0.262745, 0.262745, 0.262745, 1 )
 margin_top = -47.0
 margin_right = 46.0
 margin_bottom = -6.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.623529, 0.623529, 0.623529, 1 )
 text = "56"
 __meta__ = {
@@ -293,7 +293,7 @@ margin_left = 4.91
 margin_top = 20.106
 margin_right = 68.91
 margin_bottom = 193.106
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0.2, 0.2, 0.2, 1 )
 text = "回
 合
@@ -345,7 +345,7 @@ margin_bottom = 400.0
 rect_min_size = Vector2( 200, 200 )
 mouse_filter = 1
 size_flags_vertical = 3
-custom_fonts/normal_font = SubResource( 7 )
+custom_fonts/normal_font = SubResource( 6 )
 bbcode_enabled = true
 bbcode_text = "
 [center][b]生产节点[/b][/center]
@@ -372,7 +372,7 @@ margin_bottom = 100.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 7
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.701961, 0.701961, 0.701961, 1 )
 text = "  建 造"
 align = 1
@@ -411,12 +411,12 @@ margin_top = 142.0
 margin_right = 75.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 75, 138 )
-texture_normal = SubResource( 9 )
-texture_pressed = SubResource( 10 )
+texture_normal = SubResource( 8 )
+texture_pressed = SubResource( 9 )
 texture_hover = ExtResource( 23 )
 texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 11 )
+script = SubResource( 10 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -433,11 +433,11 @@ margin_right = 75.0
 margin_bottom = 422.0
 rect_min_size = Vector2( 75, 138 )
 texture_normal = ExtResource( 22 )
-texture_pressed = SubResource( 12 )
+texture_pressed = SubResource( 11 )
 texture_hover = ExtResource( 23 )
 texture_focused = ExtResource( 23 )
 expand = true
-script = SubResource( 13 )
+script = SubResource( 12 )
 __meta__ = {
 "_editor_description_": ""
 }
@@ -552,7 +552,7 @@ __meta__ = {
 margin_top = 32.0
 margin_right = 400.0
 margin_bottom = 280.0
-custom_fonts/normal_font = SubResource( 14 )
+custom_fonts/normal_font = SubResource( 13 )
 bbcode_enabled = true
 bbcode_text = "[center]节点名称[/center]
 
@@ -589,7 +589,7 @@ margin_left = 112.0
 margin_top = 288.0
 margin_right = 328.0
 margin_bottom = 313.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 14 )
 text = "本回合收发数值一览"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -611,7 +611,7 @@ margin_left = 22.8571
 margin_top = -22.8572
 margin_right = 62.8571
 margin_bottom = -1.85718
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 15 )
 text = "接收"
 
 [node name="OutIcon" type="TextureRect" parent="GUI/Infomation"]
@@ -630,7 +630,7 @@ margin_left = 22.8571
 margin_top = -22.8572
 margin_right = 62.8571
 margin_bottom = -1.85718
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 15 )
 text = "发送"
 __meta__ = {
 "_editor_description_": ""
@@ -652,7 +652,7 @@ __meta__ = {
 margin_left = -24.0
 margin_right = -6.0
 margin_bottom = 85.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 0.388235, 0.741176, 1, 1 )
 text = "能
 
@@ -689,7 +689,7 @@ margin_top = 23.0
 margin_right = 13.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -712,7 +712,7 @@ margin_top = 7.0
 margin_right = 15.0
 margin_bottom = 28.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -733,7 +733,7 @@ margin_left = -11.0
 margin_top = 3.0
 margin_right = 0.999999
 margin_bottom = 24.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -753,7 +753,7 @@ margin_top = 19.0
 margin_right = -6.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -781,7 +781,7 @@ margin_left = 38.5
 margin_top = 2.0
 margin_right = 50.5
 margin_bottom = 23.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -804,7 +804,7 @@ margin_top = 19.0
 margin_right = 49.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -827,7 +827,7 @@ margin_top = 23.0
 margin_right = 63.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -850,7 +850,7 @@ margin_top = 6.0
 margin_right = 69.0
 margin_bottom = 27.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -873,7 +873,7 @@ margin_left = -16.0
 margin_top = -16.0
 margin_right = 24.0
 margin_bottom = 85.0
-custom_fonts/font = SubResource( 19 )
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 0.705882, 1, 0.827451, 1 )
 text = "秩
 
@@ -911,7 +911,7 @@ margin_top = 23.0
 margin_right = 13.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -934,7 +934,7 @@ margin_top = 7.0
 margin_right = 15.0
 margin_bottom = 28.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -955,7 +955,7 @@ margin_left = -11.0
 margin_top = 3.0
 margin_right = 0.999999
 margin_bottom = 24.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -975,7 +975,7 @@ margin_top = 19.0
 margin_right = -6.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1004,7 +1004,7 @@ margin_left = 38.5
 margin_top = 2.0
 margin_right = 50.5
 margin_bottom = 23.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1027,7 +1027,7 @@ margin_top = 19.0
 margin_right = 49.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1050,7 +1050,7 @@ margin_top = 23.0
 margin_right = 63.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1073,7 +1073,7 @@ margin_top = 6.0
 margin_right = 69.0
 margin_bottom = 27.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1096,7 +1096,7 @@ margin_left = -18.0
 margin_top = 16.0
 margin_right = 2.0
 margin_bottom = 37.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 19 )
 custom_colors/font_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
 text = "熵"
 __meta__ = {
@@ -1131,7 +1131,7 @@ margin_top = 23.0
 margin_right = 13.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1154,7 +1154,7 @@ margin_top = 7.0
 margin_right = 15.0
 margin_bottom = 28.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1175,7 +1175,7 @@ margin_left = -11.0
 margin_top = 3.0
 margin_right = 0.999999
 margin_bottom = 24.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1195,7 +1195,7 @@ margin_top = 19.0
 margin_right = -6.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1224,7 +1224,7 @@ margin_left = 38.5
 margin_top = 2.0
 margin_right = 50.5
 margin_bottom = 23.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1247,7 +1247,7 @@ margin_top = 19.0
 margin_right = 49.0
 margin_bottom = 40.0
 rect_rotation = -90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "3"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1270,7 +1270,7 @@ margin_top = 23.0
 margin_right = 63.0
 margin_bottom = 44.0
 rect_rotation = 180.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "5"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1293,7 +1293,7 @@ margin_top = 6.0
 margin_right = 69.0
 margin_bottom = 27.0
 rect_rotation = 90.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 text = "4"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1315,7 +1315,7 @@ script = ExtResource( 2 )
 [node name="Keys" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 21 )
+environment = SubResource( 20 )
 script = ExtResource( 8 )
 [connection signal="cancel_select" from="GUI/BuildMenu" to="GUI/BuildMenu/VBoxContainer/BuildButton" method="_on_BuildMenu_cancel_select"]
 [connection signal="pressed" from="GUI/BuildMenu/VBoxContainer/BuildButton" to="GUI/BuildMenu" method="_on_BuildButton_pressed"]

@@ -124,6 +124,7 @@ func play_animation():
 func _set_DirectionArrows():
 	for i in 4:
 		add_child(DirectionArrows[i])
+		DirectionArrows[i].connect("right_mouse_button", self, "_on_DIrectionArrow_right_mouse_button")
 		#DirectionArrows[i].mouse_filter = Control.MOUSE_FILTER_STOP
 		#DirectionArrows[i].modulate = modulate
 		DirectionArrows[i].disabled = true
@@ -158,3 +159,11 @@ func _on_DirectionArrow3_pressed():
 	DirectionArrow0.pressed = false
 	DirectionArrow1.pressed = false
 	DirectionArrow2.pressed = false
+func _on_DIrectionArrow_right_mouse_button():
+	if is_double_selected:
+		emit_signal("cancel_double_select", self)
+	if is_selected:
+		emit_signal("cancel_select", self)
+		is_double_selected = false
+		is_selected = false
+	pass
