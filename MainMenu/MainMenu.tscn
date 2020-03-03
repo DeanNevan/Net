@@ -1,22 +1,46 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://MainMenu/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://MainMenu/Camera2D.gd" type="Script" id=2]
+[ext_resource path="res://MainMenu/ExitGame/MM_ExitGame.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MainMenu/CustomStart/MM_CustomStart.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MainMenu/Gamemaker/MM_Gamemaker.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+light_mode = 2
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
 auto_exposure_enabled = true
 auto_exposure_scale = 0.15
 glow_enabled = true
+glow_intensity = 1.0
+glow_strength = 1.1
+glow_bicubic_upscale = true
 adjustment_enabled = true
 
 [node name="MainMenu" type="Node2D"]
+material = SubResource( 2 )
 script = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 2, 2 )
+zoom = Vector2( 2.5, 2.5 )
 smoothing_enabled = true
 smoothing_speed = 15.0
+script = ExtResource( 2 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
+
+[node name="MM_CustomStart" parent="." instance=ExtResource( 4 )]
+position = Vector2( 273.454, 258.752 )
+
+[node name="MM_ExitGame" parent="." instance=ExtResource( 3 )]
+position = Vector2( 420.472, 1090.88 )
+
+[node name="MM_Gamemaker" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1120.28, 746.853 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]

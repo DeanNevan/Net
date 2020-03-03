@@ -11,10 +11,12 @@ var _load_data_count = 0
 onready var KeysArray = [$NormalKey1, $NormalKey2, $NormalKey3, $NormalKey4, $NormalKeyEnd]
 
 onready var Tween1 = Tween.new()
+var TweenStartGame = Tween.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	add_child(TweenStartGame)
 	randomize()
-	
+	$WorldEnvironment.environment.adjustment_brightness = 0.01
 	for i in KeysArray:
 		i.get_node("CollisionShape2D").disabled = true
 		i.get_node("Light2D").energy = 0.9
@@ -23,6 +25,10 @@ func _ready():
 	$StartArrow.connect("start", self, "generate_world")
 	connect("generate_done", self, "change_to_MainScene")
 	$RandomStartButton.connect("pressed", self, "_on_RandomStartButton_pressed")
+	
+	TweenStartGame.interpolate_property($WorldEnvironment.environment, "adjustment_brightness", 0.01, 0.9, 1, Tween.TRANS_SINE, Tween.EASE_IN)
+	TweenStartGame.start()
+	
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

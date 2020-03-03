@@ -1,0 +1,102 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Light.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/Art/white_circle.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://Assets/Art/big.png" type="Texture" id=6]
+[ext_resource path="res://MainMenu/ExitGame/MM_ExitGame.gd" type="Script" id=7]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 2
+
+[sub_resource type="StreamTexture" id=5]
+flags = 4
+load_path = "res://.import/circle_light.png-14a45f4b9343fd17f50b91fbb9f95225.stex"
+
+[sub_resource type="DynamicFont" id=2]
+size = 56
+outline_size = 2
+outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 56
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 28
+outline_size = 1
+use_filter = true
+font_data = ExtResource( 2 )
+
+[node name="MM_ExitGame" type="Node2D"]
+z_index = 1
+script = ExtResource( 7 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.133333, 0.0941176, 0.0941176, 1 )
+material = SubResource( 1 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = SubResource( 5 )
+energy = 0.5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = -113.175
+margin_top = -32.1772
+margin_right = 110.825
+margin_bottom = 24.8228
+custom_fonts/font = SubResource( 2 )
+text = "退出游戏"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="TextureRect" parent="."]
+margin_left = 231.0
+margin_top = -173.0
+margin_right = 631.0
+margin_bottom = 173.0
+rect_clip_content = true
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Info"]
+margin_left = 7.43396
+margin_top = 69.5092
+margin_right = 404.434
+margin_bottom = 208.509
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "  退出"
+text = "  退出"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="RichTextLabel" parent="Info"]
+margin_left = -3.84143
+margin_top = 286.594
+margin_right = 379.159
+margin_bottom = 385.594
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[right][u]...按空格/回车以选择[/u][/right]"
+text = "...按空格/回车以选择"
+__meta__ = {
+"_edit_use_anchors_": false
+}

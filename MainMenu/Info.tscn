@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Light.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Art/big.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=3]
+size = 46
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 28
+outline_size = 1
+outline_color = Color( 1, 0.258824, 0.258824, 1 )
+font_data = ExtResource( 1 )
+
+[node name="Info" type="TextureRect"]
+margin_left = 231.0
+margin_top = -368.0
+margin_right = 731.0
+margin_bottom = 368.0
+rect_clip_content = true
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color( 1, 0.337255, 0.337255, 1 )
+margin_left = 16.03
+margin_top = 17.0557
+margin_right = 499.03
+margin_bottom = 715.056
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "
+在这个模式里，你可以随意调节游戏初始生成的内容，包括：
+-生成的节点总数（大约）
+-生成的节点的随机程度
+-初始熵的密度
+-生成连接节点的键的密度"
+text = "
+在这个模式里，你可以随意调节游戏初始生成的内容，包括：
+-生成的节点总数（大约）
+-生成的节点的随机程度
+-初始熵的密度
+-生成连接节点的键的密度"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="RichTextLabel" parent="."]
+margin_left = 13.0
+margin_top = 610.0
+margin_right = 490.0
+margin_bottom = 709.0
+custom_fonts/normal_font = SubResource( 4 )
+custom_colors/default_color = Color( 1, 0.423529, 0.423529, 1 )
+bbcode_enabled = true
+bbcode_text = "[right][u]...按空格/回车以选择[/u][/right]"
+text = "...按空格/回车以选择"
+__meta__ = {
+"_edit_use_anchors_": false
+}

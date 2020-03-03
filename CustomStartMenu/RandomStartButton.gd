@@ -1,4 +1,4 @@
-extends "res://StartMenu/BasicButton.gd"
+extends "res://CustomStartMenu/BasicButton.gd"
 
 
 # Declare member variables here. Examples:

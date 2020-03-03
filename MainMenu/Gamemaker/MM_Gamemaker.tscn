@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Light.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Art/white_circle.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://Assets/Art/big.png" type="Texture" id=5]
+[ext_resource path="res://MainMenu/Gamemaker/MM_Gamemaker.gd" type="Script" id=6]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 2
+
+[sub_resource type="StreamTexture" id=2]
+flags = 4
+load_path = "res://.import/circle_light.png-14a45f4b9343fd17f50b91fbb9f95225.stex"
+
+[sub_resource type="DynamicFont" id=3]
+size = 56
+outline_size = 2
+outline_color = Color( 0.0156863, 0.364706, 0.168627, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 50
+use_filter = true
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 28
+outline_size = 1
+outline_color = Color( 0.784314, 1, 0.733333, 1 )
+font_data = ExtResource( 1 )
+
+[node name="MM_Gamemaker" type="Node2D"]
+z_index = 1
+script = ExtResource( 6 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.517647, 1, 0.466667, 1 )
+material = SubResource( 1 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = SubResource( 2 )
+energy = 0.5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="."]
+modulate = Color( 0.729412, 1, 0.764706, 1 )
+margin_left = -115.178
+margin_top = -34.9417
+margin_right = -75.178
+margin_bottom = 22.0583
+custom_fonts/font = SubResource( 3 )
+text = "制作名单"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="TextureRect" parent="."]
+margin_left = 233.161
+margin_top = -187.238
+margin_right = 733.161
+margin_bottom = 190.762
+rect_clip_content = true
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Info"]
+modulate = Color( 0.678431, 1, 0.584314, 1 )
+margin_left = 22.0
+margin_top = 36.0
+margin_right = 494.0
+margin_bottom = 166.0
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "
+展示制作名单"
+text = "
+展示制作名单"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="RichTextLabel" parent="Info"]
+margin_left = 0.0313721
+margin_top = 322.528
+margin_right = 477.031
+margin_bottom = 421.528
+custom_fonts/normal_font = SubResource( 5 )
+custom_colors/default_color = Color( 0.564706, 1, 0.423529, 1 )
+bbcode_enabled = true
+bbcode_text = "[right][u]...按空格/回车以选择[/u][/right]"
+text = "...按空格/回车以选择"
+__meta__ = {
+"_edit_use_anchors_": false
+}

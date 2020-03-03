@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/Art/qidongjiemian/1.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Fonts/三极准柔宋字体.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://StartMenu/BasicButton.gd" type="Script" id=3]
+[ext_resource path="res://CustomStartMenu/BasicButton.gd" type="Script" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 25

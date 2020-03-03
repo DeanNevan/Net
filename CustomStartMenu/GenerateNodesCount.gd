@@ -1,4 +1,4 @@
-extends "res://StartMenu/ProgressBall.gd"
+extends "res://CustomStartMenu/ProgressBall.gd"
 
 
 

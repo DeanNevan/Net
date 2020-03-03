@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://StartMenu/BasicButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://StartMenu/RandomStartButton.gd" type="Script" id=3]
-
-[node name="RandomStartButton" instance=ExtResource( 1 )]
-script = ExtResource( 3 )

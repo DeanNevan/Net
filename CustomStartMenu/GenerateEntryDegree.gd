@@ -1,4 +1,4 @@
-extends "res://StartMenu/ProgressBall.gd"
+extends "res://CustomStartMenu/ProgressBall.gd"
 
 
 # Declare member variables here. Examples:
@@ -24,7 +24,9 @@ func maichong(a):
 		return
 	can_maichong = false
 	maichongTimer.start(0.3)
+	get_parent().generate_SE_values(get_parent().get_node("NormalKey4"))
+	yield(get_tree().create_timer(0.65), "timeout")
 	get_parent().generate_SE_values(get_parent().get_node("NormalKeyEnd"))
 
 func update_text():
-	$Label.text = "键密度" + "\n" + str(value) + "%"
+	$Label.text = "熵程度" + "\n" + str(value) + "%"
