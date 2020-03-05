@@ -68,9 +68,10 @@ func _ready():
 	TimeMinusMonitorTimer.connect("timeout", self, "_on_TimeMinusMonitorTimer_timeout")
 	add_child(TweenStartGame)
 	#$WorldEnvironment.environment.adjustment_brightness = 0.01
-	TweenStartGame.interpolate_property($WorldEnvironment.environment, "adjustment_brightness", 1, 0.01, 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	TweenStartGame.start()
-	yield(TweenStartGame, "tween_completed")
+	#TweenStartGame.interpolate_property($WorldEnvironment.environment, "adjustment_brightness", 1, 0.01, 1, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	#TweenStartGame.start()
+	#yield(TweenStartGame, "tween_completed")
+	$WorldEnvironment.environment.adjustment_brightness = 0.01
 	TweenStartGame.interpolate_property($WorldEnvironment.environment, "adjustment_brightness", 0.01, 1, 2.5, Tween.TRANS_SINE, Tween.EASE_IN)
 	TweenStartGame.start()
 	print("主场景开始")

@@ -1,0 +1,178 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://Assets/Art/big.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Medium.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://MainMenu/CustomStart/GenerateEntropyDegree.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Art/white_circle.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Fonts/SourceHanSansCN-Heavy.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://Assets/Art/circle_light.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable9.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable6.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable5.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable4.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/normal.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable1.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable12.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable8.png" type="Texture" id=14]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable3.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable11.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable13.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable7.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable10.png" type="Texture" id=19]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/focused.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable14.png" type="Texture" id=21]
+[ext_resource path="res://Assets/Art/fangxiangjiantou/enable2.png" type="Texture" id=22]
+[ext_resource path="res://Assets/Art/SE/1_light.png" type="Texture" id=23]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 2
+
+[sub_resource type="DynamicFont" id=2]
+size = 56
+outline_size = 2
+outline_color = Color( 0.482353, 0.0862745, 0.0862745, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="AnimatedTexture" id=6]
+flags = 4
+frames = 14
+fps = 14.0
+frame_0/texture = ExtResource( 12 )
+frame_1/texture = ExtResource( 22 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 15 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 10 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 9 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 8 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 18 )
+frame_6/delay_sec = 0.0
+frame_7/texture = ExtResource( 14 )
+frame_7/delay_sec = 0.0
+frame_8/texture = ExtResource( 7 )
+frame_8/delay_sec = 0.0
+frame_9/texture = ExtResource( 19 )
+frame_9/delay_sec = 0.0
+frame_10/texture = ExtResource( 16 )
+frame_10/delay_sec = 0.0
+frame_11/texture = ExtResource( 13 )
+frame_11/delay_sec = 0.0
+frame_12/texture = ExtResource( 17 )
+frame_12/delay_sec = 0.0
+frame_13/texture = ExtResource( 21 )
+frame_13/delay_sec = 0.0
+
+[sub_resource type="AnimatedTexture" id=5]
+
+[node name="GenerateEntropyDegree" type="Node2D"]
+z_index = 1
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.93, 0.2, 0.2, 1 )
+material = SubResource( 1 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 6 )
+energy = 0.5
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = -108.946
+margin_top = -85.5664
+margin_right = 115.054
+margin_bottom = -28.5664
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.639216, 0.639216, 1 )
+text = "熵程度"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = -53.8783
+margin_top = 2.78917
+margin_right = 68.1217
+margin_bottom = 59.7892
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 0.639216, 0.639216, 1 )
+text = "0.01"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="TextureRect" parent="."]
+margin_left = 228.132
+margin_top = -198.794
+margin_right = 728.132
+margin_bottom = 198.206
+rect_clip_content = true
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Info"]
+modulate = Color( 1, 0.337255, 0.337255, 1 )
+margin_left = 16.0
+margin_top = 17.0
+margin_right = 499.0
+margin_bottom = 359.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "
+使用Q/E调节：
+生成的键的密度"
+text = "
+使用Q/E调节：
+生成的键的密度"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DirectionArrow" type="TextureButton" parent="."]
+modulate = Color( 1, 0.427451, 0.427451, 1 )
+margin_left = 300.0
+margin_top = -54.0
+margin_right = 760.0
+margin_bottom = 54.0
+rect_rotation = -180.0
+rect_scale = Vector2( 0.5, 1 )
+rect_pivot_offset = Vector2( -300, 54 )
+rect_clip_content = true
+mouse_filter = 1
+toggle_mode = true
+action_mode = 0
+texture_normal = ExtResource( 11 )
+texture_pressed = SubResource( 6 )
+texture_hover = ExtResource( 20 )
+texture_disabled = SubResource( 5 )
+texture_focused = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Light2D" type="Light2D" parent="DirectionArrow"]
+position = Vector2( 256.433, 52.6163 )
+rotation = 1.5708
+texture = ExtResource( 23 )
+texture_scale = 0.8
+color = Color( 1, 0.407843, 0.407843, 1 )
+energy = 2.0

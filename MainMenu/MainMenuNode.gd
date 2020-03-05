@@ -26,7 +26,8 @@ func _ready():
 	add_child(TweenLightEnergy)
 	add_child(TweenColor)
 	add_child(TweenScale)
-	
+	if !is_choice_node:
+		smooth_change_color(get_parent().color, 0.2)
 	#live_light()
 	#$Area2D.connect("mouse_entered", self, "_on_mouse_entered")
 	#$Area2D.connect("mouse_exited", self, "_on_mouse_exited")

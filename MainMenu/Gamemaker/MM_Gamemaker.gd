@@ -1,6 +1,6 @@
 extends "res://MainMenu/MainMenuNode.gd"
 
-#signal display_Gamemaker
+signal back
 
 onready var TweenLabel = Tween.new()
 
@@ -22,6 +22,9 @@ func _ready():
 	cancel_select()
 	pass # Replace with function body.
 
+func _unhandled_input(event):
+	if event.is_action_pressed("key_esc"):
+		emit_signal("back")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -35,7 +38,7 @@ func start():
 	var info = load("res://MainMenu/Gamemaker/GamemakeInformation.tscn").instance()
 	get_parent().get_node("CanvasLayer").add_child(info)
 	#info.display()
-	yield(get_parent(), "back")
+	yield(self, "back")
 	
 	info.disappear()
 	yield(info, "disappeared")

@@ -43,8 +43,7 @@ onready var LightWaveTimer = Timer.new()
 func _unhandled_input(event):
 	if event.is_action_pressed("key_space") or event.is_action_pressed("key_enter"):
 		emit_signal("confirm")
-	if event.is_action_pressed("key_esc"):
-		emit_signal("back")
+	
 	if !is_moving:
 		if event.is_action_pressed("key_w") or event.is_action_pressed("ui_up"):
 			emit_signal("to_up")
@@ -276,6 +275,8 @@ func _on_to_down():
 	pass
 
 func wave(type = WAVE_TYPE.LIGHT_ENERGY, direction = 0, target_value = 2, space_time = 0.08):
+	if type == WAVE_TYPE.COLOR:
+		color = target_value
 	#var new_color = Color(rand_range(0.5, 1), rand_range(0.5, 1), rand_range(0.5, 1), 1)
 	#color = new_color
 	if direction == 0:

@@ -101,10 +101,7 @@ func _unhandled_input(event):
 func _process(_delta):
 	if $Light2D.energy == 0:
 		$Light2D.enabled = false
-	
-	modulate = modulate_array[clamp(pollution, 0, 4)]
-	color = modulate
-	
+	modulate = color
 	if is_selected:
 		SelectedAnimation.playback_speed = Global.time_speed
 		SelectedAnimation.get_node("Sprite").visible = true
@@ -241,19 +238,19 @@ func update_nodes():
 			sending_values[nodes[nodes.keys()[1]]] = [0, 0, 0]
 		else:
 			sending_values[nodes[nodes.keys()[0]]] = [0, 0, 0]
-	
-	pollution = 0
+
 	if nodes.size() > 0:
+		var _count = 0
+		var c = Color(0, 0, 0, 0)
 		for i in nodes:
+			_count += 1
 			if is_instance_valid(i):
+				c += i.color
 				if !i.is_connected("send_value", self, "_on_nodes_send_value"):
 					i.connect("send_value", self, "_on_nodes_send_value")
-				if i.type == Global.NODE_TYPE.ENT_NODE:
-					pollution += 2
-				elif i.type == Global.NODE_TYPE.EMP_NODE:
-					pollution += 1
 			else:
 				nodes.erase(i)
+		color = c / _count
 	emit_signal("update_ok")
 	pass
 
