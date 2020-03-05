@@ -70,6 +70,9 @@ func _ready():
 	#add_child(LightWaveTimer)
 	add_child(SelectedAnimation)
 	SelectedAnimation.play("nodes_selected")
+	SelectedAnimation.get_node("Light2D").texture_scale = 2.8
+	SelectedAnimation.get_node("Light2D").energy = 1.9
+	
 	connect("to_right", self, "_on_to_right")
 	connect("to_up", self, "_on_to_up")
 	connect("to_left", self, "_on_to_left")
@@ -141,9 +144,9 @@ func display_Key_SE(key, direction1):
 	if select_Node.is_choice_node:
 		select_Node.cancel_select()
 	is_moving = true
-	$Camera2D.smooth_zoom(Vector2(1.5, 1.5), 0.3)
+	$Camera2D.smooth_zoom(Vector2(1.3, 1.3), 0.4)
 	if select_Node.is_choice_node:
-		$Camera2D.smooth_zoom(Vector2(1.2, 1.2), 0.3)
+		$Camera2D.smooth_zoom(Vector2(1, 1), 0.45)
 	#yield(get_tree().create_timer(0.1), "timeout")
 	var new_value = Global.SE_MainMenu_value.instance()
 	new_value.direction = direction1
@@ -276,108 +279,144 @@ func wave(type = WAVE_TYPE.LIGHT_ENERGY, direction = 0, target_value = 2, space_
 	#var new_color = Color(rand_range(0.5, 1), rand_range(0.5, 1), rand_range(0.5, 1), 1)
 	#color = new_color
 	if direction == 0:
-		for x in range(x_min_to_max.x, x_min_to_max.y):
+		for x in range(x_min_to_max.x, x_min_to_max.y + 1):
 			for y in range(y_min_to_max.x, y_min_to_max.y + 1):
 				match type:
 					WAVE_TYPE.LIGHT_ENERGY:
-						nodes[Vector2(x, y)].smooth_change_light_energy(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_light_energy(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(x, y - 0.5)].smooth_change_light_energy(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(x + 0.5, y)].smooth_change_light_energy(target_value)
+							if keys.has(Vector2(x, y - 0.5)):
+								keys[Vector2(x, y - 0.5)].smooth_change_light_energy(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(x + 0.5, y)):
+								keys[Vector2(x + 0.5, y)].smooth_change_light_energy(target_value)
 					WAVE_TYPE.COLOR:
-						nodes[Vector2(x, y)].smooth_change_color(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_color(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(x, y - 0.5)].smooth_change_color(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(x + 0.5, y)].smooth_change_color(target_value)
+							if keys.has(Vector2(x, y - 0.5)):
+								keys[Vector2(x, y - 0.5)].smooth_change_color(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(x + 0.5, y)):
+								keys[Vector2(x + 0.5, y)].smooth_change_color(target_value)
 					WAVE_TYPE.SCALE:
-						nodes[Vector2(x, y)].smooth_change_scale(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_scale(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(x, y - 0.5)].smooth_change_scale(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(x + 0.5, y)].smooth_change_scale(target_value)
+							if keys.has(Vector2(x, y - 0.5)):
+								keys[Vector2(x, y - 0.5)].smooth_change_scale(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(x + 0.5, y)):
+								keys[Vector2(x + 0.5, y)].smooth_change_scale(target_value)
 			yield(get_tree().create_timer(space_time), "timeout")
 	if direction == 1:
-		for y in range(y_min_to_max.x, y_min_to_max.y):
-			for x in range(x_min_to_max.x, x_min_to_max.y):
+		for y in range(y_min_to_max.x, y_min_to_max.y + 1):
+			for x in range(x_min_to_max.x, x_min_to_max.y + 1):
 				match type:
 					WAVE_TYPE.LIGHT_ENERGY:
-						nodes[Vector2(x, y)].smooth_change_light_energy(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_light_energy(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(x - 0.5, y)].smooth_change_light_energy(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, y + 0.5)].smooth_change_light_energy(target_value)
+							if keys.has(Vector2(x - 0.5, y)):
+								keys[Vector2(x - 0.5, y)].smooth_change_light_energy(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, y + 0.5)):
+								keys[Vector2(x, y + 0.5)].smooth_change_light_energy(target_value)
 					WAVE_TYPE.COLOR:
-						nodes[Vector2(x, y)].smooth_change_color(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_color(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(x - 0.5, y)].smooth_change_color(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, y + 0.5)].smooth_change_color(target_value)
+							if keys.has(Vector2(x - 0.5, y)):
+								keys[Vector2(x - 0.5, y)].smooth_change_color(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, y + 0.5)):
+								keys[Vector2(x, y + 0.5)].smooth_change_color(target_value)
 					WAVE_TYPE.SCALE:
-						nodes[Vector2(x, y)].smooth_change_scale(target_value)
+						if nodes.has(Vector2(x, y)):
+							nodes[Vector2(x, y)].smooth_change_scale(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(x - 0.5, y)].smooth_change_scale(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, y + 0.5)].smooth_change_scale(target_value)
+							if keys.has(Vector2(x - 0.5, y)):
+								keys[Vector2(x - 0.5, y)].smooth_change_scale(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, y + 0.5)):
+								keys[Vector2(x, y + 0.5)].smooth_change_scale(target_value)
 				
 			yield(get_tree().create_timer(space_time), "timeout")
 	if direction == 2:
 		var count = -1
-		for x in range(x_min_to_max.x, x_min_to_max.y):
+		for x in range(x_min_to_max.x, x_min_to_max.y + 1):
 			count += 1
-			for y in range(y_min_to_max.x, y_min_to_max.y):
+			for y in range(y_min_to_max.x, y_min_to_max.y + 1):
 				match type:
 					WAVE_TYPE.LIGHT_ENERGY:
 						var loc = Vector2(x_min_to_max.y - count, y)
-						nodes[loc].smooth_change_light_energy(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_light_energy(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_light_energy(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(loc.x - 0.5, y)].smooth_change_light_energy(target_value)
+							if keys.has(Vector2(loc.x, loc.y + 0.5)):
+								keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_light_energy(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(loc.x - 0.5, y)):
+								keys[Vector2(loc.x - 0.5, y)].smooth_change_light_energy(target_value)
 					WAVE_TYPE.COLOR:
 						var loc = Vector2(x_min_to_max.y - count, y)
-						nodes[loc].smooth_change_color(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_color(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_color(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(loc.x - 0.5, y)].smooth_change_color(target_value)
+							if keys.has(Vector2(loc.x, loc.y + 0.5)):
+								keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_color(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(loc.x - 0.5, y)):
+								keys[Vector2(loc.x - 0.5, y)].smooth_change_color(target_value)
 					WAVE_TYPE.SCALE:
 						var loc = Vector2(x_min_to_max.y - count, y)
-						nodes[loc].smooth_change_scale(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_scale(target_value)
 						if y != y_min_to_max.x:
-							keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_scale(target_value)
-						if x != x_min_to_max.y:
-							keys[Vector2(loc.x - 0.5, y)].smooth_change_scale(target_value)
+							if keys.has(Vector2(loc.x, loc.y + 0.5)):
+								keys[Vector2(loc.x, loc.y + 0.5)].smooth_change_scale(target_value)
+						if x != x_min_to_max.y + 1:
+							if keys.has(Vector2(loc.x - 0.5, y)):
+								keys[Vector2(loc.x - 0.5, y)].smooth_change_scale(target_value)
 				
 			yield(get_tree().create_timer(space_time), "timeout")
 	if direction == 3:
 		var count = -1
-		for y in range(y_min_to_max.x, y_min_to_max.y):
+		for y in range(y_min_to_max.x, y_min_to_max.y + 1):
 			count += 1
-			for x in range(x_min_to_max.x, x_min_to_max.y):
+			for x in range(x_min_to_max.x, x_min_to_max.y + 1):
 				match type:
 					WAVE_TYPE.LIGHT_ENERGY:
 						var loc = Vector2(x, y_min_to_max.y - count)
-						nodes[loc].smooth_change_light_energy(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_light_energy(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_light_energy(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, loc.y - 0.5)].smooth_change_light_energy(target_value)
+							if keys.has(Vector2(loc.x + 0.5, y)):
+								keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_light_energy(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, loc.y - 0.5)):
+								keys[Vector2(x, loc.y - 0.5)].smooth_change_light_energy(target_value)
 					WAVE_TYPE.COLOR:
 						var loc = Vector2(x, y_min_to_max.y - count)
-						nodes[loc].smooth_change_color(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_color(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_color(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, loc.y - 0.5)].smooth_change_color(target_value)
+							if keys.has(Vector2(loc.x + 0.5, y)):
+								keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_color(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, loc.y - 0.5)):
+								keys[Vector2(x, loc.y - 0.5)].smooth_change_color(target_value)
 					WAVE_TYPE.SCALE:
 						var loc = Vector2(x, y_min_to_max.y - count)
-						nodes[loc].smooth_change_scale(target_value)
+						if nodes.has(loc):
+							nodes[loc].smooth_change_scale(target_value)
 						if x != x_min_to_max.x:
-							keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_scale(target_value)
-						if y != y_min_to_max.y:
-							keys[Vector2(x, loc.y - 0.5)].smooth_change_scale(target_value)
+							if keys.has(Vector2(loc.x + 0.5, y)):
+								keys[Vector2(loc.x + 0.5, loc.y)].smooth_change_scale(target_value)
+						if y != y_min_to_max.y + 1:
+							if keys.has(Vector2(x, loc.y - 0.5)):
+								keys[Vector2(x, loc.y - 0.5)].smooth_change_scale(target_value)
 				
 			yield(get_tree().create_timer(space_time), "timeout")
 	#for i in choice_nodes:

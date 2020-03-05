@@ -27,12 +27,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if get_parent().select_Node.is_choice_node:
-		$Sprite.material.light_mode = $Sprite.material.LIGHT_MODE_NORMAL
-		light_scale = 1
-	else:
-		$Sprite.material.light_mode = $Sprite.material.LIGHT_MODE_LIGHT_ONLY
+		#$Sprite.material.light_mode = $Sprite.material.LIGHT_MODE_NORMAL
 		var length = ceil(abs((get_parent().select_Node.location - location).length()))
-		light_scale = clamp(1 - (length * 0.3), 0, 1)
+		light_scale = clamp(1 - (length * 0.2), 0, 1)
+		if !TweenLightEnergy.is_active():
+			TweenLightEnergy.interpolate_property($Light2D, "energy", $Light2D.energy, 1 * light_scale, 0.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+			TweenLightEnergy.start()
+	else:
+		#$Sprite.material.light_mode = $Sprite.material.LIGHT_MODE_LIGHT_ONLY
+		var length = ceil(abs((get_parent().select_Node.location - location).length()))
+		light_scale = clamp(1 - (length * 0.28), 0, 1)
 	if !is_smoothing_change_light_energy and !TweenLightEnergy.is_active():
 		live_light()
 
@@ -42,10 +46,10 @@ func _on_LiveLightTimer_timeout():
 		live_light()
 
 func live_light():
-	TweenLightEnergy.interpolate_property($Light2D, "energy", $Light2D.energy, 1 * light_scale, 1.6, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	TweenLightEnergy.interpolate_property($Light2D, "energy", $Light2D.energy, 1 * light_scale, 1.2, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	TweenLightEnergy.start()
 	yield(TweenLightEnergy, "tween_completed")
-	TweenLightEnergy.interpolate_property($Light2D, "energy", $Light2D.energy, 0.5 * light_scale, 0.8, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	TweenLightEnergy.interpolate_property($Light2D, "energy", $Light2D.energy, 0.5 * light_scale, 0.6, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	TweenLightEnergy.start()
 	yield(TweenLightEnergy, "tween_completed")
 

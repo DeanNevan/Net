@@ -14,6 +14,5 @@ texture = ExtResource( 2 )
 position = Vector2( 15.0684, 0 )
 scale = Vector2( 0.635, 0.45 )
 texture = ExtResource( 3 )
-texture_scale = 1.2
 color = Color( 0.611765, 1, 0.396078, 1 )
 mode = 1

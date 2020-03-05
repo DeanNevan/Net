@@ -8,7 +8,7 @@ var super_entropy_value := 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	color = Color.black
+	color = $Sprite.modulate
 	name_CN = "熵节点"
 	detail = "-接收并消耗【x能量】：超熵值+1" + "\n"
 	detail += "-接收并消耗【x秩序】：超熵值-（x-1）" + "\n"

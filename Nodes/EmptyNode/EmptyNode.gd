@@ -38,7 +38,7 @@ func _process(delta):
 		send_value_list.append([self, keys.keys()[randi() % keys.size()], Global.VALUE_TYPE.EGY, 2])
 	color = modulate
 	modulate = modulate_array[clamp(entropy_value, 0, 9)]
-	$Light2D.color = modulate
+	#$Light2D.color = modulate
 	$Label.text = str(entropy_value) + "\n" + str(send_value_list) + "\n" + str($Light2D.enabled)
 	pass
 

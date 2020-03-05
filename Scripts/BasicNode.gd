@@ -225,38 +225,38 @@ func set_position_with_location(location):
 	global_position = location * (Global.NODE_RADIUS * 2 + Global.KEY_LENGTH)
 
 func _on_SE_EGY_arrived():
-	var _modulate = modulate
+	#var _modulate = modulate
 	Tween1.stop_all()
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.17, 0.71, 0.95, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.33, 0.84, 1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	yield(Tween1, "tween_completed")
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, color, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	pass
 
 func _on_SE_ENT_arrived():
-	var _modulate = modulate
+	#var _modulate = modulate
 	Tween1.stop_all()
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.05, 0.05, 0.05, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.1, 0.1, 0.1, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	yield(Tween1, "tween_completed")
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, color, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	pass
 
 func _on_SE_ORD_arrived():
-	var _modulate = modulate
+	#var _modulate = modulate
 	Tween1.stop_all()
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1.6, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.61, 1, 0.39, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, Color(0.5, 1, 0.4, 1), 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	yield(Tween1, "tween_completed")
 	Tween1.interpolate_property($Light2D, "energy", $Light2D.energy, 1, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	#Tween1.interpolate_property($Light2D, "color", $Light2D.color, modulate, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	Tween1.interpolate_property($Light2D, "color", $Light2D.color, color, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	Tween1.start()
 	pass
 

@@ -398,6 +398,11 @@ func update_all_Nodes_connect():
 				yield(get_tree(), "idle_frame")
 			$Nodes/OrderNodes.get_child(i).update_keys()
 			$Nodes/OrderNodes.get_child(i).update_neighbor_nodes()
+	for i in get_tree().get_nodes_in_group("Nodes"):
+		if is_instance_valid(i):
+			if i.keys.size() == 0:
+				i.queue_free()
+				Nodes.erase(i.location)
 
 func update_all_Keys_connect():
 	for i in $Keys.get_child_count():

@@ -2,7 +2,7 @@ extends "res://Scripts/OrderNode.gd"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	color = Global.BLUE_NODE_COLOR
+	color = $Sprite2.modulate
 	
 	name_CN = "生产节点"
 	detail = "-当周围没有 熵节点 或 熵大于0的 空节点，向 指定方向 发送【1能量】"
